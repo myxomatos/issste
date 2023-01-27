@@ -1,16 +1,15 @@
 -- phpMyAdmin SQL Dump
--- version 5.1.1
+-- version 5.2.0
 -- https://www.phpmyadmin.net/
 --
--- Servidor: 127.0.0.1:3306
--- Tiempo de generación: 28-12-2022 a las 23:24:21
--- Versión del servidor: 5.7.36
--- Versión de PHP: 7.3.33
+-- Servidor: localhost
+-- Tiempo de generación: 27-01-2023 a las 04:31:04
+-- Versión del servidor: 10.4.27-MariaDB
+-- Versión de PHP: 8.0.25
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
-SET time_zone = "+00:00";
-
+SET time_zone = "-06:00";
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
@@ -27,52 +26,19 @@ SET time_zone = "+00:00";
 -- Estructura de tabla para la tabla `actividades`
 --
 
-DROP TABLE IF EXISTS `actividades`;
-CREATE TABLE IF NOT EXISTS `actividades` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `nombre` text COLLATE utf8_unicode_ci,
-  `status` enum('pendiente','resuelto') COLLATE utf8_unicode_ci DEFAULT NULL,
-  `descripcion_actividad` text COLLATE utf8_unicode_ci,
-  `descripcion_subactividad` text COLLATE utf8_unicode_ci,
-  `notas` text COLLATE utf8_unicode_ci NOT NULL,
+CREATE TABLE `actividades` (
+  `id` int(11) NOT NULL,
+  `nombre` text DEFAULT NULL,
+  `status` enum('pendiente','resuelto') DEFAULT NULL,
+  `descripcion_actividad` text DEFAULT NULL,
+  `descripcion_subactividad` text DEFAULT NULL,
+  `notas` text NOT NULL,
   `user_id` int(11) NOT NULL,
   `hospital_id` int(11) NOT NULL,
   `fecha` date DEFAULT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
-  `updated_at` timestamp NULL DEFAULT NULL,
-  PRIMARY KEY (`id`),
-  KEY `user_id` (`user_id`),
-  KEY `hospital_id` (`hospital_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=50 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
-
---
--- Volcado de datos para la tabla `actividades`
---
-
-INSERT INTO `actividades` (`id`, `nombre`, `status`, `descripcion_actividad`, `descripcion_subactividad`, `notas`, `user_id`, `hospital_id`, `fecha`, `created_at`, `updated_at`) VALUES
-(16, 'Mantenimiento', 'resuelto', NULL, 'Ejemplo de descripcion', '', 1, 2, NULL, '2022-11-04 23:58:53', '2022-11-04 23:58:53'),
-(18, 'Ingreso Censo', 'pendiente', 'Descripcion', 'Descripcion', '', 2, 2, NULL, NULL, NULL),
-(22, 'Supervisiones', 'pendiente', 'Mantenimiento', 'Sala de Espera', 'ñldkljqfopkwel,.wfe', 1, 1, NULL, '2022-11-09 08:28:59', '2022-11-09 08:28:59'),
-(24, 'Supervisiones', 'pendiente', 'Mantenimiento', 'Consultorio', 'Consultorio 1 cerrado', 1, 1, NULL, '2022-11-09 09:34:28', '2022-11-09 09:34:28'),
-(25, 'Supervisiones', 'pendiente', 'Mantenimiento', 'Consultorio', 'Se quedo un viejito dormido', 1, 3, NULL, '2023-01-10 01:21:05', '2022-11-10 01:21:05'),
-(26, 'Ingreso Censo', 'pendiente', 'Descripcion', 'Descripcion', 'Ingreso de Censo', 2, 2, NULL, NULL, NULL),
-(27, 'Ingreso Censo', 'pendiente', 'Descripcion', 'Descripcion', 'Ingreso de Censo', 2, 2, NULL, NULL, NULL),
-(28, 'Supervisiones', NULL, 'undefined', NULL, 'mmmmm', 1, 2, NULL, '2022-11-25 23:33:27', '2022-11-25 23:33:27'),
-(30, 'Supervisiones', NULL, 'undefined', 'Conteo', 'ddddddd', 8, 1, NULL, '2022-12-01 11:17:24', '2022-12-01 11:17:24'),
-(31, 'Platicas', NULL, 'undefined', 'Tipo_de_Platicas', 'gggggggggggggg', 8, 1, NULL, '2022-12-01 11:21:24', '2022-12-01 11:21:24'),
-(32, 'Supervisiones', NULL, 'undefined', 'Conteo', 'prueba', 8, 1, NULL, '2022-12-03 05:44:17', '2022-12-03 05:44:17'),
-(33, 'Ingreso Censo', 'pendiente', 'Descripcion', 'Descripcion', 'Ingreso de Censo', 8, 1, NULL, '2022-12-03 05:53:03', '2022-12-03 05:53:03'),
-(36, 'Supervisiones', NULL, 'Silla de Ruedas', 'Conteo', 'prueba', 8, 1, '2022-12-09', '2022-12-10 05:25:41', '2022-12-10 05:25:41'),
-(37, 'Ingreso Censo', 'pendiente', 'Descripcion', 'Descripcion', 'Ingreso de Censo', 8, 1, NULL, '2022-12-10 05:32:14', '2022-12-10 05:32:14'),
-(40, 'Supervisiones', NULL, 'Vigilancia', 'Observaciones', 'todo en orden', 1, 2, '2022-12-14', '2022-12-14 07:24:00', '2022-12-14 07:24:00'),
-(42, 'Pláticas', 'resuelto', 'Reportar Pláticas', 'Función de Enlace', 'Función de Status', 1, 2, '2022-12-14', '2022-12-15 02:19:42', '2022-12-15 07:11:45'),
-(43, 'ISSSTE Tel', 'resuelto', 'Seleccionar', 'Seleccionar', 'test pendiente 2', 1, 2, '2022-12-14', '2022-12-15 02:26:12', '2022-12-15 07:10:57'),
-(44, 'Personal en Turno', 'resuelto', 'Personal', 'Médico Triage', 'prueba####', 1, 2, '2022-12-14', '2022-12-15 05:00:23', '2022-12-15 06:15:56'),
-(45, 'Pláticas', 'resuelto', 'Reportar Pláticas', 'Función de Enlace', 'mmmmmmmmmmmmm', 1, 2, '2022-12-22', '2022-12-22 08:26:38', '2022-12-22 08:27:09'),
-(46, 'Orientación', 'pendiente', 'Tipo de Orientación', 'Prestaciones', 'jjjjjjjjjjjjjjjjjjj', 1, 2, '2022-12-22', '2022-12-22 08:27:41', '2022-12-22 08:27:41'),
-(47, 'Ingreso Censo', 'pendiente', 'Descripcion', 'Descripcion', 'Ingreso de Censo', 1, 2, NULL, '2022-12-22 08:34:49', '2022-12-22 08:34:49'),
-(48, 'Supervisiones', 'resuelto', 'Silla de Ruedas', 'Conteo', 'diez sillas', 1, 2, '2022-12-28', '2022-12-29 04:38:05', '2022-12-29 04:41:30'),
-(49, 'Ingreso Censo', 'pendiente', 'Descripcion', 'Descripcion', 'Ingreso de Censo', 1, 2, NULL, '2022-12-29 05:01:58', '2022-12-29 05:01:58');
+  `updated_at` timestamp NULL DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 -- --------------------------------------------------------
 
@@ -80,26 +46,23 @@ INSERT INTO `actividades` (`id`, `nombre`, `status`, `descripcion_actividad`, `d
 -- Estructura de tabla para la tabla `admins`
 --
 
-DROP TABLE IF EXISTS `admins`;
-CREATE TABLE IF NOT EXISTS `admins` (
-  `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT,
-  `name` text COLLATE utf8mb4_unicode_ci,
-  `unidad_medica` text COLLATE utf8mb4_unicode_ci,
-  `nombre_subcoordinador` text COLLATE utf8mb4_unicode_ci,
-  `role` text COLLATE utf8mb4_unicode_ci,
-  `enlace` text COLLATE utf8mb4_unicode_ci,
-  `horario_servicio` text COLLATE utf8mb4_unicode_ci,
-  `turno` text COLLATE utf8mb4_unicode_ci,
-  `recibe` text COLLATE utf8mb4_unicode_ci,
-  `entrega` text COLLATE utf8mb4_unicode_ci,
+CREATE TABLE `admins` (
+  `id` int(10) UNSIGNED NOT NULL,
+  `name` text DEFAULT NULL,
+  `unidad_medica` text DEFAULT NULL,
+  `nombre_subcoordinador` text DEFAULT NULL,
+  `role` text DEFAULT NULL,
+  `enlace` text DEFAULT NULL,
+  `horario_servicio` text DEFAULT NULL,
+  `turno` text DEFAULT NULL,
+  `recibe` text DEFAULT NULL,
+  `entrega` text DEFAULT NULL,
   `telefono` int(11) DEFAULT NULL,
-  `email` varchar(70) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `email` varchar(70) NOT NULL,
   `email_verified_at` timestamp NULL DEFAULT NULL,
-  `enlace_2` text COLLATE utf8mb4_unicode_ci,
-  `password` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `remember_token` varchar(100) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  PRIMARY KEY (`id`),
-  UNIQUE KEY `admins_email_unique` (`email`)
+  `enlace_2` text DEFAULT NULL,
+  `password` varchar(255) NOT NULL,
+  `remember_token` varchar(100) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- --------------------------------------------------------
@@ -108,45 +71,26 @@ CREATE TABLE IF NOT EXISTS `admins` (
 -- Estructura de tabla para la tabla `censos`
 --
 
-DROP TABLE IF EXISTS `censos`;
-CREATE TABLE IF NOT EXISTS `censos` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `nombre` text COLLATE utf8_unicode_ci,
-  `apellidos` text COLLATE utf8_unicode_ci,
-  `genero` enum('hombre','mujer') COLLATE utf8_unicode_ci DEFAULT NULL,
+CREATE TABLE `censos` (
+  `id` int(11) NOT NULL,
+  `nombre` text DEFAULT NULL,
+  `apellidos` text DEFAULT NULL,
+  `genero` enum('hombre','mujer') DEFAULT NULL,
   `edad` date DEFAULT NULL,
-  `rfc` text COLLATE utf8_unicode_ci,
-  `cama` text COLLATE utf8_unicode_ci,
-  `diagnostico` text COLLATE utf8_unicode_ci,
-  `doctor` text COLLATE utf8_unicode_ci,
-  `tipo_derechohabiente` text COLLATE utf8_unicode_ci,
-  `tipo_hospitalizacion` text COLLATE utf8_unicode_ci,
-  `tipo_egreso` enum('Pase a piso','Alta por mejoría','Alta voluntaria','Alta por máximo beneficio','Quirófano','Traslado','Defunción','Terapia') COLLATE utf8_unicode_ci DEFAULT NULL,
-  `telefono` text COLLATE utf8_unicode_ci,
+  `rfc` text DEFAULT NULL,
+  `cama` text DEFAULT NULL,
+  `diagnostico` text DEFAULT NULL,
+  `doctor` text DEFAULT NULL,
+  `tipo_derechohabiente` text DEFAULT NULL,
+  `tipo_hospitalizacion` text DEFAULT NULL,
+  `tipo_egreso` enum('Pase a piso','Alta por mejoría','Alta voluntaria','Alta por máximo beneficio','Quirófano','Traslado','Defunción','Terapia') DEFAULT NULL,
+  `telefono` text DEFAULT NULL,
   `creado_por` int(11) NOT NULL,
   `hospital_id` int(11) NOT NULL,
-  `status` enum('delicado','muy delicado','grave','alta') COLLATE utf8_unicode_ci DEFAULT NULL,
-  `created_at` timestamp NOT NULL,
-  `updated_at` timestamp NOT NULL,
-  PRIMARY KEY (`id`),
-  KEY `hospital_id` (`hospital_id`),
-  KEY `creado_por` (`creado_por`)
-) ENGINE=InnoDB AUTO_INCREMENT=12 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
-
---
--- Volcado de datos para la tabla `censos`
---
-
-INSERT INTO `censos` (`id`, `nombre`, `apellidos`, `genero`, `edad`, `rfc`, `cama`, `diagnostico`, `doctor`, `tipo_derechohabiente`, `tipo_hospitalizacion`, `tipo_egreso`, `telefono`, `creado_por`, `hospital_id`, `status`, `created_at`, `updated_at`) VALUES
-(1, 'Alan', 'Hernandez', 'hombre', '1993-01-01', 'HECA930127', '001AVB', 'Diagnostico', NULL, '70-Hijo', NULL, 'Alta por mejoría', NULL, 2, 3, 'muy delicado', '2022-11-07 23:31:10', '2022-11-16 00:50:09'),
-(2, 'Gerardo', 'Sanchez', 'hombre', '1990-01-01', 'HECA930127', '22s3d4rf', 'Diagnostico', NULL, '40-Esposo', NULL, NULL, NULL, 2, 2, 'alta', '2022-11-09 01:32:41', '2022-11-09 01:32:41'),
-(3, 'Paulina', 'Perez', 'hombre', '1993-01-01', 'ANA0192', 'AA0123', 'Ejemplo de diagnocstico', NULL, '97-IMSS Hombre', NULL, NULL, NULL, 2, 2, 'muy delicado', '2022-11-15 02:12:29', '2022-11-15 02:12:29'),
-(4, 'Edgardo', 'Perez', 'hombre', '1993-01-01', 'EDPA109283', 'A10923', 'Ejemplo de diagnocstico', NULL, '90-Pensionado', NULL, NULL, NULL, 2, 3, 'muy delicado', '2022-11-15 02:17:47', '2022-11-15 02:17:47'),
-(6, 'Raul', 'Hernandez', 'hombre', '1980-01-01', 'RA109283', 'A091872', 'Diagnostico', NULL, '90-Pensionado', NULL, NULL, '5536175321', 2, 3, 'delicado', '2022-11-17 21:31:03', '2022-11-17 21:35:27'),
-(7, 'prueba 4', 'dddd', 'hombre', '2000-01-01', 'zzzzz', 'CAMA - 10', 'Crisis Hipertensiva', NULL, '10-Trabajador', 'Camilla', NULL, NULL, 8, 1, 'grave', '2022-12-03 05:53:03', '2022-12-03 05:53:03'),
-(8, 'gerardo', 'sss', 'hombre', '2000-01-01', '23huiio54', 'CAMA - 10', 'xx', NULL, '97-IMSS Hombre', 'Camilla', 'Alta voluntaria', NULL, 8, 18, 'muy delicado', '2022-12-10 05:32:14', '2022-12-10 05:38:40'),
-(9, 'texto', 'texto', 'hombre', '2000-02-01', '23huiio54', 'CAMA - 10', 'Crisis Hipertensiva', 'doctor texto', '96-Asegurado INSABI Femenino', 'Banca', NULL, NULL, 1, 1, 'muy delicado', '2022-12-14 01:10:25', '2022-12-14 01:10:25'),
-(10, 'prueba 4', 'dddd', 'hombre', '2000-01-01', '23huiio54', 'CAMA - 10', 'Crisis Hipertensiva', 'doctor texto', '10-Trabajador', 'Reposet', 'Quirófano', NULL, 1, 1, 'muy delicado', '2022-12-22 08:34:49', '2022-12-22 08:44:25');
+  `status` enum('delicado','muy delicado','grave','alta') DEFAULT NULL,
+  `created_at` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
+  `updated_at` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00'
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 -- --------------------------------------------------------
 
@@ -154,11 +98,10 @@ INSERT INTO `censos` (`id`, `nombre`, `apellidos`, `genero`, `edad`, `rfc`, `cam
 -- Estructura de tabla para la tabla `diagnostico`
 --
 
-DROP TABLE IF EXISTS `diagnostico`;
-CREATE TABLE IF NOT EXISTS `diagnostico` (
+CREATE TABLE `diagnostico` (
   `id` int(11) NOT NULL,
   `nombre` text NOT NULL
-) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+) ENGINE=MyISAM DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
 
 --
 -- Volcado de datos para la tabla `diagnostico`
@@ -2213,17 +2156,14 @@ INSERT INTO `diagnostico` (`id`, `nombre`) VALUES
 -- Estructura de tabla para la tabla `failed_jobs`
 --
 
-DROP TABLE IF EXISTS `failed_jobs`;
-CREATE TABLE IF NOT EXISTS `failed_jobs` (
-  `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT,
-  `uuid` varchar(10) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `connection` text COLLATE utf8mb4_unicode_ci NOT NULL,
-  `queue` text COLLATE utf8mb4_unicode_ci NOT NULL,
-  `payload` longtext COLLATE utf8mb4_unicode_ci NOT NULL,
-  `exception` longtext COLLATE utf8mb4_unicode_ci NOT NULL,
-  `failed_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  PRIMARY KEY (`id`),
-  UNIQUE KEY `failed_jobs_uuid_unique` (`uuid`)
+CREATE TABLE `failed_jobs` (
+  `id` bigint(20) UNSIGNED NOT NULL,
+  `uuid` varchar(10) NOT NULL,
+  `connection` text NOT NULL,
+  `queue` text NOT NULL,
+  `payload` longtext NOT NULL,
+  `exception` longtext NOT NULL,
+  `failed_at` timestamp NOT NULL DEFAULT current_timestamp()
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- --------------------------------------------------------
@@ -2232,33 +2172,14 @@ CREATE TABLE IF NOT EXISTS `failed_jobs` (
 -- Estructura de tabla para la tabla `historico_censo`
 --
 
-DROP TABLE IF EXISTS `historico_censo`;
-CREATE TABLE IF NOT EXISTS `historico_censo` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
+CREATE TABLE `historico_censo` (
+  `id` int(11) NOT NULL,
   `censo_id` int(11) NOT NULL,
   `creado_por` int(11) NOT NULL,
-  `comentario` text COLLATE utf8_unicode_ci NOT NULL,
-  `created_at` timestamp NOT NULL,
-  `updated_at` timestamp NOT NULL,
-  PRIMARY KEY (`id`),
-  KEY `censo_id` (`censo_id`),
-  KEY `creado_por` (`creado_por`)
-) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
-
---
--- Volcado de datos para la tabla `historico_censo`
---
-
-INSERT INTO `historico_censo` (`id`, `censo_id`, `creado_por`, `comentario`, `created_at`, `updated_at`) VALUES
-(1, 1, 2, 'Edicion de usuario por pruebas', '2022-11-07 23:49:17', '2022-11-07 23:49:17'),
-(2, 2, 2, 'Se dio de alta', '2022-11-09 01:33:35', '2022-11-09 01:33:35'),
-(3, 2, 2, 'Ejemplo nuevo ingreso', '2022-11-10 21:26:53', '2022-11-10 21:26:53'),
-(4, 1, 2, 'Se dio de alta', '2022-11-16 00:49:32', '2022-11-16 00:49:32'),
-(5, 1, 2, 'Se dio de alta el paciente', '2022-11-16 00:50:09', '2022-11-16 00:50:09'),
-(6, 6, 2, 'Agregue su numero de telefono', '2022-11-17 21:33:20', '2022-11-17 21:33:20'),
-(7, 6, 2, 'Agregue su numero de telefono', '2022-11-17 21:35:27', '2022-11-17 21:35:27'),
-(8, 8, 8, 'prueba de censo', '2022-12-10 05:38:40', '2022-12-10 05:38:40'),
-(9, 10, 1, 'jnn,m ,mn,m', '2022-12-22 08:44:25', '2022-12-22 08:44:25');
+  `comentario` text NOT NULL,
+  `created_at` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
+  `updated_at` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00'
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 -- --------------------------------------------------------
 
@@ -2266,18 +2187,15 @@ INSERT INTO `historico_censo` (`id`, `censo_id`, `creado_por`, `comentario`, `cr
 -- Estructura de tabla para la tabla `hospitales`
 --
 
-DROP TABLE IF EXISTS `hospitales`;
-CREATE TABLE IF NOT EXISTS `hospitales` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `nombre` text COLLATE utf8_unicode_ci NOT NULL,
-  `descripcion` text COLLATE utf8_unicode_ci,
-  `status` enum('activo','inactivo') COLLATE utf8_unicode_ci NOT NULL DEFAULT 'activo',
+CREATE TABLE `hospitales` (
+  `id` int(11) NOT NULL,
+  `nombre` text NOT NULL,
+  `descripcion` text DEFAULT NULL,
+  `status` enum('activo','inactivo') NOT NULL DEFAULT 'activo',
   `subcordinador_id` int(11) DEFAULT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
-  `updated_at` timestamp NULL DEFAULT NULL,
-  PRIMARY KEY (`id`),
-  KEY `subcordinador_id` (`subcordinador_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=20 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+  `updated_at` timestamp NULL DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 --
 -- Volcado de datos para la tabla `hospitales`
@@ -2310,48 +2228,18 @@ INSERT INTO `hospitales` (`id`, `nombre`, `descripcion`, `status`, `subcordinado
 -- Estructura de tabla para la tabla `incidencias`
 --
 
-DROP TABLE IF EXISTS `incidencias`;
-CREATE TABLE IF NOT EXISTS `incidencias` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `cargar_evidencia` text COLLATE utf8_unicode_ci,
-  `nombre` text COLLATE utf8_unicode_ci,
-  `notas` text COLLATE utf8_unicode_ci,
+CREATE TABLE `incidencias` (
+  `id` int(11) NOT NULL,
+  `cargar_evidencia` text DEFAULT NULL,
+  `nombre` text DEFAULT NULL,
+  `notas` text DEFAULT NULL,
   `user_id` int(11) NOT NULL,
   `hospital_id` int(11) NOT NULL,
   `actividad_id` int(11) NOT NULL,
-  `status` enum('pendiente','resuelto') COLLATE utf8_unicode_ci NOT NULL DEFAULT 'pendiente',
+  `status` enum('pendiente','resuelto') NOT NULL DEFAULT 'pendiente',
   `created_at` timestamp NULL DEFAULT NULL,
-  `updated_at` timestamp NULL DEFAULT NULL,
-  PRIMARY KEY (`id`),
-  KEY `user_id` (`user_id`),
-  KEY `user_id_2` (`user_id`),
-  KEY `hospital_id` (`hospital_id`),
-  KEY `actividad_id` (`actividad_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=19 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
-
---
--- Volcado de datos para la tabla `incidencias`
---
-
-INSERT INTO `incidencias` (`id`, `cargar_evidencia`, `nombre`, `notas`, `user_id`, `hospital_id`, `actividad_id`, `status`, `created_at`, `updated_at`) VALUES
-(1, 'appname.png', 'Se rompio una ventana', 'El vidrio se rompio', 2, 2, 26, 'resuelto', '2022-11-15 02:19:48', '2022-12-15 07:16:16'),
-(2, NULL, 'prueba 4', 'prueba', 1, 2, 26, 'pendiente', '2022-11-17 06:54:49', '2022-11-17 06:54:49'),
-(3, NULL, 'kkkk', 'kkkk', 8, 1, 24, 'pendiente', '2022-11-26 01:15:27', '2022-11-26 01:15:27'),
-(4, NULL, 'dddddddd', 'ddddddddddddd', 8, 1, 30, 'pendiente', '2022-12-01 11:17:50', '2022-12-01 11:17:50'),
-(5, NULL, 'gggggg', 'gggggggggg', 8, 1, 31, 'pendiente', '2022-12-01 11:22:54', '2022-12-01 11:22:54'),
-(6, NULL, 'prueba', 'prueba', 8, 1, 32, 'pendiente', '2022-12-03 05:44:47', '2022-12-03 05:44:47'),
-(7, NULL, 'gerardo', 'ikkkk', 1, 2, 28, 'pendiente', '2022-12-09 01:24:24', '2022-12-09 01:24:24'),
-(8, NULL, 'prueba 4', 'prueba', 8, 1, 36, 'pendiente', '2022-12-10 05:26:40', '2022-12-10 05:26:40'),
-(9, NULL, 'Vigilancia', 'todo en orden', 1, 2, 40, 'pendiente', '2022-12-14 07:24:35', '2022-12-14 07:24:35'),
-(10, NULL, 'prueba 10', 'prueba 10', 1, 2, 40, 'resuelto', '2022-12-14 07:30:11', '2022-12-15 07:16:42'),
-(11, NULL, 'prueba 11', 'prueba 11', 1, 2, 40, 'resuelto', '2022-12-14 07:31:15', '2022-12-15 02:17:32'),
-(12, NULL, 'prueba...', 'prueba...', 1, 2, 40, 'pendiente', '2022-12-15 00:09:06', '2022-12-15 00:09:06'),
-(13, NULL, 'prueba...', 'prueba...', 1, 2, 40, 'pendiente', '2022-12-15 00:09:39', '2022-12-15 00:09:39'),
-(14, NULL, 'hola', 'hola', 1, 2, 16, 'resuelto', '2022-12-15 00:32:18', '2022-12-15 01:00:53'),
-(15, NULL, 'aaaa', 'aaaa', 1, 2, 40, 'resuelto', '2022-12-15 00:44:21', '2022-12-15 01:00:32'),
-(16, NULL, 'test funcion', 'status', 1, 2, 43, 'resuelto', '2022-12-15 02:28:36', '2022-12-15 02:28:55'),
-(17, NULL, 'prueba', 'prueba mmmmmmmm', 1, 2, 46, 'pendiente', '2022-12-22 08:30:54', '2022-12-22 08:30:54'),
-(18, NULL, 'se descompuso 1 silla', 'faltan llantas', 1, 2, 48, 'pendiente', '2022-12-29 04:41:30', '2022-12-29 04:41:30');
+  `updated_at` timestamp NULL DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 -- --------------------------------------------------------
 
@@ -2359,46 +2247,15 @@ INSERT INTO `incidencias` (`id`, `cargar_evidencia`, `nombre`, `notas`, `user_id
 -- Estructura de tabla para la tabla `incidencia_historico`
 --
 
-DROP TABLE IF EXISTS `incidencia_historico`;
-CREATE TABLE IF NOT EXISTS `incidencia_historico` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
+CREATE TABLE `incidencia_historico` (
+  `id` int(11) NOT NULL,
   `incidencia_id` int(11) NOT NULL,
   `user_id` int(11) NOT NULL,
-  `comentario` text COLLATE utf8_unicode_ci NOT NULL,
-  `asignacion` text COLLATE utf8_unicode_ci NOT NULL,
-  `created_at` timestamp NOT NULL,
-  `updated_at` timestamp NOT NULL,
-  PRIMARY KEY (`id`),
-  KEY `incidencia_id` (`incidencia_id`),
-  KEY `user_id` (`user_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=22 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
-
---
--- Volcado de datos para la tabla `incidencia_historico`
---
-
-INSERT INTO `incidencia_historico` (`id`, `incidencia_id`, `user_id`, `comentario`, `asignacion`, `created_at`, `updated_at`) VALUES
-(1, 1, 2, 'Ya se compro un nuevo vidrio', '', '2022-11-15 05:01:34', '2022-11-15 05:01:34'),
-(2, 1, 2, 'Se volvio a romper', '', '2022-11-15 05:14:49', '2022-11-15 05:14:49'),
-(3, 1, 2, 'Ya se arreglo de nuevo', '', '2022-11-15 05:20:07', '2022-11-15 05:20:07'),
-(4, 2, 1, 'Se asigna nueva incidencia por falta de tiempo', 'Peter Ann', '2022-11-17 07:11:02', '2022-11-17 07:11:02'),
-(5, 2, 1, 'prueba 4', 'Peter Ann', '2022-11-17 07:18:15', '2022-11-17 07:18:15'),
-(6, 2, 2, 'Ejemplo de edicion por Enlace', 'Edgardo', '2022-11-17 21:47:23', '2022-11-17 21:47:23'),
-(7, 1, 1, 'kkkkk', 'MÓNICA ALEJANDRA PELÁEZ ROMERO', '2022-11-25 23:58:08', '2022-11-25 23:58:08'),
-(8, 3, 8, 'mmmmm', 'SARA AIDEÉ GONZÁLEZ BLANQUER', '2022-11-26 01:54:48', '2022-11-26 01:54:48'),
-(9, 5, 8, 'gggggggggggggg', 'KAREN HERNÁNDEZ MARTÍNEZ', '2022-12-01 11:23:23', '2022-12-01 11:23:23'),
-(10, 6, 8, 'prueba', 'SARA AIDEÉ GONZÁLEZ BLANQUER', '2022-12-03 05:45:50', '2022-12-03 05:45:50'),
-(11, 8, 8, 'preuba', 'SARA AIDEÉ GONZÁLEZ BLANQUER', '2022-12-10 05:28:03', '2022-12-10 05:28:03'),
-(12, 7, 1, 'nueva asignación', 'CINDY MORÁN MORALES', '2022-12-14 05:08:41', '2022-12-14 05:08:41'),
-(13, 9, 1, 'hizo su recorrido', 'MÓNICA ALEJANDRA PELÁEZ ROMERO', '2022-12-14 07:25:20', '2022-12-14 07:25:20'),
-(14, 15, 1, 'zzz', 'Alan San', '2022-12-15 01:00:32', '2022-12-15 01:00:32'),
-(15, 14, 1, 'zzz', 'Alan San', '2022-12-15 01:00:53', '2022-12-15 01:00:53'),
-(16, 11, 1, 'prueba11', 'Alan San', '2022-12-15 02:17:32', '2022-12-15 02:17:32'),
-(17, 16, 1, 'test', 'Alan San', '2022-12-15 02:28:55', '2022-12-15 02:28:55'),
-(18, 1, 1, 'resuelto', 'Alan San', '2022-12-15 07:16:16', '2022-12-15 07:16:16'),
-(19, 10, 1, 'resuelto test', 'Alan San', '2022-12-15 07:16:42', '2022-12-15 07:16:42'),
-(20, 17, 1, 'asignado', 'MÓNICA ALEJANDRA PELÁEZ ROMERO', '2022-12-22 08:31:55', '2022-12-22 08:31:55'),
-(21, 18, 1, 'se asigna por falta de tiempo', 'CINDY MORÁN MORALES', '2022-12-29 04:42:20', '2022-12-29 04:42:20');
+  `comentario` text NOT NULL,
+  `asignacion` text NOT NULL,
+  `created_at` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
+  `updated_at` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00'
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 -- --------------------------------------------------------
 
@@ -2406,13 +2263,11 @@ INSERT INTO `incidencia_historico` (`id`, `incidencia_id`, `user_id`, `comentari
 -- Estructura de tabla para la tabla `migrations`
 --
 
-DROP TABLE IF EXISTS `migrations`;
-CREATE TABLE IF NOT EXISTS `migrations` (
-  `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT,
-  `migration` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `batch` int(11) NOT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=MyISAM AUTO_INCREMENT=7 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+CREATE TABLE `migrations` (
+  `id` int(10) UNSIGNED NOT NULL,
+  `migration` varchar(255) NOT NULL,
+  `batch` int(11) NOT NULL
+) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
 -- Volcado de datos para la tabla `migrations`
@@ -2432,12 +2287,10 @@ INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES
 -- Estructura de tabla para la tabla `password_resets`
 --
 
-DROP TABLE IF EXISTS `password_resets`;
-CREATE TABLE IF NOT EXISTS `password_resets` (
-  `email` varchar(70) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `token` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `created_at` timestamp NULL DEFAULT NULL,
-  KEY `password_resets_email_index` (`email`)
+CREATE TABLE `password_resets` (
+  `email` varchar(70) NOT NULL,
+  `token` varchar(255) NOT NULL,
+  `created_at` timestamp NULL DEFAULT NULL
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- --------------------------------------------------------
@@ -2446,17 +2299,14 @@ CREATE TABLE IF NOT EXISTS `password_resets` (
 -- Estructura de tabla para la tabla `personal_access_tokens`
 --
 
-DROP TABLE IF EXISTS `personal_access_tokens`;
-CREATE TABLE IF NOT EXISTS `personal_access_tokens` (
-  `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT,
-  `name` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `token` varchar(64) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `abilities` text COLLATE utf8mb4_unicode_ci,
+CREATE TABLE `personal_access_tokens` (
+  `id` bigint(20) UNSIGNED NOT NULL,
+  `name` varchar(255) NOT NULL,
+  `token` varchar(64) NOT NULL,
+  `abilities` text DEFAULT NULL,
   `last_used_at` timestamp NULL DEFAULT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
-  `updated_at` timestamp NULL DEFAULT NULL,
-  PRIMARY KEY (`id`),
-  UNIQUE KEY `personal_access_tokens_token_unique` (`token`)
+  `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- --------------------------------------------------------
@@ -2465,23 +2315,19 @@ CREATE TABLE IF NOT EXISTS `personal_access_tokens` (
 -- Estructura de tabla para la tabla `reportes`
 --
 
-DROP TABLE IF EXISTS `reportes`;
-CREATE TABLE IF NOT EXISTS `reportes` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `nombre` text COLLATE utf8_unicode_ci,
-  `status` text COLLATE utf8_unicode_ci,
-  `descripcion_actividad` text COLLATE utf8_unicode_ci,
-  `descripcion_subactividad` text COLLATE utf8_unicode_ci,
+CREATE TABLE `reportes` (
+  `id` int(11) NOT NULL,
+  `nombre` text DEFAULT NULL,
+  `status` text DEFAULT NULL,
+  `descripcion_actividad` text DEFAULT NULL,
+  `descripcion_subactividad` text DEFAULT NULL,
   `user_id` int(11) DEFAULT NULL,
   `hospital_id` int(11) DEFAULT NULL,
   `fecha` date DEFAULT NULL,
   `cantidad` int(11) DEFAULT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
-  `updated_at` timestamp NULL DEFAULT NULL,
-  PRIMARY KEY (`id`),
-  KEY `user_id` (`user_id`),
-  KEY `hospital_id` (`hospital_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=15 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+  `updated_at` timestamp NULL DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 --
 -- Volcado de datos para la tabla `reportes`
@@ -2509,30 +2355,26 @@ INSERT INTO `reportes` (`id`, `nombre`, `status`, `descripcion_actividad`, `desc
 -- Estructura de tabla para la tabla `users`
 --
 
-DROP TABLE IF EXISTS `users`;
-CREATE TABLE IF NOT EXISTS `users` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `name` text COLLATE utf8mb4_unicode_ci,
-  `apellido` text COLLATE utf8mb4_unicode_ci,
-  `email` varchar(70) COLLATE utf8mb4_unicode_ci NOT NULL,
+CREATE TABLE `users` (
+  `id` int(11) NOT NULL,
+  `name` text DEFAULT NULL,
+  `apellido` text DEFAULT NULL,
+  `email` varchar(70) NOT NULL,
   `last_login` datetime DEFAULT NULL,
   `email_verified_at` timestamp NULL DEFAULT NULL,
-  `password` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `password` varchar(255) NOT NULL,
   `hospital_id` int(11) DEFAULT NULL,
-  `rol` enum('coordinador','subcoordinador','enlace','general') COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `turno` text COLLATE utf8mb4_unicode_ci,
-  `dias_laborales` text COLLATE utf8mb4_unicode_ci,
-  `horario_entrada` text COLLATE utf8mb4_unicode_ci,
-  `horario_salida` text COLLATE utf8mb4_unicode_ci,
-  `telefono` text CHARACTER SET utf8 COLLATE utf8_unicode_ci,
+  `rol` enum('coordinador','subcoordinador','enlace','general') DEFAULT NULL,
+  `turno` text DEFAULT NULL,
+  `dias_laborales` text DEFAULT NULL,
+  `horario_entrada` text DEFAULT NULL,
+  `horario_salida` text DEFAULT NULL,
+  `telefono` text CHARACTER SET utf8 COLLATE utf8_unicode_ci DEFAULT NULL,
   `subcordinador_id` int(11) DEFAULT NULL,
-  `remember_token` varchar(100) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `remember_token` varchar(100) DEFAULT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
-  `updated_at` timestamp NULL DEFAULT NULL,
-  PRIMARY KEY (`id`),
-  UNIQUE KEY `users_email_unique` (`email`),
-  KEY `hospital_id` (`hospital_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=129 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+  `updated_at` timestamp NULL DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
 -- Volcado de datos para la tabla `users`
@@ -2650,6 +2492,184 @@ INSERT INTO `users` (`id`, `name`, `apellido`, `email`, `last_login`, `email_ver
 (126, 'JOSE JESUS', 'CANTO OJEDA', 'cantojesus2@gmail.com', '2022-12-09 15:59:12', NULL, '$2y$10$OXx0Qc4H09OM0bEPuyQ9MOTuV1vSKNSzCH23qdG/W/A3Rxk4udDk.', 19, 'enlace', 'VESPERTINO', NULL, NULL, NULL, NULL, 62, NULL, NULL, NULL),
 (127, 'JOSE MARTIN', 'MEDINA ACERETO', 'martinmedina@live.com.mx', '2022-12-09 15:59:12', NULL, '$2y$10$OXx0Qc4H09OM0bEPuyQ9MOTuV1vSKNSzCH23qdG/W/A3Rxk4udDk.', 19, 'enlace', 'SABADOS, DOMINGOS Y FESTIVOS', NULL, NULL, NULL, NULL, 62, NULL, NULL, NULL),
 (128, 'PILAR', 'PEÑA PERDO', 'pilardepp6q@gmail.com', '2022-12-09 16:06:26', NULL, '$2y$10$OXx0Qc4H09OM0bEPuyQ9MOTuV1vSKNSzCH23qdG/W/A3Rxk4udDk.', 16, 'enlace', 'SABADOS, DOMINGOS Y FESTIVOS', NULL, NULL, NULL, NULL, 59, NULL, NULL, NULL);
+
+--
+-- Índices para tablas volcadas
+--
+
+--
+-- Indices de la tabla `actividades`
+--
+ALTER TABLE `actividades`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `user_id` (`user_id`),
+  ADD KEY `hospital_id` (`hospital_id`);
+
+--
+-- Indices de la tabla `admins`
+--
+ALTER TABLE `admins`
+  ADD PRIMARY KEY (`id`),
+  ADD UNIQUE KEY `admins_email_unique` (`email`);
+
+--
+-- Indices de la tabla `censos`
+--
+ALTER TABLE `censos`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `hospital_id` (`hospital_id`),
+  ADD KEY `creado_por` (`creado_por`);
+
+--
+-- Indices de la tabla `failed_jobs`
+--
+ALTER TABLE `failed_jobs`
+  ADD PRIMARY KEY (`id`),
+  ADD UNIQUE KEY `failed_jobs_uuid_unique` (`uuid`);
+
+--
+-- Indices de la tabla `historico_censo`
+--
+ALTER TABLE `historico_censo`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `censo_id` (`censo_id`),
+  ADD KEY `creado_por` (`creado_por`);
+
+--
+-- Indices de la tabla `hospitales`
+--
+ALTER TABLE `hospitales`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `subcordinador_id` (`subcordinador_id`);
+
+--
+-- Indices de la tabla `incidencias`
+--
+ALTER TABLE `incidencias`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `user_id` (`user_id`),
+  ADD KEY `user_id_2` (`user_id`),
+  ADD KEY `hospital_id` (`hospital_id`),
+  ADD KEY `actividad_id` (`actividad_id`);
+
+--
+-- Indices de la tabla `incidencia_historico`
+--
+ALTER TABLE `incidencia_historico`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `incidencia_id` (`incidencia_id`),
+  ADD KEY `user_id` (`user_id`);
+
+--
+-- Indices de la tabla `migrations`
+--
+ALTER TABLE `migrations`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indices de la tabla `password_resets`
+--
+ALTER TABLE `password_resets`
+  ADD KEY `password_resets_email_index` (`email`);
+
+--
+-- Indices de la tabla `personal_access_tokens`
+--
+ALTER TABLE `personal_access_tokens`
+  ADD PRIMARY KEY (`id`),
+  ADD UNIQUE KEY `personal_access_tokens_token_unique` (`token`);
+
+--
+-- Indices de la tabla `reportes`
+--
+ALTER TABLE `reportes`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `user_id` (`user_id`),
+  ADD KEY `hospital_id` (`hospital_id`);
+
+--
+-- Indices de la tabla `users`
+--
+ALTER TABLE `users`
+  ADD PRIMARY KEY (`id`),
+  ADD UNIQUE KEY `users_email_unique` (`email`),
+  ADD KEY `hospital_id` (`hospital_id`);
+
+--
+-- AUTO_INCREMENT de las tablas volcadas
+--
+
+--
+-- AUTO_INCREMENT de la tabla `actividades`
+--
+ALTER TABLE `actividades`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=50;
+
+--
+-- AUTO_INCREMENT de la tabla `admins`
+--
+ALTER TABLE `admins`
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT de la tabla `censos`
+--
+ALTER TABLE `censos`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
+
+--
+-- AUTO_INCREMENT de la tabla `failed_jobs`
+--
+ALTER TABLE `failed_jobs`
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT de la tabla `historico_censo`
+--
+ALTER TABLE `historico_censo`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
+
+--
+-- AUTO_INCREMENT de la tabla `hospitales`
+--
+ALTER TABLE `hospitales`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=20;
+
+--
+-- AUTO_INCREMENT de la tabla `incidencias`
+--
+ALTER TABLE `incidencias`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=19;
+
+--
+-- AUTO_INCREMENT de la tabla `incidencia_historico`
+--
+ALTER TABLE `incidencia_historico`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=22;
+
+--
+-- AUTO_INCREMENT de la tabla `migrations`
+--
+ALTER TABLE `migrations`
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+
+--
+-- AUTO_INCREMENT de la tabla `personal_access_tokens`
+--
+ALTER TABLE `personal_access_tokens`
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT de la tabla `reportes`
+--
+ALTER TABLE `reportes`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
+
+--
+-- AUTO_INCREMENT de la tabla `users`
+--
+ALTER TABLE `users`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=129;
 
 --
 -- Restricciones para tablas volcadas
