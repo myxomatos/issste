@@ -24,20 +24,22 @@ class CronJobController extends Controller
         $usuario = Auth::User();
         if ($usuario->email== 'alan.san.lop@hotmail.com' or 'sedykc@hotmail.com')
         {
+            DB::table('reportes')->whereMonth(
+                'created_at', '=', Carbon::now()->subMonth()->month
+            )->delete();
             DB::table('incidencia_historico')->whereMonth(
                 'created_at', '=', Carbon::now()->subMonth()->month
             )->delete();
             DB::table('incidencias')->whereMonth(
                 'created_at', '=', Carbon::now()->subMonth()->month
             )->delete();
-
+            DB::table('historico_censo')->whereMonth(
+                'created_at', '=', Carbon::now()->subMonth()->month
+            )->delete();
             DB::table('actividades')->whereMonth(
                 'created_at', '=', Carbon::now()->subMonth()->month
             )->delete();
 
-            DB::table('reportes')->whereMonth(
-                'created_at', '=', Carbon::now()->subMonth()->month
-            )->delete();
 
             return view ('admin.succesTruncate');
 
