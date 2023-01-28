@@ -26,7 +26,6 @@
                         <p class="uk-article-meta" style="margin-top: 20px">Creado por: {{ $actividades->user->name }} {{ $actividades->user->apellido }}</p>
                         <p class="uk-article-meta">El: {{ $days }}</p>
                         <div class="uk-margin" style="margin-top: 23px">
-                            <p class="uk-article-meta" style="color: #BC955C; font-size: 18px"> Hospital: {{ $hospitales->nombre }}</p>
                             <p class="uk-article-meta" style="color: #BC955C; font-size: 18px"> Tipo de Actividad: {{ $actividades->nombre }}</p>
                             <p class="uk-article-meta" style="color: #BC955C; font-size: 18px"> Tipo de Subactividad: {{ $actividades->descripcion_actividad }}</p>
                             <p class="uk-article-meta" style="color: #BC955C; font-size: 18px"> Tipo de Subactividad #2: {{ $actividades->descripcion_subactividad }}</p>

@@ -24,7 +24,6 @@
                     <th>Tarea</th>
                     <th>Tipo de Actividad</th>
                     <th>Notas</th>
-                    <th>Hospital</th>
                     <th>Crear Incidencia</th>
                 </tr>
                 </thead>
@@ -42,9 +41,6 @@
                         <td class="textTransform">{{ $i->descripcion_actividad }}</td>
                         <td class="textTransform">{{ $i->descripcion_subactividad }}</td>
                         <td class="textTransform">{{ $i->notas }}</td>
-                        <?php foreach($hospitales as $row): ?>
-                            <td value="<?php echo $row[$i->hospital_id]; ?>"> <?php echo $row[nombre] ?> </td>
-                        <?php endforeach; ?>
                         <td>
                             <li class="uk-text-center">
                                 <a href="{{ route('createIncidencias', $i->id) }}" uk-icon="icon: file-edit"></a>
