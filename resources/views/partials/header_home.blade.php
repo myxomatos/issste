@@ -4,7 +4,9 @@
     </div>
     <script src="https://code.jquery.com/jquery-2.2.4.min.js" integrity="sha256-BbhdlvQf/xTY9gja0Dq3HiwQF8LaCRTXxZKRutelT44=" crossorigin="anonymous"></script>
 
-
+    <div id="notify" class="uk-navbar-center welcome" style="color: white">
+    <p>{{Auth::user()->hospitales->nombre}}</p>
+    </div>
     <div id="notify" class="uk-navbar-right welcome" style="color: white">
         @if(Auth::User()->rol === 'subcoordinador')
             <script>
@@ -45,9 +47,8 @@
 
         @else
         @auth
-        <p style="color: white;margin: 0">
-            Bienvenido(a) {{Auth::user()->name}} {{Auth::user()->apellido}}
-        </p>
+        <p>{{Auth::user()->name}} {{Auth::user()->apellido}}</p>
+        
 
     @endauth
         @endif
