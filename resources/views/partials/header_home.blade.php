@@ -4,10 +4,11 @@
     </div>
     <script src="https://code.jquery.com/jquery-2.2.4.min.js" integrity="sha256-BbhdlvQf/xTY9gja0Dq3HiwQF8LaCRTXxZKRutelT44=" crossorigin="anonymous"></script>
 
-    <div id="notify" class="uk-navbar-center welcome" style="color: white">
+    
+    <div id="notify" class="uk-navbar-right welcome" style="color: white">
+    <div id="notify" class="uk-navbar-center" style="color: white">
     <p>{{Auth::user()->hospitales->nombre}}</p>
     </div>
-    <div id="notify" class="uk-navbar-right welcome" style="color: white">
         @if(Auth::User()->rol === 'subcoordinador')
             <script>
                 $(document).ready(function(){

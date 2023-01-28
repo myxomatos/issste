@@ -11,7 +11,7 @@ class CronJobController extends Controller
 {
     public function Indextruncate(){
         $usuario = Auth::User();
-        if ($usuario->email== 'alan.san.lop@hotmail.com' or 'sedykc@hotmail.com') {
+        if ($usuario->email== 'myxomatos46@gmail.com' or 'sedykc@hotmail.com') {
             return view ('admin.adminTruncate');
         }else{
             return redirect()->route('homeIndexPanel');
@@ -22,7 +22,7 @@ class CronJobController extends Controller
     public function truncate(){
 //        $date = Carbon::now()->subDays(40);
         $usuario = Auth::User();
-        if ($usuario->email== 'alan.san.lop@hotmail.com' or 'sedykc@hotmail.com')
+        if ($usuario->email== 'myxomatos46@gmail.com' or 'sedykc@hotmail.com')
         {
             DB::table('reportes')->whereMonth(
                 'created_at', '=', Carbon::now()->subMonth()->month
