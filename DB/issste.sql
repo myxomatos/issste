@@ -1,15 +1,16 @@
 -- phpMyAdmin SQL Dump
--- version 5.2.0
+-- version 5.1.1
 -- https://www.phpmyadmin.net/
 --
--- Servidor: localhost
--- Tiempo de generación: 27-01-2023 a las 04:31:04
--- Versión del servidor: 10.4.27-MariaDB
--- Versión de PHP: 8.0.25
+-- Host: 127.0.0.1:3306
+-- Generation Time: Jan 28, 2023 at 03:31 AM
+-- Server version: 5.7.36
+-- PHP Version: 7.4.26
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
-SET time_zone = "-06:00";
+SET time_zone = "+00:00";
+
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
@@ -17,94 +18,106 @@ SET time_zone = "-06:00";
 /*!40101 SET NAMES utf8mb4 */;
 
 --
--- Base de datos: `issste`
+-- Database: `issste`
 --
 
 -- --------------------------------------------------------
 
 --
--- Estructura de tabla para la tabla `actividades`
+-- Table structure for table `actividades`
 --
 
-CREATE TABLE `actividades` (
-  `id` int(11) NOT NULL,
-  `nombre` text DEFAULT NULL,
-  `status` enum('pendiente','resuelto') DEFAULT NULL,
-  `descripcion_actividad` text DEFAULT NULL,
-  `descripcion_subactividad` text DEFAULT NULL,
-  `notas` text NOT NULL,
+DROP TABLE IF EXISTS `actividades`;
+CREATE TABLE IF NOT EXISTS `actividades` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `nombre` text COLLATE utf8_unicode_ci,
+  `status` enum('pendiente','resuelto') COLLATE utf8_unicode_ci DEFAULT NULL,
+  `descripcion_actividad` text COLLATE utf8_unicode_ci,
+  `descripcion_subactividad` text COLLATE utf8_unicode_ci,
+  `notas` text COLLATE utf8_unicode_ci NOT NULL,
   `user_id` int(11) NOT NULL,
   `hospital_id` int(11) NOT NULL,
   `fecha` date DEFAULT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
-  `updated_at` timestamp NULL DEFAULT NULL
+  `updated_at` timestamp NULL DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `user_id` (`user_id`),
+  KEY `hospital_id` (`hospital_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 -- --------------------------------------------------------
 
 --
--- Estructura de tabla para la tabla `admins`
+-- Table structure for table `admins`
 --
 
-CREATE TABLE `admins` (
-  `id` int(10) UNSIGNED NOT NULL,
-  `name` text DEFAULT NULL,
-  `unidad_medica` text DEFAULT NULL,
-  `nombre_subcoordinador` text DEFAULT NULL,
-  `role` text DEFAULT NULL,
-  `enlace` text DEFAULT NULL,
-  `horario_servicio` text DEFAULT NULL,
-  `turno` text DEFAULT NULL,
-  `recibe` text DEFAULT NULL,
-  `entrega` text DEFAULT NULL,
+DROP TABLE IF EXISTS `admins`;
+CREATE TABLE IF NOT EXISTS `admins` (
+  `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT,
+  `name` text COLLATE utf8mb4_unicode_ci,
+  `unidad_medica` text COLLATE utf8mb4_unicode_ci,
+  `nombre_subcoordinador` text COLLATE utf8mb4_unicode_ci,
+  `role` text COLLATE utf8mb4_unicode_ci,
+  `enlace` text COLLATE utf8mb4_unicode_ci,
+  `horario_servicio` text COLLATE utf8mb4_unicode_ci,
+  `turno` text COLLATE utf8mb4_unicode_ci,
+  `recibe` text COLLATE utf8mb4_unicode_ci,
+  `entrega` text COLLATE utf8mb4_unicode_ci,
   `telefono` int(11) DEFAULT NULL,
-  `email` varchar(70) NOT NULL,
+  `email` varchar(70) COLLATE utf8mb4_unicode_ci NOT NULL,
   `email_verified_at` timestamp NULL DEFAULT NULL,
-  `enlace_2` text DEFAULT NULL,
-  `password` varchar(255) NOT NULL,
-  `remember_token` varchar(100) DEFAULT NULL
+  `enlace_2` text COLLATE utf8mb4_unicode_ci,
+  `password` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `remember_token` varchar(100) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `admins_email_unique` (`email`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- --------------------------------------------------------
 
 --
--- Estructura de tabla para la tabla `censos`
+-- Table structure for table `censos`
 --
 
-CREATE TABLE `censos` (
-  `id` int(11) NOT NULL,
-  `nombre` text DEFAULT NULL,
-  `apellidos` text DEFAULT NULL,
-  `genero` enum('hombre','mujer') DEFAULT NULL,
+DROP TABLE IF EXISTS `censos`;
+CREATE TABLE IF NOT EXISTS `censos` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `nombre` text COLLATE utf8_unicode_ci,
+  `apellidos` text COLLATE utf8_unicode_ci,
+  `genero` enum('hombre','mujer') COLLATE utf8_unicode_ci DEFAULT NULL,
   `edad` date DEFAULT NULL,
-  `rfc` text DEFAULT NULL,
-  `cama` text DEFAULT NULL,
-  `diagnostico` text DEFAULT NULL,
-  `doctor` text DEFAULT NULL,
-  `tipo_derechohabiente` text DEFAULT NULL,
-  `tipo_hospitalizacion` text DEFAULT NULL,
-  `tipo_egreso` enum('Pase a piso','Alta por mejoría','Alta voluntaria','Alta por máximo beneficio','Quirófano','Traslado','Defunción','Terapia') DEFAULT NULL,
-  `telefono` text DEFAULT NULL,
+  `rfc` text COLLATE utf8_unicode_ci,
+  `cama` text COLLATE utf8_unicode_ci,
+  `diagnostico` text COLLATE utf8_unicode_ci,
+  `doctor` text COLLATE utf8_unicode_ci,
+  `tipo_derechohabiente` text COLLATE utf8_unicode_ci,
+  `tipo_hospitalizacion` text COLLATE utf8_unicode_ci,
+  `tipo_egreso` enum('Pase a piso','Alta por mejoría','Alta voluntaria','Alta por máximo beneficio','Quirófano','Traslado','Defunción','Terapia') COLLATE utf8_unicode_ci DEFAULT NULL,
+  `telefono` text COLLATE utf8_unicode_ci,
   `creado_por` int(11) NOT NULL,
   `hospital_id` int(11) NOT NULL,
-  `status` enum('delicado','muy delicado','grave','alta') DEFAULT NULL,
-  `created_at` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
-  `updated_at` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00'
+  `status` enum('delicado','muy delicado','grave','alta') COLLATE utf8_unicode_ci DEFAULT NULL,
+  `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  `updated_at` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
+  PRIMARY KEY (`id`),
+  KEY `hospital_id` (`hospital_id`),
+  KEY `creado_por` (`creado_por`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 -- --------------------------------------------------------
 
 --
--- Estructura de tabla para la tabla `diagnostico`
+-- Table structure for table `diagnostico`
 --
 
-CREATE TABLE `diagnostico` (
+DROP TABLE IF EXISTS `diagnostico`;
+CREATE TABLE IF NOT EXISTS `diagnostico` (
   `id` int(11) NOT NULL,
   `nombre` text NOT NULL
-) ENGINE=MyISAM DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
+) ENGINE=MyISAM DEFAULT CHARSET=latin1;
 
 --
--- Volcado de datos para la tabla `diagnostico`
+-- Dumping data for table `diagnostico`
 --
 
 INSERT INTO `diagnostico` (`id`, `nombre`) VALUES
@@ -2153,58 +2166,68 @@ INSERT INTO `diagnostico` (`id`, `nombre`) VALUES
 -- --------------------------------------------------------
 
 --
--- Estructura de tabla para la tabla `failed_jobs`
+-- Table structure for table `failed_jobs`
 --
 
-CREATE TABLE `failed_jobs` (
-  `id` bigint(20) UNSIGNED NOT NULL,
-  `uuid` varchar(10) NOT NULL,
-  `connection` text NOT NULL,
-  `queue` text NOT NULL,
-  `payload` longtext NOT NULL,
-  `exception` longtext NOT NULL,
-  `failed_at` timestamp NOT NULL DEFAULT current_timestamp()
+DROP TABLE IF EXISTS `failed_jobs`;
+CREATE TABLE IF NOT EXISTS `failed_jobs` (
+  `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT,
+  `uuid` varchar(10) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `connection` text COLLATE utf8mb4_unicode_ci NOT NULL,
+  `queue` text COLLATE utf8mb4_unicode_ci NOT NULL,
+  `payload` longtext COLLATE utf8mb4_unicode_ci NOT NULL,
+  `exception` longtext COLLATE utf8mb4_unicode_ci NOT NULL,
+  `failed_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `failed_jobs_uuid_unique` (`uuid`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- --------------------------------------------------------
 
 --
--- Estructura de tabla para la tabla `historico_censo`
+-- Table structure for table `historico_censo`
 --
 
-CREATE TABLE `historico_censo` (
-  `id` int(11) NOT NULL,
+DROP TABLE IF EXISTS `historico_censo`;
+CREATE TABLE IF NOT EXISTS `historico_censo` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
   `censo_id` int(11) NOT NULL,
   `creado_por` int(11) NOT NULL,
-  `comentario` text NOT NULL,
-  `created_at` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
-  `updated_at` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00'
+  `comentario` text COLLATE utf8_unicode_ci NOT NULL,
+  `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  `updated_at` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
+  PRIMARY KEY (`id`),
+  KEY `censo_id` (`censo_id`),
+  KEY `creado_por` (`creado_por`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 -- --------------------------------------------------------
 
 --
--- Estructura de tabla para la tabla `hospitales`
+-- Table structure for table `hospitales`
 --
 
-CREATE TABLE `hospitales` (
-  `id` int(11) NOT NULL,
-  `nombre` text NOT NULL,
-  `descripcion` text DEFAULT NULL,
-  `status` enum('activo','inactivo') NOT NULL DEFAULT 'activo',
+DROP TABLE IF EXISTS `hospitales`;
+CREATE TABLE IF NOT EXISTS `hospitales` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `nombre` text COLLATE utf8_unicode_ci NOT NULL,
+  `descripcion` text COLLATE utf8_unicode_ci,
+  `status` enum('activo','inactivo') COLLATE utf8_unicode_ci NOT NULL DEFAULT 'activo',
   `subcordinador_id` int(11) DEFAULT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
-  `updated_at` timestamp NULL DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+  `updated_at` timestamp NULL DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `subcordinador_id` (`subcordinador_id`)
+) ENGINE=InnoDB AUTO_INCREMENT=20 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 --
--- Volcado de datos para la tabla `hospitales`
+-- Dumping data for table `hospitales`
 --
 
 INSERT INTO `hospitales` (`id`, `nombre`, `descripcion`, `status`, `subcordinador_id`, `created_at`, `updated_at`) VALUES
-(1, 'H.R. 1° DE OCTUBRE', NULL, 'activo', 6, '2022-10-25 22:24:37', '2022-10-25 22:24:37'),
-(2, 'H.G. DR. FERNANDO QUIROZ GUTIÉRREZ', NULL, 'activo', 7, '2022-10-26 00:52:47', '2022-10-26 00:52:47'),
-(3, 'H.G. DR. DARÍO FERNÁNDEZ FIERRO', NULL, 'activo', 6, '2022-11-03 15:53:20', '2022-11-03 15:53:20'),
+(1, 'H.R. 1° DE OCTUBRE', NULL, 'activo', 6, '2022-10-26 04:24:37', '2022-10-26 04:24:37'),
+(2, 'H.G. DR. FERNANDO QUIROZ GUTIÉRREZ', NULL, 'activo', 7, '2022-10-26 06:52:47', '2022-10-26 06:52:47'),
+(3, 'H.G. DR. DARÍO FERNÁNDEZ FIERRO', NULL, 'activo', 6, '2022-11-03 21:53:20', '2022-11-03 21:53:20'),
 (4, 'H.R. GRAL. IGNACIO ZARAGOZA', NULL, 'activo', 7, NULL, NULL),
 (5, 'H.G. GRAL. JOSÉ MARÍA MORELOS Y PAVÓN', NULL, 'activo', 7, NULL, NULL),
 (6, 'CENTRO MÉDICO NACIONAL 20 DE NOVIEMBRE', NULL, 'activo', 7, NULL, NULL),
@@ -2225,52 +2248,64 @@ INSERT INTO `hospitales` (`id`, `nombre`, `descripcion`, `status`, `subcordinado
 -- --------------------------------------------------------
 
 --
--- Estructura de tabla para la tabla `incidencias`
+-- Table structure for table `incidencias`
 --
 
-CREATE TABLE `incidencias` (
-  `id` int(11) NOT NULL,
-  `cargar_evidencia` text DEFAULT NULL,
-  `nombre` text DEFAULT NULL,
-  `notas` text DEFAULT NULL,
+DROP TABLE IF EXISTS `incidencias`;
+CREATE TABLE IF NOT EXISTS `incidencias` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `cargar_evidencia` text COLLATE utf8_unicode_ci,
+  `nombre` text COLLATE utf8_unicode_ci,
+  `notas` text COLLATE utf8_unicode_ci,
   `user_id` int(11) NOT NULL,
   `hospital_id` int(11) NOT NULL,
   `actividad_id` int(11) NOT NULL,
-  `status` enum('pendiente','resuelto') NOT NULL DEFAULT 'pendiente',
+  `status` enum('pendiente','resuelto') COLLATE utf8_unicode_ci NOT NULL DEFAULT 'pendiente',
   `created_at` timestamp NULL DEFAULT NULL,
-  `updated_at` timestamp NULL DEFAULT NULL
+  `updated_at` timestamp NULL DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `user_id` (`user_id`),
+  KEY `user_id_2` (`user_id`),
+  KEY `hospital_id` (`hospital_id`),
+  KEY `actividad_id` (`actividad_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 -- --------------------------------------------------------
 
 --
--- Estructura de tabla para la tabla `incidencia_historico`
+-- Table structure for table `incidencia_historico`
 --
 
-CREATE TABLE `incidencia_historico` (
-  `id` int(11) NOT NULL,
+DROP TABLE IF EXISTS `incidencia_historico`;
+CREATE TABLE IF NOT EXISTS `incidencia_historico` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
   `incidencia_id` int(11) NOT NULL,
   `user_id` int(11) NOT NULL,
-  `comentario` text NOT NULL,
-  `asignacion` text NOT NULL,
-  `created_at` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
-  `updated_at` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00'
+  `comentario` text COLLATE utf8_unicode_ci NOT NULL,
+  `asignacion` text COLLATE utf8_unicode_ci NOT NULL,
+  `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  `updated_at` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
+  PRIMARY KEY (`id`),
+  KEY `incidencia_id` (`incidencia_id`),
+  KEY `user_id` (`user_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 -- --------------------------------------------------------
 
 --
--- Estructura de tabla para la tabla `migrations`
+-- Table structure for table `migrations`
 --
 
-CREATE TABLE `migrations` (
-  `id` int(10) UNSIGNED NOT NULL,
-  `migration` varchar(255) NOT NULL,
-  `batch` int(11) NOT NULL
-) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+DROP TABLE IF EXISTS `migrations`;
+CREATE TABLE IF NOT EXISTS `migrations` (
+  `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT,
+  `migration` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `batch` int(11) NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM AUTO_INCREMENT=7 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
--- Volcado de datos para la tabla `migrations`
+-- Dumping data for table `migrations`
 --
 
 INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES
@@ -2284,426 +2319,240 @@ INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES
 -- --------------------------------------------------------
 
 --
--- Estructura de tabla para la tabla `password_resets`
+-- Table structure for table `password_resets`
 --
 
-CREATE TABLE `password_resets` (
-  `email` varchar(70) NOT NULL,
-  `token` varchar(255) NOT NULL,
-  `created_at` timestamp NULL DEFAULT NULL
+DROP TABLE IF EXISTS `password_resets`;
+CREATE TABLE IF NOT EXISTS `password_resets` (
+  `email` varchar(70) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `token` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  KEY `password_resets_email_index` (`email`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- --------------------------------------------------------
 
 --
--- Estructura de tabla para la tabla `personal_access_tokens`
+-- Table structure for table `personal_access_tokens`
 --
 
-CREATE TABLE `personal_access_tokens` (
-  `id` bigint(20) UNSIGNED NOT NULL,
-  `name` varchar(255) NOT NULL,
-  `token` varchar(64) NOT NULL,
-  `abilities` text DEFAULT NULL,
+DROP TABLE IF EXISTS `personal_access_tokens`;
+CREATE TABLE IF NOT EXISTS `personal_access_tokens` (
+  `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT,
+  `name` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `token` varchar(64) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `abilities` text COLLATE utf8mb4_unicode_ci,
   `last_used_at` timestamp NULL DEFAULT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
-  `updated_at` timestamp NULL DEFAULT NULL
+  `updated_at` timestamp NULL DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `personal_access_tokens_token_unique` (`token`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- --------------------------------------------------------
 
 --
--- Estructura de tabla para la tabla `reportes`
+-- Table structure for table `reportes`
 --
 
-CREATE TABLE `reportes` (
-  `id` int(11) NOT NULL,
-  `nombre` text DEFAULT NULL,
-  `status` text DEFAULT NULL,
-  `descripcion_actividad` text DEFAULT NULL,
-  `descripcion_subactividad` text DEFAULT NULL,
+DROP TABLE IF EXISTS `reportes`;
+CREATE TABLE IF NOT EXISTS `reportes` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `nombre` text COLLATE utf8_unicode_ci,
+  `status` text COLLATE utf8_unicode_ci,
+  `descripcion_actividad` text COLLATE utf8_unicode_ci,
+  `descripcion_subactividad` text COLLATE utf8_unicode_ci,
   `user_id` int(11) DEFAULT NULL,
   `hospital_id` int(11) DEFAULT NULL,
   `fecha` date DEFAULT NULL,
   `cantidad` int(11) DEFAULT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
-  `updated_at` timestamp NULL DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
-
---
--- Volcado de datos para la tabla `reportes`
---
-
-INSERT INTO `reportes` (`id`, `nombre`, `status`, `descripcion_actividad`, `descripcion_subactividad`, `user_id`, `hospital_id`, `fecha`, `cantidad`, `created_at`, `updated_at`) VALUES
-(1, 'Supervisiones', 'Supervisiones', 'undefined', 'Conteo', 2, 2, '2022-11-30', 2, '2022-12-02 02:07:49', '2022-12-02 02:08:53'),
-(2, 'Orientacion', 'Orientacion', 'undefined', 'Pintura', 2, 2, '2022-12-01', 1, '2022-12-02 02:09:18', '2022-12-02 02:09:18'),
-(3, 'Orientación', NULL, 'Tipo de Orientación', 'Trámites', 1, 2, '2022-12-09', 1, '2022-12-10 05:06:41', '2022-12-10 05:06:41'),
-(4, 'ISSSTE Tel', NULL, 'Reportar', 'Folio', 1, 2, '2022-12-09', 1, '2022-12-10 05:07:01', '2022-12-10 05:07:01'),
-(5, 'Supervisiones', NULL, 'Silla de Ruedas', 'Conteo', 8, 1, '2022-12-09', 1, '2022-12-10 05:25:41', '2022-12-10 05:25:41'),
-(6, 'Orientación', NULL, 'Tipo de Orientación', 'Prestaciones', 2, 2, '2022-12-10', 1, '2022-12-10 06:01:05', '2022-12-10 06:01:05'),
-(7, 'Supervisiones', NULL, 'Vigilancia', 'Observaciones', 1, 2, '2022-12-14', 1, '2022-12-14 07:24:01', '2022-12-14 07:24:01'),
-(8, 'Personal en Turno', 'resuelto', 'Personal', 'Admisión', 1, 2, '2022-12-14', 1, '2022-12-15 00:55:12', '2022-12-15 00:55:12'),
-(9, 'Pláticas', NULL, 'Reportar Pláticas', 'Función de Enlace', 1, 2, '2022-12-14', 1, '2022-12-15 02:19:42', '2022-12-15 02:19:42'),
-(10, 'ISSSTE Tel', 'pendiente', 'Seleccionar', 'Seleccionar', 1, 2, '2022-12-14', 1, '2022-12-15 02:26:12', '2022-12-15 02:26:12'),
-(11, 'Personal en Turno', 'pendiente', 'Personal', 'Médico Triage', 1, 2, '2022-12-14', 1, '2022-12-15 05:00:23', '2022-12-15 05:00:23'),
-(12, 'Pláticas', 'pendiente', 'Reportar Pláticas', 'Función de Enlace', 1, 2, '2022-12-22', 1, '2022-12-22 08:26:39', '2022-12-22 08:26:39'),
-(13, 'Orientación', 'pendiente', 'Tipo de Orientación', 'Prestaciones', 1, 2, '2022-12-22', 1, '2022-12-22 08:27:41', '2022-12-22 08:27:41'),
-(14, 'Supervisiones', 'pendiente', 'Silla de Ruedas', 'Conteo', 1, 2, '2022-12-28', 1, '2022-12-29 04:38:05', '2022-12-29 04:38:05');
+  `updated_at` timestamp NULL DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `user_id` (`user_id`),
+  KEY `hospital_id` (`hospital_id`)
+) ENGINE=InnoDB AUTO_INCREMENT=15 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 -- --------------------------------------------------------
 
 --
--- Estructura de tabla para la tabla `users`
+-- Table structure for table `users`
 --
 
-CREATE TABLE `users` (
-  `id` int(11) NOT NULL,
-  `name` text DEFAULT NULL,
-  `apellido` text DEFAULT NULL,
-  `email` varchar(70) NOT NULL,
+DROP TABLE IF EXISTS `users`;
+CREATE TABLE IF NOT EXISTS `users` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `name` text COLLATE utf8mb4_unicode_ci,
+  `apellido` text COLLATE utf8mb4_unicode_ci,
+  `email` varchar(70) COLLATE utf8mb4_unicode_ci NOT NULL,
   `last_login` datetime DEFAULT NULL,
   `email_verified_at` timestamp NULL DEFAULT NULL,
-  `password` varchar(255) NOT NULL,
+  `password` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
   `hospital_id` int(11) DEFAULT NULL,
-  `rol` enum('coordinador','subcoordinador','enlace','general') DEFAULT NULL,
-  `turno` text DEFAULT NULL,
-  `dias_laborales` text DEFAULT NULL,
-  `horario_entrada` text DEFAULT NULL,
-  `horario_salida` text DEFAULT NULL,
-  `telefono` text CHARACTER SET utf8 COLLATE utf8_unicode_ci DEFAULT NULL,
+  `rol` enum('coordinador','subcoordinador','enlace','general') COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `turno` text COLLATE utf8mb4_unicode_ci,
+  `dias_laborales` text COLLATE utf8mb4_unicode_ci,
+  `horario_entrada` text COLLATE utf8mb4_unicode_ci,
+  `horario_salida` text COLLATE utf8mb4_unicode_ci,
+  `telefono` text CHARACTER SET utf8 COLLATE utf8_unicode_ci,
   `subcordinador_id` int(11) DEFAULT NULL,
-  `remember_token` varchar(100) DEFAULT NULL,
+  `remember_token` varchar(100) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
-  `updated_at` timestamp NULL DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+  `updated_at` timestamp NULL DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `users_email_unique` (`email`),
+  KEY `hospital_id` (`hospital_id`)
+) ENGINE=InnoDB AUTO_INCREMENT=129 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
--- Volcado de datos para la tabla `users`
+-- Dumping data for table `users`
 --
 
 INSERT INTO `users` (`id`, `name`, `apellido`, `email`, `last_login`, `email_verified_at`, `password`, `hospital_id`, `rol`, `turno`, `dias_laborales`, `horario_entrada`, `horario_salida`, `telefono`, `subcordinador_id`, `remember_token`, `created_at`, `updated_at`) VALUES
-(1, 'Alan San', NULL, 'alan.san.lop@hotmail.com', '2022-12-28 22:52:59', NULL, '$2y$10$Yj08t2dkEplKhSqjT726rua9XPL5AzErdrKV.0cNakziHFZRdPI86', 2, 'coordinador', NULL, NULL, NULL, NULL, NULL, 2, NULL, '2022-10-25 00:36:44', '2022-12-29 04:52:59'),
-(2, 'Alan', NULL, 'sedykc@hotmail.com', '2022-12-09 23:55:30', NULL, '$2y$10$OXx0Qc4H09OM0bEPuyQ9MOTuV1vSKNSzCH23qdG/W/A3Rxk4udDk.', 2, 'coordinador', NULL, NULL, NULL, NULL, NULL, NULL, NULL, '2022-10-25 03:26:55', '2022-12-10 05:55:30'),
-(3, 'Hospital 1', NULL, 'hospital@general.com', NULL, NULL, '$2y$10$OXx0Qc4H09OM0bEPuyQ9MOTuV1vSKNSzCH23qdG/W/A3Rxk4udDk.', 1, 'general', NULL, NULL, NULL, NULL, NULL, NULL, NULL, '2022-11-03 18:55:59', '2022-11-03 18:55:59'),
-(6, 'SARA AIDEÉ', 'GONZÁLEZ BLANQUER', 'sara@gmail.com', NULL, NULL, '$2y$10$nLH1LETUByarNBvoozF4Lu9NqeZY88ot/fIg3/fi1SZmjs/i7RQnm', 1, 'subcoordinador', NULL, NULL, NULL, NULL, NULL, NULL, NULL, '2022-11-25 06:30:56', '2022-11-25 06:30:56'),
-(7, 'MÓNICA ALEJANDRA', 'PELÁEZ ROMERO', 'monica@gmail.com', NULL, NULL, '$2y$10$f4nxfdLcAlPDXdPQO80txOAYF48NSukJae5ZJ0c61P6V/sA0TIKxK', 2, 'subcoordinador', NULL, NULL, NULL, NULL, NULL, NULL, NULL, '2022-11-25 06:36:04', '2022-11-25 06:36:04'),
-(8, 'MIRIAM', 'FLORENCIO GONZÁLEZ', 'mayrim.83.mg@gmail.com', '2022-12-09 23:24:52', NULL, '$2y$10$dZbLMrdIXrB5Qlinp3vGuOsI7ITekETgcMJVAT75zVWVPtoS3jwVC', 1, 'enlace', 'MATUTINO', 'LUNES A VIERNES', '07:00hrs', '15:00hrs', '55-2546-3165', 6, NULL, '2022-11-25 06:49:27', '2022-12-10 05:24:52'),
-(9, 'KAREN', 'HERNÁNDEZ MARTÍNEZ', 'kahema766@gmail.com', NULL, NULL, '$2y$10$aYYbMPjF1UmRY9tCKWu.3eOegIEClxlTmGqsZSi0wqKDrFHORjJG6', 1, 'enlace', 'VESPERTINO', 'LUNES A VIERNES', '14:00 hrs', '22:00 hrs', '55-3545-9651', 6, NULL, '2022-11-25 06:54:34', '2022-11-25 06:54:34'),
-(10, 'TANIA NAHEILI', 'ROJO ARCE', 'nahearce@gmail.com', NULL, NULL, '$2y$10$avybbdERcpxNlFJBhQqz.eO7EEGxJ5Abnn1As6K4J93et.UdyN.dW', 1, 'enlace', 'NOCTURNO', 'LUNES A DOMINGO', '21:00 hrs', '8:00 hrs', '55-3545-9651', 6, NULL, '2022-11-25 06:57:21', '2022-11-25 06:57:21'),
-(11, 'EVELYN', 'PALACIOS MARTÍNEZ', 'evepalacios01@gmail.com', NULL, NULL, '$2y$10$17IEGMd3pJe9RBfcuEb8Xuq/zJ8hoe/qPKiogffxo.nvTSgkYvLAu', 1, 'enlace', 'NOCTURNO', 'LUNES A DOMINGO', '21:00 hrs', '8:00 hrs', '55-7799-6544', 6, NULL, '2022-11-25 06:59:09', '2022-11-25 06:59:09'),
-(12, 'ZYANYA', 'MACÍAS VELÁZQUEZ', 'zyanyanoxipa@gmail.com', NULL, NULL, '$2y$10$3ziHUFFN8.jKgCPWBGGljuTON5jIx/Cx4MCbn7cWFsv/mj1WIM4Ri', 1, 'enlace', NULL, 'SAB, DOM Y FEST.', '07:00 hrs', '22:00 hrs', '55-5098-0766', 6, NULL, '2022-11-25 07:02:32', '2022-11-25 07:02:32'),
-(13, 'NANCY ROSARIO', 'ARREGUÍN ROSAS', 'nancyarre1@hotmail.com', NULL, NULL, '$2y$10$HzabE/mtyWpSN6C9mmG9q.rXGJ4d8DgH.wXe6c2QjRQlW1nStbwKK', 2, 'enlace', 'MATUTINO', 'LUNES A VIERNES', '07:00 hrs', '15:00 hrs', '55-2959-9066', 7, NULL, '2022-11-25 07:08:34', '2022-11-25 07:08:34'),
-(14, 'ALEJANDRO', 'ORTIZ GARCÍA DE ALBA', 'alejandro.starship@hotmail.com', NULL, NULL, '$2y$10$dRnQ0iLEN7E2/piMZ622lOR6XEK1h0AJ4h3bBREFU/ouUeBwFD0oy', 2, 'enlace', 'VESPERTINO', 'LUNES A VIERNES', '14:00 hrs', '22:00 hrs', '55-2145-8920', 7, NULL, '2022-11-25 07:12:53', '2022-11-25 07:12:53'),
-(15, 'ANA LILIA', 'GUTIÉRREZ GALINDO', 'gutierrez.anita@hotmail.com', NULL, NULL, '$2y$10$3zsqF17xbWz8RjFt5ArkYunhuvODmFbf8vLDRGGWL3X/3E3TkSJ6i', 2, 'enlace', 'NOCTURNO', 'LUNES A DOMINGO', '21:00 hrs', '8:00 hrs', '55-4140-0338', 7, NULL, '2022-11-25 07:16:28', '2022-11-25 07:16:28'),
-(16, 'URIEL', 'PÉREZ RAMÍREZ', 'uriel0118@gmail.com', NULL, NULL, '$2y$10$/Jei3U2ajQZ88cPr4t6Qce.rC1Jxo3aVB8p8Yh4GVdpE/3pkI9A/O', 2, 'enlace', 'NOCTURNO', 'LUNES A DOMINGO', '21:00 hrs', '8:00 hrs', '55-3271-5632', 7, NULL, '2022-11-25 07:18:48', '2022-11-25 07:18:48'),
-(17, 'CINDY', 'MORÁN MORALES', 'cindel_7@hotmail.com', NULL, NULL, '$2y$10$ITRwJ2hG0K00SgRwuJkc3.Wb5AN60IxOIdXf037ZBE1PbgH3IVdZi', 2, 'enlace', NULL, 'SAB, DOM Y FEST.', '07:00 hrs', '22:00 hrs', '55-3235-3162', 7, NULL, '2022-11-25 07:21:31', '2022-11-25 07:21:31'),
-(18, 'CECILIA', 'SALAZAR MIRANDA', 'ceeci222@gmail.com', NULL, NULL, '$2y$10$0X8Qbn6/b8Z4gZQWIW/KF.8gvHSI9NCpyyEWvKp7h3q5fOS.RBVZS', 3, 'enlace', 'MATUTINO', 'LUNES A VIERNES', '07:00 hrs', '15:00 hrs', '55-2070-7619', 6, NULL, '2022-11-25 07:26:23', '2022-11-25 07:26:23'),
-(19, 'CELINA NAOMI', 'GONZÁLEZ ALVARADO', 'gcelina.alvarado@gmail.com', NULL, NULL, '$2y$10$Mrqhk7iBzaO8UYm4ORtvb.7l56JFE/sEKwHvxo3YXhT2EY2XXua.e', 3, 'enlace', 'VESPERTINO', 'LUNES A VIERNES', '14:00 hrs', '22:00 hrs', '55-3524-1084', 6, NULL, '2022-11-25 07:28:32', '2022-11-25 07:28:32'),
-(20, 'MARÍA FERNANDA', 'DEL MORAL SALAZAR', 'ma_fer.96@hotmail.com', NULL, NULL, '$2y$10$0ANdbkkK2F8JEIPILhEjbe4VbbKaOU.k3TLReBTmjPqmBktbcxDly', 3, 'enlace', 'NOCTURNO', 'LUNES A DOMINGO', '21:00 hrs', '8:00 hrs', '55-2329-1371', 6, NULL, '2022-11-25 07:31:44', '2022-11-25 07:31:44'),
-(21, 'ÓSCAR ALONSO', 'REYES JUÁREZ', 'oreyesjuarez@gmail.com', NULL, NULL, '$2y$10$JSNfhrJJn31hlCKR.Y47u.A00dbGMboTnjnbiMp2hoU8Gc9iTBh6S', 3, 'enlace', 'NOCTURNO', 'LUNES A DOMINGO', '21:00 hrs', '8:00 hrs', '55-3231-7673', 6, NULL, '2022-11-25 07:33:54', '2022-11-25 07:33:54'),
-(22, 'DANIELA KAREN', 'PAREDES ARISTA', 'dparedesarista@gmail.com', NULL, NULL, '$2y$10$pxGhQ4lDotIl9.3iVMfAH.AmqW.T0cviS5TtL/gaNkWQ3KpHcd98a', 3, 'enlace', NULL, 'SAB, DOM Y FEST.', '07:00 hrs', '22:00 hrs', '55-6621-4666', 6, NULL, '2022-11-25 07:35:48', '2022-11-25 07:35:48'),
-(25, 'EDITH GUADALUPE', 'BOLAÑOS GALAVIZ', 'edithpeke02@gmail.com', NULL, NULL, '$2y$10$WdvsJ361OKAuOrSi7U.kTe6SmYfMYcj9NSRvqXCHczbi69Z4lYr/O', 4, 'enlace', 'MATUTINO', 'LUNES A VIERNES', '07:00 hrs', '15:00 hrs', '55-5187-5537', 7, NULL, '2022-11-25 08:02:45', '2022-11-25 08:02:45'),
-(26, 'MARÍA GUADALUPE', 'ROMERO LEÓN', 'lurole1080@gmail.com', NULL, NULL, '$2y$10$fx0Vwow1F3liN9t6q9c7SuQr89/Y0EDksqBP13hG3sgDCt6.516P2', 4, 'enlace', 'VESPERTINO', 'LUNES A VIERNES', '14:00 hrs', '22:00 hrs', '55-1873-7744', 7, NULL, '2022-11-25 08:14:04', '2022-11-25 08:14:04'),
-(27, 'ANAIS YARELY', 'ORTIZ JOAQUÍN', 'anais.ortiz0@gmail.com', NULL, NULL, '$2y$10$ilSq7hlkYvHT.7zcwWDlSuXD0e2fNexEH9lJo31Ew9vF//EEcNvU2', 4, 'enlace', 'NOCTURNO', 'LUNES A DOMINGO', '21:00 hrs', '8:00 hrs', '55-7455-5062', 7, NULL, '2022-11-25 08:19:32', '2022-11-25 08:19:32'),
-(28, 'CHRISTIAN DANIEL', 'GARCÍA OREGÓN', 'christian.garcia.oregon@gmail.com', NULL, NULL, '$2y$10$q8AT8ekf2gITXlPl9FLH1.8P164fisdbdxLN71ubXICy74xjx1eiS', 4, 'enlace', 'NOCTURNO', 'LUNES A DOMINGO', '21:00 hrs', '8:00 hrs', '55-2762-4720', 7, NULL, '2022-11-25 08:21:50', '2022-11-25 08:21:50'),
-(29, 'JUANA EDITH', 'MORENO MALDONADO', 'marcosedith2017@gmail.com', NULL, NULL, '$2y$10$ERN9vGIBT7rdGGJYcAb6KOthMJid3kzblylDLveSNQjm0EuBZBcCq', 4, 'enlace', NULL, 'SAB, DOM Y FEST.', '07:00 hrs', '22:00 hrs', '55-3680-9805', 7, NULL, '2022-11-25 08:58:31', '2022-11-25 08:58:31'),
-(30, 'GLORIA ISABEL', 'GONZÁLEZ ROMÁN', 'psi.gonzalezgloria@outlook.com', NULL, NULL, '$2y$10$IUM.LElWd.jAkcwYWa1Lhe2KROvYpUeblqxvHHOZVNAX200xoLA12', 5, 'enlace', 'MATUTINO', 'LUNES A VIERNES', '07:00 hrs', '15:00 hrs', '55-8479-3781', 7, NULL, '2022-11-25 09:01:56', '2022-11-25 09:01:56'),
-(32, 'VERÓNICA', 'MARTÍNEZ MÉRIDA', 'veroiii@hotmail.com', NULL, NULL, '$2y$10$l9Aw7Xq/MyDhxHdlHvEhv.hsAo4Tt06aqRIYe733N/rrrhJgwenl2', 5, 'enlace', 'VESPERTINO', 'LUNES A VIERNES', '14:00 hrs', '22:00 hrs', '55-1332-1306', 7, NULL, '2022-11-25 09:09:45', '2022-11-25 09:09:45'),
-(33, 'MARCOS GERARDO', 'OLVERA POMPA', 'marcos171209@gmail.com', NULL, NULL, '$2y$10$LEfMLqUcVJ2xmmx/OwnvyusX9uD6Np.z2g7lQu24YCZ.VWQpk6r5m', 5, 'enlace', 'NOCTURNO', 'LUNES A DOMINGO', '21:00 hrs', '8:00 hrs', '55-4953-3935', 7, NULL, '2022-11-25 09:13:24', '2022-11-25 09:13:24'),
-(34, 'YAZKIN HARUCO DÁNAE', 'ALVARADO SÁNCHEZ', 'itari02@gmail.com', NULL, NULL, '$2y$10$0JAyNadcIaC61Omsamlb8ujr5hyiD4MdjKE8ITZTUMtMZYz/VCJV6', 5, 'enlace', 'NOCTURNO', 'LUNES A DOMINGO', '21:00 hrs', '8:00 hrs', '56-1054-6711', 7, NULL, '2022-11-25 09:17:42', '2022-11-25 09:17:42'),
-(35, 'ALEXIS', 'RODRÍGUEZ DE LA ROSA', 'amerod.10@outlook.com', NULL, NULL, '$2y$10$/qR7zM/l6JmzK9w437484./AELim4BcD8Bz.E5oIYpHHiKueGk5je', 5, 'enlace', NULL, 'SAB, DOM Y FEST.', '07:00 hrs', '22:00 hrs', '55-6632-4810', 7, NULL, '2022-11-25 09:20:02', '2022-11-25 09:20:02'),
-(36, 'STEPHANIE GUADALUPE', 'GRANADOS ALVAREZ', 'fannygranados25@gmail.com', NULL, NULL, '$2y$10$pNtkmIRHToAtcG2rERZeWurf7nllqCRjMvQGoj0vKSuyiiQVbexf.', 6, 'enlace', 'MATUTINO', 'LUNES A VIERNES', '07:00 hrs', '15:00 hrs', '55-6572-7692', 7, NULL, '2022-11-25 09:32:12', '2022-11-25 09:32:12'),
-(37, 'KAREN DANAHE', 'ESCUDERO PÉREZ', 'kerana_25@hotmail.com', NULL, NULL, '$2y$10$aH0CCtdapPm9V83sUQaa4.f3NWHrahxkWYTkeZF6zvhc.FXoKfLoi', 6, 'enlace', 'VESPERTINO', 'LUNES A VIERNES', '14:00 hrs', '22:00 hrs', '56-1707-5102', 7, NULL, '2022-11-25 09:33:32', '2022-11-25 09:33:32'),
-(38, 'MARÍA DEL CARMEN', 'SÁNCHEZ ALDAS', 'pabsmaryca@hotmail.com', NULL, NULL, '$2y$10$ENRNrbmJBtl51dB3QwzjPeRFUdW4Mc/mk5bEtAP7hOKxKqDUy1/oK', 6, 'enlace', 'NOCTURNO', 'LUNES A DOMINGO', '21:00 hrs', '8:00 hrs', '55-1641-6935', 7, NULL, '2022-11-25 09:35:14', '2022-11-25 09:35:14'),
-(39, 'EMMANUEL', 'SOTO LARA', 'emalara2612@gmail.com', NULL, NULL, '$2y$10$eYl5mLUR2knhdIaVF0nIFuQRHD5pNfvPd8kwc6P0ZlTtDVgHUXpC.', 6, 'enlace', 'NOCTURNO', 'LUNES A DOMINGO', '21:00 hrs', '8:00 hrs', '56-11-24-65-02', 7, NULL, '2022-11-25 09:37:02', '2022-11-25 09:37:02'),
-(40, 'HAROLDI HUMMELI', 'HERMIDA GONZÁLEZ', 'hummelihermida@gmail.com', NULL, NULL, '$2y$10$WWkbABwd9uNND/EWGziMW.a6EEfwV7EbO5CDS0xgaLeAt0gUVjCA.', 6, 'enlace', NULL, 'SAB, DOM Y FEST.', '07:00 hrs', '22:00 hrs', '55-1452-2705', 7, NULL, '2022-11-25 09:38:52', '2022-11-25 09:38:52'),
-(41, 'RICARDO DANIEL', 'FLORES HUERTA', 'dany_flores_h@hotmail.com', NULL, NULL, '$2y$10$dRUS6DDV.ogoZW.MBwRo5edtw9RqI7dDBAGWSa/.YvfBapRl4.jva', 7, 'enlace', 'MATUTINO', 'LUNES A VIERNES', '07:00 hrs', '15:00 hrs', '55-6677-1779', 6, NULL, '2022-11-25 09:41:37', '2022-11-25 09:41:37'),
-(42, 'ALEJANDRO IVÁN', 'SÁNCHEZ FLORES', 'drovan25@hotmail.com', NULL, NULL, '$2y$10$3AxdwjTAccmhuXN1JBbNAebA/S.PpYnnG5zMOrtDPjcuzuXtdLaJG', 7, 'enlace', 'VESPERTINO', 'LUNES A VIERNES', '14:00 hrs', '22:00 hrs', '55-5497-5339', 6, NULL, '2022-11-25 09:43:49', '2022-11-25 09:43:49'),
-(43, 'TANIA ANGÉLICA', 'NAVA SOTO', 'tnaso123@gmail.com', NULL, NULL, '$2y$10$xbAu1abOcWmytA8ATiDlG.iheEO5VPr8GcJ13w4nEXgv9NVnyv9Y6', 7, 'enlace', 'NOCTURNO', 'LUNES A DOMINGO', '21:00 hrs', '8:00 hrs', '55-7337-3377', 6, NULL, '2022-11-25 09:46:33', '2022-11-25 09:46:33'),
-(44, 'GIOVANNI', 'ESTEBAN GUZMÁN', 'Giovanni.esteban.guzman@gmail.com', NULL, NULL, '$2y$10$c9FSh7rxDRs0F3zKEZp97eXuhcsadLnuwrgC2CrPRx.EtbsYFe3Aq', 7, 'enlace', 'NOCTURNO', 'LUNES A DOMINGO', '21:00 hrs', '8:00 hrs', '55-7812-2014', 6, NULL, '2022-11-25 09:49:26', '2022-11-25 09:49:26'),
-(45, 'STEPHANIE DANIELA', 'ARAUJO SALGADO', 'mayo.260596@gmail.com', NULL, NULL, '$2y$10$2X92Tic.yrBv5NQe.Qxx8OY9/EtqAf6y6.Jf8oqs4Z.pfYtt0BPVu', 7, 'enlace', NULL, 'SAB, DOM Y FEST.', '07:00 hrs', '22:00 hrs', '55-3025-0324', 6, NULL, '2022-11-25 09:52:09', '2022-11-25 09:52:09'),
-(46, 'ROSA MARÍA', 'ABONCE ROSALES', 'r_abonce@hotmail.com', NULL, NULL, '$2y$10$LtQvYl6TmFpe/w3vn4kea.mbjAQ6dhdbr6KfZT4.YYepnfhHPRBT.', 8, 'enlace', 'MATUTINO', 'LUNES A VIERNES', '07:00 hrs', '15:00 hrs', '55-2065-8636', 6, NULL, '2022-11-25 09:53:50', '2022-11-25 09:53:50'),
-(47, 'LIZETH DEL CARMEN', 'COBAXIN PUCHETA', 'liz.cobaxin98@gmail.com', NULL, NULL, '$2y$10$NWjAG5m3jj5sKkGSiwJLu.08HeXpPpXGHZKcSnKHHZnHwTALJwGG.', 8, 'enlace', 'VESPERTINO', 'LUNES A VIERNES', '14:00 hrs', '22:00 hrs', '55-1586-6012', 6, NULL, '2022-11-25 09:55:51', '2022-11-25 09:55:51'),
-(48, 'DENISSE', 'VILLARREAL NARVÁEZ', 'psicodenvn@gmail.com', NULL, NULL, '$2y$10$gV004w7Pb17ZVr5uopyAhO90D/Yqt0oZ9/tlUQQm3Otmwc6YiLcwK', 8, 'enlace', 'NOCTURNO', 'LUNES A DOMINGO', '21:00 hrs', '8:00 hrs', '55-8688-4062', 6, NULL, '2022-11-25 09:59:27', '2022-11-25 09:59:27'),
-(49, 'RAÚL', 'HERNÁNDEZ ORTIZ', '060197rulis@gmail.com', NULL, NULL, '$2y$10$lYaZyTw6DJL.sY0sT4f3TOxsSaCTMePd1yM6Y0euujnDdndXi/j3S', 8, 'enlace', 'NOCTURNO', 'LUNES A DOMINGO', '21:00 hrs', '8:00 hrs', '55-4347-4370', 6, NULL, '2022-11-25 10:00:45', '2022-11-25 10:00:45'),
-(50, 'CLAUDIA ALEJANDRA', 'PIÑA JIMENEZ', 'claudiaalejandrapinajimenez@gmail.com', NULL, NULL, '$2y$10$9EYNb1fdHzz17gZxr64O2.nwRh0LXfguDjd08olbsw6HyJ2M99LUK', 8, 'enlace', NULL, 'SAB, DOM Y FEST.', '07:00 hrs', '22:00 hrs', '55-3735-9550', 6, NULL, '2022-11-25 10:02:23', '2022-11-25 10:02:23'),
-(52, 'MÓNICA ROSARIO', 'AMAYA DOMINGUEZ', 'monica.amaya@issste.gob.mx', '2022-12-09 10:29:47', NULL, '$2y$10$OXx0Qc4H09OM0bEPuyQ9MOTuV1vSKNSzCH23qdG/W/A3Rxk4udDk.', 9, 'coordinador', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
-(53, 'MARIA DE LOURDES', 'RODRIGUEZ IYYESCAS', 'maria.rodriguez@issste.gob.mx', '2022-12-09 10:29:47', NULL, '$2y$10$OXx0Qc4H09OM0bEPuyQ9MOTuV1vSKNSzCH23qdG/W/A3Rxk4udDk.', 10, 'coordinador', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
-(54, 'YURIDIA', 'CASTRO ALVAREZ', 'yuridia.castro@issste.gob.mx', '2022-12-09 10:37:03', NULL, '$2y$10$OXx0Qc4H09OM0bEPuyQ9MOTuV1vSKNSzCH23qdG/W/A3Rxk4udDk.', 11, 'coordinador', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
-(55, 'JOSE LUIS', 'CONCHA VALDEZ', 'luis.concha@issste.gob.mx', '2022-12-09 10:37:03', NULL, '$2y$10$OXx0Qc4H09OM0bEPuyQ9MOTuV1vSKNSzCH23qdG/W/A3Rxk4udDk.', 12, 'coordinador', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
-(56, 'LUIS MIGUEL', 'CUEVAS VILLANUEVA', 'luis.cuevasv@issste.gob.mx', '2022-12-09 10:37:03', NULL, '$2y$10$OXx0Qc4H09OM0bEPuyQ9MOTuV1vSKNSzCH23qdG/W/A3Rxk4udDk.', 13, 'coordinador', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
-(57, 'JESUS', 'MALACARA MUÑIZ', 'je.malacara@issste.gob.mx', '2022-12-09 10:37:03', NULL, '$2y$10$OXx0Qc4H09OM0bEPuyQ9MOTuV1vSKNSzCH23qdG/W/A3Rxk4udDk.', 14, 'coordinador', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
-(58, 'MARCO ANTONIO', 'ROMERO LÓPEZ', 'marco.romerol@issste.gob.mx', '2022-12-09 10:37:03', NULL, '$2y$10$OXx0Qc4H09OM0bEPuyQ9MOTuV1vSKNSzCH23qdG/W/A3Rxk4udDk.', 15, 'coordinador', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
-(59, 'MARIA GEMA', 'RUIZ GARCIA', 'maria.ruizgar@issste.gob.mx', '2022-12-09 10:37:03', NULL, '$2y$10$OXx0Qc4H09OM0bEPuyQ9MOTuV1vSKNSzCH23qdG/W/A3Rxk4udDk.', 16, 'coordinador', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
-(60, 'ROSA MARIA', 'BUSTAMANTES OBREGON', 'maria.bustamanteo@issste.gob.mx', '2022-12-09 10:37:03', NULL, '$2y$10$OXx0Qc4H09OM0bEPuyQ9MOTuV1vSKNSzCH23qdG/W/A3Rxk4udDk.', 17, 'coordinador', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
-(61, 'RAFAEL EMMANUEL', 'RUIZ GUATIROJO', 'r.ruizg@issste.gob.mx', '2022-12-09 10:37:03', NULL, '$2y$10$OXx0Qc4H09OM0bEPuyQ9MOTuV1vSKNSzCH23qdG/W/A3Rxk4udDk.', 18, 'coordinador', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
-(62, 'MARIA CRISTINA', 'PANTOJA SILVEIRA', 'maria.pantoja@issste.gob.mx', '2022-12-09 10:37:03', NULL, '$2y$10$OXx0Qc4H09OM0bEPuyQ9MOTuV1vSKNSzCH23qdG/W/A3Rxk4udDk.', 19, 'coordinador', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
-(63, 'ERIKA', 'MORALES HERNANDEZ', 'erika.moralesh@issste.gob', '2022-12-09 11:52:23', NULL, '$2y$10$OXx0Qc4H09OM0bEPuyQ9MOTuV1vSKNSzCH23qdG/W/A3Rxk4udDk.', 9, 'enlace', 'MATUTINO', NULL, NULL, NULL, NULL, 52, NULL, NULL, NULL),
-(64, 'ROSA', 'MARTINEZ MARTINEZ', 'sarok0114@hotmail.com', '2022-12-09 11:52:23', NULL, '$2y$10$OXx0Qc4H09OM0bEPuyQ9MOTuV1vSKNSzCH23qdG/W/A3Rxk4udDk.', 9, 'enlace', 'VESPERTINO', NULL, NULL, NULL, NULL, 52, NULL, NULL, NULL),
-(65, 'ADRIANA', 'OLIVA FRAGOSO', 'adrioliva36@gmail.com', '2022-12-09 12:37:46', NULL, '$2y$10$OXx0Qc4H09OM0bEPuyQ9MOTuV1vSKNSzCH23qdG/W/A3Rxk4udDk.', 9, 'enlace', 'NOCTURNO', NULL, NULL, NULL, NULL, 52, NULL, NULL, NULL),
-(66, 'MARIO ALBERTO', 'NIETO SANCHEZ', 'marioa.nietosanchez@gmail.com', '2022-12-09 12:37:46', NULL, '$2y$10$OXx0Qc4H09OM0bEPuyQ9MOTuV1vSKNSzCH23qdG/W/A3Rxk4udDk.', 9, 'enlace', 'NOCTURNO', NULL, NULL, NULL, NULL, 52, NULL, NULL, NULL),
-(67, 'NELLY JASMIN', 'GONZALEZ HERNANDEZ', 'nellygonzalezhernandez12@yahoo.com', '2022-12-09 12:41:22', NULL, '$2y$10$OXx0Qc4H09OM0bEPuyQ9MOTuV1vSKNSzCH23qdG/W/A3Rxk4udDk.', 9, 'enlace', 'SABADOS, DOMINGOS Y FESTIVOS', NULL, NULL, NULL, NULL, 52, NULL, NULL, NULL),
-(68, 'CLAUDIA', 'PÉREZ ORTEGA', 'clausperez1969@gmail.com', '2022-12-09 12:41:22', NULL, '$2y$10$OXx0Qc4H09OM0bEPuyQ9MOTuV1vSKNSzCH23qdG/W/A3Rxk4udDk.', 10, 'enlace', 'MATUTINO', NULL, NULL, NULL, NULL, 53, NULL, NULL, NULL),
-(80, 'JULIA CAROLINA', 'CORTES BOLAÑOS', 'juliacortes21@gmail.com', '2022-12-09 12:41:22', NULL, '$2y$10$OXx0Qc4H09OM0bEPuyQ9MOTuV1vSKNSzCH23qdG/W/A3Rxk4udDk.', 10, 'enlace', 'VESPERTINO', NULL, NULL, NULL, NULL, 53, NULL, NULL, NULL),
-(81, 'BEATRIZ ADRIANA', 'MONJARAZ SALAZAR', 'betymonjaraz201@gmail.com', '2022-12-09 12:41:22', NULL, '$2y$10$OXx0Qc4H09OM0bEPuyQ9MOTuV1vSKNSzCH23qdG/W/A3Rxk4udDk.', 10, 'enlace', 'NOCTURNO', NULL, NULL, NULL, NULL, 53, NULL, NULL, NULL),
-(82, 'OMAR JAFET', 'MARTINEZ TRONCOSO', 'omarviruz@gmail.com', '2022-12-09 12:41:22', NULL, '$2y$10$OXx0Qc4H09OM0bEPuyQ9MOTuV1vSKNSzCH23qdG/W/A3Rxk4udDk.', 10, 'enlace', 'NOCTURNO', NULL, NULL, NULL, NULL, 53, NULL, NULL, NULL),
-(83, 'GABRIELA VERENICE', 'AGUILAR MUÑOZ', 'gabyaviacion@hotmail.com', '2022-12-09 12:41:22', NULL, '$2y$10$OXx0Qc4H09OM0bEPuyQ9MOTuV1vSKNSzCH23qdG/W/A3Rxk4udDk.', 10, 'enlace', 'SABADOS, DOMINGOS Y FESTIVOS', NULL, NULL, NULL, NULL, 53, NULL, NULL, NULL),
-(84, 'MARIA GUADALUPE', 'JÁUREGUI VENEGAS', 'lupissue_2@hotmail.com', '2022-12-09 12:59:00', NULL, '$2y$10$OXx0Qc4H09OM0bEPuyQ9MOTuV1vSKNSzCH23qdG/W/A3Rxk4udDk.', 11, 'enlace', 'MATUTINO', NULL, NULL, NULL, NULL, 54, NULL, NULL, NULL),
-(85, 'MAYRA YADIRA', 'GUTIÉRREZ CHAVIRA', 'yadirag63@hotmail.com', '2022-12-09 12:59:00', NULL, '$2y$10$OXx0Qc4H09OM0bEPuyQ9MOTuV1vSKNSzCH23qdG/W/A3Rxk4udDk.', 11, 'enlace', 'VESPERTINO', NULL, NULL, NULL, NULL, 54, NULL, NULL, NULL),
-(86, 'ELBA SUSANA', 'FLORES OROSCO', 'elbasusana_75@hotmail.com', '2022-12-09 12:59:00', NULL, '$2y$10$OXx0Qc4H09OM0bEPuyQ9MOTuV1vSKNSzCH23qdG/W/A3Rxk4udDk.', 11, 'enlace', 'NOCTURNO', NULL, NULL, NULL, NULL, 54, NULL, NULL, NULL),
-(87, 'ALEJANDRO', 'AGUAYO CERVANTES', 'alejandro.a.c@outlook.com', '2022-12-09 12:59:00', NULL, '$2y$10$OXx0Qc4H09OM0bEPuyQ9MOTuV1vSKNSzCH23qdG/W/A3Rxk4udDk.', 11, 'enlace', 'NOCTURNO', NULL, NULL, NULL, NULL, 54, NULL, NULL, NULL),
-(88, 'ERIKA JAZEL', 'ENRIQUE BAEZA', 'erikajazelbaeza@gmail.com', '2022-12-09 12:59:00', NULL, '$2y$10$OXx0Qc4H09OM0bEPuyQ9MOTuV1vSKNSzCH23qdG/W/A3Rxk4udDk.', 11, 'enlace', 'SABADOS, DOMINGO Y FESTIVOS', NULL, NULL, NULL, NULL, 54, NULL, NULL, NULL),
-(89, 'MILAINER DESIREÉ', 'GUTIERREZ ALVARADO', 'lm.milainerguitierrez@gmail.com', '2022-12-09 12:59:00', NULL, '$2y$10$OXx0Qc4H09OM0bEPuyQ9MOTuV1vSKNSzCH23qdG/W/A3Rxk4udDk.', 12, 'enlace', 'MATUTINO', NULL, NULL, NULL, NULL, 55, NULL, NULL, NULL),
-(90, 'MIRIAM', 'PAYAN CHAVEZ', 'millyperezur@gmail.com', '2022-12-09 12:59:00', NULL, '$2y$10$OXx0Qc4H09OM0bEPuyQ9MOTuV1vSKNSzCH23qdG/W/A3Rxk4udDk.', 12, 'enlace', 'VESPERTINO', NULL, NULL, NULL, NULL, 55, NULL, NULL, NULL),
-(91, 'YULIANA', 'VELAZQUEZ PANTOJA', 'yuli.vel.pa@gmail.com', '2022-12-09 12:59:00', NULL, '$2y$10$OXx0Qc4H09OM0bEPuyQ9MOTuV1vSKNSzCH23qdG/W/A3Rxk4udDk.', 12, 'enlace', 'NOCTURNO', NULL, NULL, NULL, NULL, 55, NULL, NULL, NULL),
-(92, 'ANA MARIA', 'ROSAS CHANOEVA', 'anamariarosaschanoeva@gmail.com', '2022-12-09 12:59:00', NULL, '$2y$10$OXx0Qc4H09OM0bEPuyQ9MOTuV1vSKNSzCH23qdG/W/A3Rxk4udDk.', 12, 'enlace', 'NOCTURNO', NULL, NULL, NULL, NULL, 55, NULL, NULL, NULL),
-(93, 'HIDALGO', 'IBARRA VEGA', 'hivend403@gmail.com', '2022-12-09 12:59:00', NULL, '$2y$10$OXx0Qc4H09OM0bEPuyQ9MOTuV1vSKNSzCH23qdG/W/A3Rxk4udDk.', 12, 'enlace', 'SABADOS, DOMINGO Y FESTIVOS', NULL, NULL, NULL, NULL, 55, NULL, NULL, NULL),
-(94, 'SONIA', 'OCAMPO ROMÁN', 'psc.sonia.or@gmail.com', '2022-12-09 13:51:07', NULL, '$2y$10$OXx0Qc4H09OM0bEPuyQ9MOTuV1vSKNSzCH23qdG/W/A3Rxk4udDk.', 13, 'enlace', 'MATUTINO', NULL, NULL, NULL, NULL, 56, NULL, NULL, NULL),
-(95, 'DAYAN ANTONIO', 'FLORES GABRIEL', 'psic.dayanflores@gmail.com', '2022-12-09 13:51:07', NULL, '$2y$10$OXx0Qc4H09OM0bEPuyQ9MOTuV1vSKNSzCH23qdG/W/A3Rxk4udDk.', 13, 'enlace', 'VESPERTINO', NULL, NULL, NULL, NULL, 56, NULL, NULL, NULL),
-(96, 'MONSERRAT', 'FARFÁN MENDOZA', 'psicmfarfan@gmail.com', '2022-12-09 13:51:07', NULL, '$2y$10$OXx0Qc4H09OM0bEPuyQ9MOTuV1vSKNSzCH23qdG/W/A3Rxk4udDk.', 13, 'enlace', 'NOCTURNO', NULL, NULL, NULL, NULL, 56, NULL, NULL, NULL),
-(97, 'KARLA MICHELLE', 'AVILÉS LUGO', 'mich.avil1996@hotmail.com', '2022-12-09 13:51:07', NULL, '$2y$10$OXx0Qc4H09OM0bEPuyQ9MOTuV1vSKNSzCH23qdG/W/A3Rxk4udDk.', 13, 'enlace', 'NOCTURNO', NULL, NULL, NULL, NULL, 56, NULL, NULL, NULL),
-(98, 'SERGIO ALEJANDRO', 'MONTALVO SANCHEZ', 'sams_ian@hotmail.com', '2022-12-09 13:51:07', NULL, '$2y$10$OXx0Qc4H09OM0bEPuyQ9MOTuV1vSKNSzCH23qdG/W/A3Rxk4udDk.', 13, 'enlace', 'SABADOS, DOMINGOS Y FESTIVOS', NULL, NULL, NULL, NULL, 56, NULL, NULL, NULL),
-(99, 'ANA KAREN', 'IBARRA GARCIA', 'karen.7191@gmail.com', '2022-12-09 13:51:07', NULL, '$2y$10$OXx0Qc4H09OM0bEPuyQ9MOTuV1vSKNSzCH23qdG/W/A3Rxk4udDk.', 14, 'enlace', 'MATUTINO', NULL, NULL, NULL, NULL, 57, NULL, NULL, NULL),
-(100, 'MARIA ANTONIA', 'OCAÑA PÉREZ', 'mariocanas04@outlook.com', '2022-12-09 13:51:07', NULL, '$2y$10$OXx0Qc4H09OM0bEPuyQ9MOTuV1vSKNSzCH23qdG/W/A3Rxk4udDk.', 14, 'enlace', 'VESPERTINO', NULL, NULL, NULL, NULL, 57, NULL, NULL, NULL),
-(101, 'EVA', 'ARREDONDO MIRANDA', 'eva_dir@hotmail.com', '2022-12-09 13:51:07', NULL, '$2y$10$OXx0Qc4H09OM0bEPuyQ9MOTuV1vSKNSzCH23qdG/W/A3Rxk4udDk.', 14, 'enlace', 'NOCTURNO', NULL, NULL, NULL, NULL, 57, NULL, NULL, NULL),
-(102, 'DANIEL DAVID', 'VILLALOBOS ZOLANO', 'man_81jm@hotmail.com', '2022-12-09 13:51:07', NULL, '$2y$10$OXx0Qc4H09OM0bEPuyQ9MOTuV1vSKNSzCH23qdG/W/A3Rxk4udDk.', 14, 'enlace', 'NOCTURNO', NULL, NULL, NULL, NULL, 57, NULL, NULL, NULL),
-(103, 'MARTHA ALICIA', 'HUERTA SALAS', 'ali_salas71@hotmail.com', '2022-12-09 13:51:07', NULL, '$2y$10$OXx0Qc4H09OM0bEPuyQ9MOTuV1vSKNSzCH23qdG/W/A3Rxk4udDk.', 14, 'enlace', 'SABADOS, DOMINGOS Y FESTIVOS', NULL, NULL, NULL, NULL, 57, NULL, NULL, NULL),
-(104, 'MIRIAM', 'VELASCO MARÍN', 'psicoterapiacuentaconmigo@gmail.com', '2022-12-09 13:51:07', NULL, '$2y$10$OXx0Qc4H09OM0bEPuyQ9MOTuV1vSKNSzCH23qdG/W/A3Rxk4udDk.', 15, 'enlace', 'MATUTINO', NULL, NULL, NULL, NULL, 58, NULL, NULL, NULL),
-(105, 'MARIA SOLEDAD', 'DANIEL LÓPEZ', 'soledad.daniel@gmail.com', '2022-12-09 13:51:07', NULL, '$2y$10$OXx0Qc4H09OM0bEPuyQ9MOTuV1vSKNSzCH23qdG/W/A3Rxk4udDk.', 15, 'enlace', 'VESPERTINO', NULL, NULL, NULL, NULL, 58, NULL, NULL, NULL),
-(106, 'EVELYN MONSERRAT', 'RAMÍREZ ÁVILA', 'monseve@live.com', '2022-12-09 13:51:07', NULL, '$2y$10$OXx0Qc4H09OM0bEPuyQ9MOTuV1vSKNSzCH23qdG/W/A3Rxk4udDk.', 15, 'enlace', 'NOCTURNO', NULL, NULL, NULL, NULL, 58, NULL, NULL, NULL),
-(107, 'KARLA KARINA', 'GALÁN SÁNCHEZ', 'karlagalan25@gmail.com', '2022-12-09 13:51:07', NULL, '$2y$10$OXx0Qc4H09OM0bEPuyQ9MOTuV1vSKNSzCH23qdG/W/A3Rxk4udDk.', 15, 'enlace', 'NOCTURNO', NULL, NULL, NULL, NULL, 58, NULL, NULL, NULL),
-(108, 'ORLANDO', 'RAMÍREZ GARRCÍA', 'ragfe7@gmail.com', '2022-12-09 13:51:07', NULL, '$2y$10$OXx0Qc4H09OM0bEPuyQ9MOTuV1vSKNSzCH23qdG/W/A3Rxk4udDk.', 15, 'enlace', 'SABADOS, DOMINGOS Y FESTIVOS', NULL, NULL, NULL, NULL, 58, NULL, NULL, NULL),
-(109, 'PAULINA ALEYETZI', 'CARRETO ROMERO', 'aleyetzi23@gmail.com', '2022-12-09 13:51:07', NULL, '$2y$10$OXx0Qc4H09OM0bEPuyQ9MOTuV1vSKNSzCH23qdG/W/A3Rxk4udDk.', 16, 'enlace', 'MATUTINO', NULL, NULL, NULL, NULL, 59, NULL, NULL, NULL),
-(110, 'DIANA ELIZABETH', 'GÁNDARA GUZMÁN', 'diana.elizabeth.gandarag@gmail.com', '2022-12-09 13:51:07', NULL, '$2y$10$OXx0Qc4H09OM0bEPuyQ9MOTuV1vSKNSzCH23qdG/W/A3Rxk4udDk.', 16, 'enlace', 'VESPERTINO', NULL, NULL, NULL, NULL, 59, NULL, NULL, NULL),
-(111, 'AKARI', 'PÉREZ LIMA', 'akaripez18@gmail.com', '2022-12-09 13:51:07', NULL, '$2y$10$OXx0Qc4H09OM0bEPuyQ9MOTuV1vSKNSzCH23qdG/W/A3Rxk4udDk.', 16, 'enlace', 'NOCTURNO', NULL, NULL, NULL, NULL, 59, NULL, NULL, NULL),
-(112, 'FEDERICO', 'GUTIÉRREZ ROBLES', 'fedegutrob@yahoo.com.mx', '2022-12-09 13:51:07', NULL, '$2y$10$OXx0Qc4H09OM0bEPuyQ9MOTuV1vSKNSzCH23qdG/W/A3Rxk4udDk.', 16, 'enlace', 'NOCTURNO', NULL, NULL, NULL, NULL, 59, NULL, NULL, NULL),
-(113, 'BRICEIDA SUHEY', 'HERNANDEZ BEDOYA', 'briceidahernandez_01@outlook.com', '2022-12-09 13:51:07', NULL, '$2y$10$OXx0Qc4H09OM0bEPuyQ9MOTuV1vSKNSzCH23qdG/W/A3Rxk4udDk.', 17, 'enlace', 'MATUTINO', NULL, NULL, NULL, NULL, 60, NULL, NULL, NULL),
-(114, 'LILIA DENISSE', 'PEREZ FELIX', 'denizfelix@hotmail.com', '2022-12-09 13:51:07', NULL, '$2y$10$OXx0Qc4H09OM0bEPuyQ9MOTuV1vSKNSzCH23qdG/W/A3Rxk4udDk.', 17, 'enlace', 'VESPERTINO', NULL, NULL, NULL, NULL, 60, NULL, NULL, NULL),
-(115, 'KYMBERLY DINORA', 'SAUCEDA ZURITA', 'zuritasaucedakimberly@hotmail.com', '2022-12-09 13:51:07', NULL, '$2y$10$OXx0Qc4H09OM0bEPuyQ9MOTuV1vSKNSzCH23qdG/W/A3Rxk4udDk.', 17, 'enlace', 'NOCTURNO', NULL, NULL, NULL, NULL, 60, NULL, NULL, NULL),
-(116, 'MARIA CECILIA', 'GASTELUM ESPINOZA', 'mcge2411@gmail.com', '2022-12-09 13:51:07', NULL, '$2y$10$OXx0Qc4H09OM0bEPuyQ9MOTuV1vSKNSzCH23qdG/W/A3Rxk4udDk.', 17, 'enlace', 'NOCTURNO', NULL, NULL, NULL, NULL, 60, NULL, NULL, NULL),
-(117, 'CITLALY JOAQUINA', 'BOJORQUEZ RODRIGUEZ', 'rodriguezcitla19@gmail.com', '2022-12-09 13:51:07', NULL, '$2y$10$OXx0Qc4H09OM0bEPuyQ9MOTuV1vSKNSzCH23qdG/W/A3Rxk4udDk.', 17, 'enlace', 'SABADOS, DOMINGOS Y FESTIVOS', NULL, NULL, NULL, NULL, 60, NULL, NULL, NULL),
-(118, 'VICTORIANA', 'CISNEROS VERORA', 'victorianacverora@hotmail.com', '2022-12-09 13:51:07', NULL, '$2y$10$OXx0Qc4H09OM0bEPuyQ9MOTuV1vSKNSzCH23qdG/W/A3Rxk4udDk.', 18, 'enlace', 'MATUTINO', NULL, NULL, NULL, NULL, 61, NULL, NULL, NULL),
-(119, 'JOSE EMMANUEL', 'MACEGOZA AMAYA', 'macegoza12@gmail.com', '2022-12-09 13:51:07', NULL, '$2y$10$OXx0Qc4H09OM0bEPuyQ9MOTuV1vSKNSzCH23qdG/W/A3Rxk4udDk.', 18, 'enlace', 'VESPERTINO', NULL, NULL, NULL, NULL, 61, NULL, NULL, NULL),
-(120, 'SOFIA', 'HERNANDEZ LIBREROS', 'sofiahl279@hotmail.com', '2022-12-09 13:51:07', NULL, '$2y$10$OXx0Qc4H09OM0bEPuyQ9MOTuV1vSKNSzCH23qdG/W/A3Rxk4udDk.', 18, 'enlace', 'NOCTURNO', NULL, NULL, NULL, NULL, 61, NULL, NULL, NULL),
-(121, 'EVA LETICIA', 'HUERTA CASAS', 'elety.hc02@gmail.com', '2022-12-09 13:51:07', NULL, '$2y$10$OXx0Qc4H09OM0bEPuyQ9MOTuV1vSKNSzCH23qdG/W/A3Rxk4udDk.', 18, 'enlace', 'NOCTURNO', NULL, NULL, NULL, NULL, 61, NULL, NULL, NULL),
-(122, 'ADRIANA', 'AGUILAR RODRIGUEZ', 'adryana@gmail.com', '2022-12-09 13:51:07', NULL, '$2y$10$OXx0Qc4H09OM0bEPuyQ9MOTuV1vSKNSzCH23qdG/W/A3Rxk4udDk.', 18, 'enlace', 'SABADOS, DOMINGOS Y FESTIVOS', NULL, NULL, NULL, NULL, 61, NULL, NULL, NULL),
-(123, 'WEMDY PATRICIA', 'CAMPOS RUIZ', 'campos_ruiz1908@hotmail.com', '2022-12-09 15:59:12', NULL, '$2y$10$OXx0Qc4H09OM0bEPuyQ9MOTuV1vSKNSzCH23qdG/W/A3Rxk4udDk.', 19, 'enlace', 'MATUTINO', NULL, NULL, NULL, NULL, 62, NULL, NULL, NULL),
-(124, 'LOURDES', 'CANTO TABASCO', 'cantotabascoml@gmail.com', '2022-12-09 15:59:12', NULL, '$2y$10$OXx0Qc4H09OM0bEPuyQ9MOTuV1vSKNSzCH23qdG/W/A3Rxk4udDk.', 19, 'enlace', 'VESPERTINO', NULL, NULL, NULL, NULL, 62, NULL, NULL, NULL),
-(125, 'JORGE ALBERTO', 'EUAN UICAB', 'je_ts2411@hotmail.com', '2022-12-09 15:59:12', NULL, '$2y$10$OXx0Qc4H09OM0bEPuyQ9MOTuV1vSKNSzCH23qdG/W/A3Rxk4udDk.', 19, 'enlace', 'NOCTURNO', NULL, NULL, NULL, NULL, 62, NULL, NULL, NULL),
-(126, 'JOSE JESUS', 'CANTO OJEDA', 'cantojesus2@gmail.com', '2022-12-09 15:59:12', NULL, '$2y$10$OXx0Qc4H09OM0bEPuyQ9MOTuV1vSKNSzCH23qdG/W/A3Rxk4udDk.', 19, 'enlace', 'VESPERTINO', NULL, NULL, NULL, NULL, 62, NULL, NULL, NULL),
-(127, 'JOSE MARTIN', 'MEDINA ACERETO', 'martinmedina@live.com.mx', '2022-12-09 15:59:12', NULL, '$2y$10$OXx0Qc4H09OM0bEPuyQ9MOTuV1vSKNSzCH23qdG/W/A3Rxk4udDk.', 19, 'enlace', 'SABADOS, DOMINGOS Y FESTIVOS', NULL, NULL, NULL, NULL, 62, NULL, NULL, NULL),
-(128, 'PILAR', 'PEÑA PERDO', 'pilardepp6q@gmail.com', '2022-12-09 16:06:26', NULL, '$2y$10$OXx0Qc4H09OM0bEPuyQ9MOTuV1vSKNSzCH23qdG/W/A3Rxk4udDk.', 16, 'enlace', 'SABADOS, DOMINGOS Y FESTIVOS', NULL, NULL, NULL, NULL, 59, NULL, NULL, NULL);
+(1, 'Aldo Sanchez', NULL, 'myxomatos46@gmail.com', '2023-01-27 18:50:33', NULL, '$2y$10$ENZZysbzctqLwTL4EUWl4eA5I4FnC6sHCCAZY02e8UmDPt9/FbcWu', 2, 'coordinador', NULL, NULL, NULL, NULL, NULL, 2, NULL, '2022-10-25 06:36:44', '2023-01-28 00:50:33'),
+(2, 'Alan', NULL, 'sedykc@hotmail.com', '2022-12-09 23:55:30', NULL, '$2y$10$OXx0Qc4H09OM0bEPuyQ9MOTuV1vSKNSzCH23qdG/W/A3Rxk4udDk.', 2, 'coordinador', NULL, NULL, NULL, NULL, NULL, NULL, NULL, '2022-10-25 09:26:55', '2022-12-10 11:55:30'),
+(6, 'SARA AIDEÉ', 'GONZÁLEZ BLANQUER', 'sara@gmail.com', NULL, NULL, '$2y$10$UJawD.uvXFwt4PRO7Flgf.VyRTF4KuFpbj6wR5utOpCjPj8nIgi9m', 1, 'subcoordinador', NULL, NULL, NULL, NULL, NULL, NULL, NULL, '2022-11-25 12:30:56', '2022-11-25 12:30:56'),
+(7, 'MÓNICA ALEJANDRA', 'PELÁEZ ROMERO', 'monica@gmail.com', NULL, NULL, '$2y$10$lyipEKHAMmciLvMWmevlxOVcjC3DpkwgzdUVU9v1rKUrKpTUklnyS', 2, 'subcoordinador', NULL, NULL, NULL, NULL, NULL, NULL, NULL, '2022-11-25 12:36:04', '2022-11-25 12:36:04'),
+(8, 'MIRIAM', 'FLORENCIO GONZÁLEZ', 'mayrim.83.mg@gmail.com', '2023-01-27 19:27:45', NULL, '$2y$10$x28SjZyvC9PRF474QycJQeQ/.8uAjCODYq20jyzskCo.v47qArAle', 1, 'enlace', 'MATUTINO', 'LUNES A VIERNES', '07:00hrs', '15:00hrs', '55-2546-3165', 6, NULL, '2022-11-25 12:49:27', '2023-01-28 01:27:45'),
+(9, 'KAREN', 'HERNÁNDEZ MARTÍNEZ', 'kahema766@gmail.com', NULL, NULL, '$2y$10$c11BJ5XNebzBG7ilkgK1x.Hff2VBvx.WnlIji58nSYuCbZQguP93C', 1, 'enlace', 'VESPERTINO', 'LUNES A VIERNES', '14:00 hrs', '22:00 hrs', '55-3545-9651', 6, NULL, '2022-11-25 12:54:34', '2022-11-25 12:54:34'),
+(10, 'TANIA NAHEILI', 'ROJO ARCE', 'nahearce@gmail.com', NULL, NULL, '$2y$10$xcrD4HyGS.dANl3Ym/oDuOlQkU0B.rvYkU4U9AcSfjpa5Kh/Tgi..', 1, 'enlace', 'NOCTURNO', 'LUNES A DOMINGO', '21:00 hrs', '8:00 hrs', '55-3545-9651', 6, NULL, '2022-11-25 12:57:21', '2022-11-25 12:57:21'),
+(11, 'EVELYN', 'PALACIOS MARTÍNEZ', 'evepalacios01@gmail.com', NULL, NULL, '$2y$10$alpAY5BQoxBBTBxFmqFkVe8G0ahh.ZYGkyzLh1oUKuqziC0Jw1vUW', 1, 'enlace', 'NOCTURNO', 'LUNES A DOMINGO', '21:00 hrs', '8:00 hrs', '55-7799-6544', 6, NULL, '2022-11-25 12:59:09', '2022-11-25 12:59:09'),
+(12, 'ZYANYA', 'MACÍAS VELÁZQUEZ', 'zyanyanoxipa@gmail.com', NULL, NULL, '$2y$10$IMmwEwr3rsDyvVB8uN9cWeYcpwpyUQtXRWe.6mmoB6SEewTRCh3NC', 1, 'enlace', NULL, 'SAB, DOM Y FEST.', '07:00 hrs', '22:00 hrs', '55-5098-0766', 6, NULL, '2022-11-25 13:02:32', '2022-11-25 13:02:32'),
+(13, 'NANCY ROSARIO', 'ARREGUÍN ROSAS', 'nancyarre1@hotmail.com', NULL, NULL, '$2y$10$voHd6sZDat2S5IRlaje0UOcFXlijkXxYGF2DdAI7wBSsOAqBO38Gi', 2, 'enlace', 'MATUTINO', 'LUNES A VIERNES', '07:00 hrs', '15:00 hrs', '55-2959-9066', 7, NULL, '2022-11-25 13:08:34', '2022-11-25 13:08:34'),
+(14, 'ALEJANDRO', 'ORTIZ GARCÍA DE ALBA', 'alejandro.starship@hotmail.com', NULL, NULL, '$2y$10$xTMIwK8SQLZXvRff03G6deSTlDgJDf5MZPCcKmsUSHvAn2uYHh6Xq', 2, 'enlace', 'VESPERTINO', 'LUNES A VIERNES', '14:00 hrs', '22:00 hrs', '55-2145-8920', 7, NULL, '2022-11-25 13:12:53', '2022-11-25 13:12:53'),
+(15, 'ANA LILIA', 'GUTIÉRREZ GALINDO', 'gutierrez.anita@hotmail.com', NULL, NULL, '$2y$10$xB0.RWEswGd6gGyp//U7xu9.SDYmeYkhRNlExwmUlYil98jJE93m2', 2, 'enlace', 'NOCTURNO', 'LUNES A DOMINGO', '21:00 hrs', '8:00 hrs', '55-4140-0338', 7, NULL, '2022-11-25 13:16:28', '2022-11-25 13:16:28'),
+(16, 'URIEL', 'PÉREZ RAMÍREZ', 'uriel0118@gmail.com', '2023-01-27 19:49:24', NULL, '$2y$10$K.hHlfA9yN30mT6yrNKKsumDKgRenOMxK.gmCQjxc0F.rVfpriUc.', 2, 'enlace', 'NOCTURNO', 'LUNES A DOMINGO', '21:00 hrs', '8:00 hrs', '55-3271-5632', 7, NULL, '2022-11-25 13:18:48', '2023-01-28 01:49:24'),
+(17, 'CINDY', 'MORÁN MORALES', 'cindel_7@hotmail.com', NULL, NULL, '$2y$10$p/PC5CEAK5sp/4sKi.dNxe1d6db8rUDDp47HqipKKYlVWSx903y1K', 2, 'enlace', NULL, 'SAB, DOM Y FEST.', '07:00 hrs', '22:00 hrs', '55-3235-3162', 7, NULL, '2022-11-25 13:21:31', '2022-11-25 13:21:31'),
+(18, 'CECILIA', 'SALAZAR MIRANDA', 'ceeci222@gmail.com', NULL, NULL, '$2y$10$Sr0gmAtKQDEIWIU5LMdj9eSnbjsR3goqucJEhVnET2tjljEIPjYWi', 3, 'enlace', 'MATUTINO', 'LUNES A VIERNES', '07:00 hrs', '15:00 hrs', '55-2070-7619', 6, NULL, '2022-11-25 13:26:23', '2022-11-25 13:26:23'),
+(19, 'CELINA NAOMI', 'GONZÁLEZ ALVARADO', 'gcelina.alvarado@gmail.com', '2023-01-27 19:55:37', NULL, '$2y$10$KrYY4C..QDngOplhrXYv/erhHk4oPu4t2wlibAt9XJn1B1L0XDFES', 3, 'enlace', 'VESPERTINO', 'LUNES A VIERNES', '14:00 hrs', '22:00 hrs', '55-3524-1084', 6, NULL, '2022-11-25 13:28:32', '2023-01-28 01:55:37'),
+(20, 'MARÍA FERNANDA', 'DEL MORAL SALAZAR', 'ma_fer.96@hotmail.com', NULL, NULL, '$2y$10$Y3xNCx.aJ0XNqAfNddrJ0uu3T/ZBjwA.i2M/fCbxZgYUWfSgGYeSy', 3, 'enlace', 'NOCTURNO', 'LUNES A DOMINGO', '21:00 hrs', '8:00 hrs', '55-2329-1371', 6, NULL, '2022-11-25 13:31:44', '2022-11-25 13:31:44'),
+(21, 'ÓSCAR ALONSO', 'REYES JUÁREZ', 'oreyesjuarez@gmail.com', NULL, NULL, '$2y$10$yyjhPa.XQtDDR3QRkH0eceCUmGs.jJxS8qnKsZfrwDkDI9qzcX/xG', 3, 'enlace', 'NOCTURNO', 'LUNES A DOMINGO', '21:00 hrs', '8:00 hrs', '55-3231-7673', 6, NULL, '2022-11-25 13:33:54', '2022-11-25 13:33:54'),
+(22, 'DANIELA KAREN', 'PAREDES ARISTA', 'dparedesarista@gmail.com', NULL, NULL, '$2y$10$f3HbPuG0E3cvNVM3urUFVu8Zdf/2H.oaW/jBnuyyQpkkmvwMFZZx2', 3, 'enlace', NULL, 'SAB, DOM Y FEST.', '07:00 hrs', '22:00 hrs', '55-6621-4666', 6, NULL, '2022-11-25 13:35:48', '2022-11-25 13:35:48'),
+(25, 'EDITH GUADALUPE', 'BOLAÑOS GALAVIZ', 'edithpeke02@gmail.com', '2023-01-27 05:09:45', NULL, '$2y$10$zL2awThPF2mIWgVTD2mja.KjbS/FLx2JLFBI4P4Yk5isbJWYIDENK', 4, 'enlace', 'MATUTINO', 'LUNES A VIERNES', '07:00 hrs', '15:00 hrs', '55-5187-5537', 7, NULL, '2022-11-25 14:02:45', '2023-01-27 11:09:45'),
+(26, 'MARÍA GUADALUPE', 'ROMERO LEÓN', 'lurole1080@gmail.com', NULL, NULL, '$2y$10$xc.j31oYMDTtFEHzDUw/sOIMV.fxAdi82/z6u0e/mKd.ZIZ8LZGKu', 4, 'enlace', 'VESPERTINO', 'LUNES A VIERNES', '14:00 hrs', '22:00 hrs', '55-1873-7744', 7, NULL, '2022-11-25 14:14:04', '2022-11-25 14:14:04'),
+(27, 'ANAIS YARELY', 'ORTIZ JOAQUÍN', 'anais.ortiz0@gmail.com', NULL, NULL, '$2y$10$nYACXKP/WgZByj7VeVWx/OpoCLKK.iVCF9O4PvTAXTZc1wckaGrdO', 4, 'enlace', 'NOCTURNO', 'LUNES A DOMINGO', '21:00 hrs', '8:00 hrs', '55-7455-5062', 7, NULL, '2022-11-25 14:19:32', '2022-11-25 14:19:32'),
+(28, 'CHRISTIAN DANIEL', 'GARCÍA OREGÓN', 'christian.garcia.oregon@gmail.com', NULL, NULL, '$2y$10$nksPiYokQ0i4aj/OdcILiOTx.734Fw5Ov6Nx9pnFeMBQY1ZV/jonu', 4, 'enlace', 'NOCTURNO', 'LUNES A DOMINGO', '21:00 hrs', '8:00 hrs', '55-2762-4720', 7, NULL, '2022-11-25 14:21:50', '2022-11-25 14:21:50'),
+(29, 'JUANA EDITH', 'MORENO MALDONADO', 'marcosedith2017@gmail.com', NULL, NULL, '$2y$10$mlId4YAn1e9NDvPSVkJBO.OxHr21CbIhmXwLJswD0NKFDI81ug5vW', 4, 'enlace', NULL, 'SAB, DOM Y FEST.', '07:00 hrs', '22:00 hrs', '55-3680-9805', 7, NULL, '2022-11-25 14:58:31', '2022-11-25 14:58:31'),
+(30, 'GLORIA ISABEL', 'GONZÁLEZ ROMÁN', 'psi.gonzalezgloria@outlook.com', NULL, NULL, '$2y$10$5OrKvrqrg2EIgwkg7n3QeOkbCO2MZ2FPovomEvZnSilbh7X0.svhy', 5, 'enlace', 'MATUTINO', 'LUNES A VIERNES', '07:00 hrs', '15:00 hrs', '55-8479-3781', 7, NULL, '2022-11-25 15:01:56', '2022-11-25 15:01:56'),
+(32, 'VERÓNICA', 'MARTÍNEZ MÉRIDA', 'veroiii@hotmail.com', NULL, NULL, '$2y$10$hyM602SlATa3oLVsg6Duqe4MxJCJLs.0rMA5EOr8yTDOL0nnV0HNy', 5, 'enlace', 'VESPERTINO', 'LUNES A VIERNES', '14:00 hrs', '22:00 hrs', '55-1332-1306', 7, NULL, '2022-11-25 15:09:45', '2022-11-25 15:09:45'),
+(33, 'MARCOS GERARDO', 'OLVERA POMPA', 'marcos171209@gmail.com', NULL, NULL, '$2y$10$aj82D1GfsVzQwofOwM7T6ujkQNBi2ToI59p56nNjEBul4HPvTzZp2', 5, 'enlace', 'NOCTURNO', 'LUNES A DOMINGO', '21:00 hrs', '8:00 hrs', '55-4953-3935', 7, NULL, '2022-11-25 15:13:24', '2022-11-25 15:13:24'),
+(34, 'YAZKIN HARUCO DÁNAE', 'ALVARADO SÁNCHEZ', 'itari02@gmail.com', NULL, NULL, '$2y$10$PieYzgbMG0sdvoJnuwAJaeQdV3h3bS64s/lsKxcPBTYVQncauYS/u', 5, 'enlace', 'NOCTURNO', 'LUNES A DOMINGO', '21:00 hrs', '8:00 hrs', '56-1054-6711', 7, NULL, '2022-11-25 15:17:42', '2022-11-25 15:17:42'),
+(35, 'ALEXIS', 'RODRÍGUEZ DE LA ROSA', 'amerod.10@outlook.com', NULL, NULL, '$2y$10$XlgByusPPIJSPhxETekOqe9s8KiecYXw7GfyYhcc/w2Qd7AYDyR7e', 5, 'enlace', NULL, 'SAB, DOM Y FEST.', '07:00 hrs', '22:00 hrs', '55-6632-4810', 7, NULL, '2022-11-25 15:20:02', '2022-11-25 15:20:02'),
+(36, 'STEPHANIE GUADALUPE', 'GRANADOS ALVAREZ', 'fannygranados25@gmail.com', NULL, NULL, '$2y$10$Q/gsIqN5rnq4ASZV5klcJumS1WNIqf.9mOzYMzWMCcBgEbrR59IYi', 6, 'enlace', 'MATUTINO', 'LUNES A VIERNES', '07:00 hrs', '15:00 hrs', '55-6572-7692', 7, NULL, '2022-11-25 15:32:12', '2022-11-25 15:32:12'),
+(37, 'KAREN DANAHE', 'ESCUDERO PÉREZ', 'kerana_25@hotmail.com', NULL, NULL, '$2y$10$2h6hiOo/82EHUshkYcv.Re8Y5cBFlMKAY/1d33ODzQTm0iAK87lby', 6, 'enlace', 'VESPERTINO', 'LUNES A VIERNES', '14:00 hrs', '22:00 hrs', '56-1707-5102', 7, NULL, '2022-11-25 15:33:32', '2022-11-25 15:33:32'),
+(38, 'MARÍA DEL CARMEN', 'SÁNCHEZ ALDAS', 'pabsmaryca@hotmail.com', NULL, NULL, '$2y$10$sCZv1xu3ts0jm2WlhBajsekTJCXbZPSF38VED7D86mnxBqbCiOawy', 6, 'enlace', 'NOCTURNO', 'LUNES A DOMINGO', '21:00 hrs', '8:00 hrs', '55-1641-6935', 7, NULL, '2022-11-25 15:35:14', '2022-11-25 15:35:14'),
+(39, 'EMMANUEL', 'SOTO LARA', 'emalara2612@gmail.com', NULL, NULL, '$2y$10$p3F3deB.mJ0cVWxaMB3IxeaDTeIZNr/5F4Ni3Kd2ZYpHlNYcrj2Km', 6, 'enlace', 'NOCTURNO', 'LUNES A DOMINGO', '21:00 hrs', '8:00 hrs', '56-11-24-65-02', 7, NULL, '2022-11-25 15:37:02', '2022-11-25 15:37:02'),
+(40, 'HAROLDI HUMMELI', 'HERMIDA GONZÁLEZ', 'hummelihermida@gmail.com', NULL, NULL, '$2y$10$ScgnVckl7TXDYxxD7x4ZTe9d/onJ8l5FnD7uIc/N9iq1MpNT04XP6', 6, 'enlace', NULL, 'SAB, DOM Y FEST.', '07:00 hrs', '22:00 hrs', '55-1452-2705', 7, NULL, '2022-11-25 15:38:52', '2022-11-25 15:38:52'),
+(41, 'RICARDO DANIEL', 'FLORES HUERTA', 'dany_flores_h@hotmail.com', NULL, NULL, '$2y$10$AiZtOlYuFyNngQVgG9KbV.aMo/zexDWwxAGLOYUljLaO9Fp7cNZ9O', 7, 'enlace', 'MATUTINO', 'LUNES A VIERNES', '07:00 hrs', '15:00 hrs', '55-6677-1779', 6, NULL, '2022-11-25 15:41:37', '2022-11-25 15:41:37'),
+(42, 'ALEJANDRO IVÁN', 'SÁNCHEZ FLORES', 'drovan25@hotmail.com', NULL, NULL, '$2y$10$aDiVJnUZhqCwyPRE/SJPLeAuEkdEAIQeXjVdPk..TTuxzqcNaoaDq', 7, 'enlace', 'VESPERTINO', 'LUNES A VIERNES', '14:00 hrs', '22:00 hrs', '55-5497-5339', 6, NULL, '2022-11-25 15:43:49', '2022-11-25 15:43:49'),
+(43, 'TANIA ANGÉLICA', 'NAVA SOTO', 'tnaso123@gmail.com', NULL, NULL, '$2y$10$znvaYI4kBwSLgATimMo02OHrsO72D2ZJRa2WKyK1i8gmFOB5lGYZa', 7, 'enlace', 'NOCTURNO', 'LUNES A DOMINGO', '21:00 hrs', '8:00 hrs', '55-7337-3377', 6, NULL, '2022-11-25 15:46:33', '2022-11-25 15:46:33'),
+(44, 'GIOVANNI', 'ESTEBAN GUZMÁN', 'Giovanni.esteban.guzman@gmail.com', NULL, NULL, '$2y$10$yof/5VGmWUFBWEzSvP/3EemRAT30Th7SavjIzJHkBuUiWkekgk9Uq', 7, 'enlace', 'NOCTURNO', 'LUNES A DOMINGO', '21:00 hrs', '8:00 hrs', '55-7812-2014', 6, NULL, '2022-11-25 15:49:26', '2022-11-25 15:49:26'),
+(45, 'STEPHANIE DANIELA', 'ARAUJO SALGADO', 'mayo.260596@gmail.com', NULL, NULL, '$2y$10$4lSmjknBuo1qv3t2XYAnXObq6MRcS2lne9JgdU8iSO2WueT5nb9rW', 7, 'enlace', NULL, 'SAB, DOM Y FEST.', '07:00 hrs', '22:00 hrs', '55-3025-0324', 6, NULL, '2022-11-25 15:52:09', '2022-11-25 15:52:09'),
+(46, 'ROSA MARÍA', 'ABONCE ROSALES', 'r_abonce@hotmail.com', NULL, NULL, '$2y$10$sW1sYXh4GL43bAJDPRrEZO.ScDjcAfwUJLRTFD7SL.Cmmmx/8c6Pe', 8, 'enlace', 'MATUTINO', 'LUNES A VIERNES', '07:00 hrs', '15:00 hrs', '55-2065-8636', 6, NULL, '2022-11-25 15:53:50', '2022-11-25 15:53:50'),
+(47, 'LIZETH DEL CARMEN', 'COBAXIN PUCHETA', 'liz.cobaxin98@gmail.com', NULL, NULL, '$2y$10$wg..FhdjxUGLZggMizHNUu/mdwfdvYK7NWEZZDHSezeTl3.7ckqLa', 8, 'enlace', 'VESPERTINO', 'LUNES A VIERNES', '14:00 hrs', '22:00 hrs', '55-1586-6012', 6, NULL, '2022-11-25 15:55:51', '2022-11-25 15:55:51'),
+(48, 'DENISSE', 'VILLARREAL NARVÁEZ', 'psicodenvn@gmail.com', NULL, NULL, '$2y$10$osi8DiKJY1rrgbPTpSSrfOPVTTwHW4ILjQSiCiy0/vUMW54h1phKe', 8, 'enlace', 'NOCTURNO', 'LUNES A DOMINGO', '21:00 hrs', '8:00 hrs', '55-8688-4062', 6, NULL, '2022-11-25 15:59:27', '2022-11-25 15:59:27'),
+(49, 'RAÚL', 'HERNÁNDEZ ORTIZ', '060197rulis@gmail.com', NULL, NULL, '$2y$10$wlEl3ExN7fTlxAUwmKe8K.hhwGM6qpQnDxG19SbbcH9R9RXFDkAxy', 8, 'enlace', 'NOCTURNO', 'LUNES A DOMINGO', '21:00 hrs', '8:00 hrs', '55-4347-4370', 6, NULL, '2022-11-25 16:00:45', '2022-11-25 16:00:45'),
+(50, 'CLAUDIA ALEJANDRA', 'PIÑA JIMENEZ', 'claudiaalejandrapinajimenez@gmail.com', NULL, NULL, '$2y$10$0VPPgKhHIT1kHkHjYtfddum5QBqko3NPZU3qhFWKGwGx/srHscXt6', 8, 'enlace', NULL, 'SAB, DOM Y FEST.', '07:00 hrs', '22:00 hrs', '55-3735-9550', 6, NULL, '2022-11-25 16:02:23', '2022-11-25 16:02:23'),
+(52, 'MÓNICA ROSARIO', 'AMAYA DOMINGUEZ', 'monica.amaya@issste.gob.mx', '2023-01-27 20:29:48', NULL, '$2y$10$qtCM0TMmcaAwtYJg9KCMCOAbVv886i9YnqhTwMLPGQKEe.QlgUzHq', 9, 'subcoordinador', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '2023-01-28 02:29:48'),
+(53, 'MARIA DE LOURDES', 'RODRIGUEZ IYYESCAS', 'maria.rodriguez@issste.gob.mx', '2022-12-09 10:29:47', NULL, '$2y$10$W6ADNucV9yvirB.V1CmigOaeVeMnfsvpKemfpStZaOJhBLkcvo56S', 10, 'subcoordinador', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
+(54, 'YURIDIA', 'CASTRO ALVAREZ', 'yuridia.castro@issste.gob.mx', '2022-12-09 10:37:03', NULL, '$2y$10$Atsn4m4rd3JALDlMFIEei.rSkN8LgJnYYYCtTb6HqCMmoQc8d6Pxi', 11, 'subcoordinador', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
+(55, 'JOSE LUIS', 'CONCHA VALDEZ', 'luis.concha@issste.gob.mx', '2022-12-09 10:37:03', NULL, '$2y$10$ZaSMfLfG0rDVARNXxa4eC.BctX7bVSaobnsono8JhxVaqLssHBNUa', 12, 'subcoordinador', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
+(56, 'LUIS MIGUEL', 'CUEVAS VILLANUEVA', 'luis.cuevasv@issste.gob.mx', '2022-12-09 10:37:03', NULL, '$2y$10$/g3AYcFkhcJR9qXpwFp4b./qDCmSYtIqZM4KF2KFAgResenJegeLu', 13, 'subcoordinador', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
+(57, 'JESUS', 'MALACARA MUÑIZ', 'je.malacara@issste.gob.mx', '2022-12-09 10:37:03', NULL, '$2y$10$XlnCMjKBqL1LGRj1Y3lKCe7SioYDrwsgQYb73W7RqySEusi31QcWm', 14, 'subcoordinador', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
+(58, 'MARCO ANTONIO', 'ROMERO LÓPEZ', 'marco.romerol@issste.gob.mx', '2022-12-09 10:37:03', NULL, '$2y$10$F22XtqJZnDD/E44Ga2or5uwAkVeeqiDimgKMdM6j6lBWYHFYIFKMS', 15, 'subcoordinador', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
+(59, 'MARIA GEMA', 'RUIZ GARCIA', 'maria.ruizgar@issste.gob.mx', '2022-12-09 10:37:03', NULL, '$2y$10$kfDyp/Xtd5OswYXGgLOtNeXXOG8JA8mbIR4N3lY4fF6RFFxgEXqr.', 16, 'subcoordinador', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
+(60, 'ROSA MARIA', 'BUSTAMANTES OBREGON', 'maria.bustamanteo@issste.gob.mx', '2022-12-09 10:37:03', NULL, '$2y$10$YmRbXpcP7sgqbHoqt1Hmv.pVpt1eOLWszXX3PYQh/7uPgXJIDhqMa', 17, 'subcoordinador', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
+(61, 'RAFAEL EMMANUEL', 'RUIZ GUATIROJO', 'r.ruizg@issste.gob.mx', '2022-12-09 10:37:03', NULL, '$2y$10$edWPQ96LQGkn/JCVoVsfUO46VtB1wYYBq.r.AlbZiL938VYw.WiLq', 18, 'subcoordinador', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
+(62, 'MARIA CRISTINA', 'PANTOJA SILVEIRA', 'maria.pantoja@issste.gob.mx', '2022-12-09 10:37:03', NULL, '$2y$10$TFBbinEIpd/nxVs5uhV/PekQtnKFTwSdvalP1SQNJvGy0gQregKfG', 19, 'subcoordinador', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
+(63, 'ERIKA', 'MORALES HERNANDEZ', 'erika.moralesh@issste.gob', '2022-12-09 11:52:23', NULL, '$2y$10$40Ki8ESKTz7aykIBpt3C6OdLDP.BNoNr53ZvS7TH4ugIJykEW1H5u', 9, 'enlace', 'MATUTINO', NULL, NULL, NULL, NULL, 52, NULL, NULL, NULL),
+(64, 'ROSA', 'MARTINEZ MARTINEZ', 'sarok0114@hotmail.com', '2022-12-09 11:52:23', NULL, '$2y$10$G4oKk8.ekkzHVS/mT3thIurg33qujvlT9lfg9pf4cFLbi/ijWw2K.', 9, 'enlace', 'VESPERTINO', NULL, NULL, NULL, NULL, 52, NULL, NULL, NULL),
+(65, 'ADRIANA', 'OLIVA FRAGOSO', 'adrioliva36@gmail.com', '2022-12-09 12:37:46', NULL, '$2y$10$wl4PwWslzsHfLNqTyZR8zeIBCNx2yrQ5WdrqYI15H1KYUnSrZtap6', 9, 'enlace', 'NOCTURNO', NULL, NULL, NULL, NULL, 52, NULL, NULL, NULL),
+(66, 'MARIO ALBERTO', 'NIETO SANCHEZ', 'marioa.nietosanchez@gmail.com', '2022-12-09 12:37:46', NULL, '$2y$10$ULyFSI4OANdQuagQPmIUGupLqn7qjusKIVnOtlaB2.qY0YfE6E4Iq', 9, 'enlace', 'NOCTURNO', NULL, NULL, NULL, NULL, 52, NULL, NULL, NULL),
+(67, 'NELLY JASMIN', 'GONZALEZ HERNANDEZ', 'nellygonzalezhernandez12@yahoo.com', '2023-01-27 20:45:27', NULL, '$2y$10$wrM9CC.Y6mCuOn8o2efesOv1x7HChLUHVirte0pjzuWwdy5LX4QnO', 9, 'enlace', 'SABADOS, DOMINGOS Y FESTIVOS', NULL, NULL, NULL, NULL, 52, NULL, NULL, '2023-01-28 02:45:27'),
+(68, 'CLAUDIA', 'PÉREZ ORTEGA', 'clausperez1969@gmail.com', '2022-12-09 12:41:22', NULL, '$2y$10$FErgSNqY0UUa7UGEmBG6XukBoI5VGZ2uxjeWqrnTiu.YykoALd112', 10, 'enlace', 'MATUTINO', NULL, NULL, NULL, NULL, 53, NULL, NULL, NULL),
+(80, 'JULIA CAROLINA', 'CORTES BOLAÑOS', 'juliacortes21@gmail.com', '2022-12-09 12:41:22', NULL, '$2y$10$ujeEbBz3SFx01Kk9SZu8Ee4llvqdE.Y2dlOQj/WaOF7UIzVzsEesi', 10, 'enlace', 'VESPERTINO', NULL, NULL, NULL, NULL, 53, NULL, NULL, NULL),
+(81, 'BEATRIZ ADRIANA', 'MONJARAZ SALAZAR', 'betymonjaraz201@gmail.com', '2022-12-09 12:41:22', NULL, '$2y$10$bdPPhm5Ul02N8svrSBC6POuwOSAuByXu1YcJdHz4UaCw707x8.7TO', 10, 'enlace', 'NOCTURNO', NULL, NULL, NULL, NULL, 53, NULL, NULL, NULL),
+(82, 'OMAR JAFET', 'MARTINEZ TRONCOSO', 'omarviruz@gmail.com', '2022-12-09 12:41:22', NULL, '$2y$10$AxiJsVrpbsj7sHCglKP.WeAoclrDqB74Z35M1XdPlSSuWsFQLDK0G', 10, 'enlace', 'NOCTURNO', NULL, NULL, NULL, NULL, 53, NULL, NULL, NULL),
+(83, 'GABRIELA VERENICE', 'AGUILAR MUÑOZ', 'gabyaviacion@hotmail.com', '2022-12-09 12:41:22', NULL, '$2y$10$6DkDVX3.PkusBBQf8dNhoOYf.51c8tqAJM3CtQqMoktW092uF9use', 10, 'enlace', 'SABADOS, DOMINGOS Y FESTIVOS', NULL, NULL, NULL, NULL, 53, NULL, NULL, NULL),
+(84, 'MARIA GUADALUPE', 'JÁUREGUI VENEGAS', 'lupissue_2@hotmail.com', '2022-12-09 12:59:00', NULL, '$2y$10$g79ggnE8u9PvZdlSz07.YuXwyJMFS3mi4RVRhiadVIcZ7odjXb.qe', 11, 'enlace', 'MATUTINO', NULL, NULL, NULL, NULL, 54, NULL, NULL, NULL),
+(85, 'MAYRA YADIRA', 'GUTIÉRREZ CHAVIRA', 'yadirag63@hotmail.com', '2022-12-09 12:59:00', NULL, '$2y$10$SCbdOoPo70VC.V3O/0xCe.5uY4dI.8vGI5HZUx10ZfioQDYJ0m7Lq', 11, 'enlace', 'VESPERTINO', NULL, NULL, NULL, NULL, 54, NULL, NULL, NULL),
+(86, 'ELBA SUSANA', 'FLORES OROSCO', 'elbasusana_75@hotmail.com', '2022-12-09 12:59:00', NULL, '$2y$10$P1GM48rMKVrvHtqK4hbTkOyklJnpJR9NKFuIm5w2SfV4P6HaTw2r2', 11, 'enlace', 'NOCTURNO', NULL, NULL, NULL, NULL, 54, NULL, NULL, NULL),
+(87, 'ALEJANDRO', 'AGUAYO CERVANTES', 'alejandro.a.c@outlook.com', '2022-12-09 12:59:00', NULL, '$2y$10$8atzE16gNzTLTQLdjqq5PO2t9xkIi2Yqyuh48ifmTej5RSyIeJdSm', 11, 'enlace', 'NOCTURNO', NULL, NULL, NULL, NULL, 54, NULL, NULL, NULL),
+(88, 'ERIKA JAZEL', 'ENRIQUE BAEZA', 'erikajazelbaeza@gmail.com', '2022-12-09 12:59:00', NULL, '$2y$10$irwj4SdyA8tLfEOafMG5pumkaYgYRZOvPkPn6ARxVA6jGs4sLCaVS', 11, 'enlace', 'SABADOS, DOMINGO Y FESTIVOS', NULL, NULL, NULL, NULL, 54, NULL, NULL, NULL),
+(89, 'MILAINER DESIREÉ', 'GUTIERREZ ALVARADO', 'lm.milainerguitierrez@gmail.com', '2022-12-09 12:59:00', NULL, '$2y$10$L3BXJu0OTxOixLRlgNYZQuJCHT/TIIAyviJwvJ6ophODytNvBkQEm', 12, 'enlace', 'MATUTINO', NULL, NULL, NULL, NULL, 55, NULL, NULL, NULL),
+(90, 'MIRIAM', 'PAYAN CHAVEZ', 'millyperezur@gmail.com', '2022-12-09 12:59:00', NULL, '$2y$10$fhE1anjhdrXDjVLUpcm7keMTpz3elgm4PU3BKCgoEKnmGuFZOYN7W', 12, 'enlace', 'VESPERTINO', NULL, NULL, NULL, NULL, 55, NULL, NULL, NULL),
+(91, 'YULIANA', 'VELAZQUEZ PANTOJA', 'yuli.vel.pa@gmail.com', '2022-12-09 12:59:00', NULL, '$2y$10$aeZNoBdVKkEj8OZbORvGy.bUTIgTvnTOxMIvKcPGcdCn.R4ux.546', 12, 'enlace', 'NOCTURNO', NULL, NULL, NULL, NULL, 55, NULL, NULL, NULL),
+(92, 'ANA MARIA', 'ROSAS CHANOEVA', 'anamariarosaschanoeva@gmail.com', '2022-12-09 12:59:00', NULL, '$2y$10$CGE3fc8QRIcxFKrw/emb1ORnr0i0rZ9keJIoKuoe7FAE.aY5NOXya', 12, 'enlace', 'NOCTURNO', NULL, NULL, NULL, NULL, 55, NULL, NULL, NULL),
+(93, 'HIDALGO', 'IBARRA VEGA', 'hivend403@gmail.com', '2022-12-09 12:59:00', NULL, '$2y$10$zpwVQw25P1GPJSAEIDxSBegRulLzc7d.3rW07CIi8xDos8dqXfmfW', 12, 'enlace', 'SABADOS, DOMINGO Y FESTIVOS', NULL, NULL, NULL, NULL, 55, NULL, NULL, NULL),
+(94, 'SONIA', 'OCAMPO ROMÁN', 'psc.sonia.or@gmail.com', '2022-12-09 13:51:07', NULL, '$2y$10$cBWuZXItldRPtWyYueZ7aOt4xF2D5ayvpX20miM.Yma3XdVrdBgsi', 13, 'enlace', 'MATUTINO', NULL, NULL, NULL, NULL, 56, NULL, NULL, NULL),
+(95, 'DAYAN ANTONIO', 'FLORES GABRIEL', 'psic.dayanflores@gmail.com', '2022-12-09 13:51:07', NULL, '$2y$10$..77MDsKYNKa5P452Zvi/eh3ilcpo6DWPan/t0aAJaYfQ5D4NMiJ2', 13, 'enlace', 'VESPERTINO', NULL, NULL, NULL, NULL, 56, NULL, NULL, NULL),
+(96, 'MONSERRAT', 'FARFÁN MENDOZA', 'psicmfarfan@gmail.com', '2022-12-09 13:51:07', NULL, '$2y$10$cotr0oyM9tQ19gKgXWUTxOWaVVVSV.UIQovkhZjIDR/T2oSpmAiTi', 13, 'enlace', 'NOCTURNO', NULL, NULL, NULL, NULL, 56, NULL, NULL, NULL),
+(97, 'KARLA MICHELLE', 'AVILÉS LUGO', 'mich.avil1996@hotmail.com', '2022-12-09 13:51:07', NULL, '$2y$10$Zj48bad1hP2DaLL4pV2ht.5lTvx.voNeIsXsAHE/C9qJ9dTM.FrAi', 13, 'enlace', 'NOCTURNO', NULL, NULL, NULL, NULL, 56, NULL, NULL, NULL),
+(98, 'SERGIO ALEJANDRO', 'MONTALVO SANCHEZ', 'sams_ian@hotmail.com', '2022-12-09 13:51:07', NULL, '$2y$10$dkU/P4sVcnoRT/FPZakV6eBHRJ9ETlFdaS8mtu1LQslUaN9gucCJe', 13, 'enlace', 'SABADOS, DOMINGOS Y FESTIVOS', NULL, NULL, NULL, NULL, 56, NULL, NULL, NULL),
+(99, 'ANA KAREN', 'IBARRA GARCIA', 'karen.7191@gmail.com', '2022-12-09 13:51:07', NULL, '$2y$10$EMNlz0ABXNYAM73wGxNbh.9nFUCCcnmEREFB5w5mlWue.DB4PV9L2', 14, 'enlace', 'MATUTINO', NULL, NULL, NULL, NULL, 57, NULL, NULL, NULL),
+(100, 'MARIA ANTONIA', 'OCAÑA PÉREZ', 'mariocanas04@outlook.com', '2022-12-09 13:51:07', NULL, '$2y$10$4bnk6jcGlHLSXoUNBLO5Ue2tNewVpHxP/ofGrHr6Jxb9MRBSPrWym', 14, 'enlace', 'VESPERTINO', NULL, NULL, NULL, NULL, 57, NULL, NULL, NULL),
+(101, 'EVA', 'ARREDONDO MIRANDA', 'eva_dir@hotmail.com', '2022-12-09 13:51:07', NULL, '$2y$10$lwRoxGaaBXKngzdxaMqPhe41MtK7VbBAplf4sdoptrgyHRG/UV8IO', 14, 'enlace', 'NOCTURNO', NULL, NULL, NULL, NULL, 57, NULL, NULL, NULL),
+(102, 'DANIEL DAVID', 'VILLALOBOS ZOLANO', 'man_81jm@hotmail.com', '2022-12-09 13:51:07', NULL, '$2y$10$vLEq8V9uVCA3g1hIch5FGuYVhh60sZw2f0t1rboZskp8SwyqOUUaq', 14, 'enlace', 'NOCTURNO', NULL, NULL, NULL, NULL, 57, NULL, NULL, NULL),
+(103, 'MARTHA ALICIA', 'HUERTA SALAS', 'ali_salas71@hotmail.com', '2022-12-09 13:51:07', NULL, '$2y$10$BPgS2hSSt/2i5/eQ9CAcCeCNbGx.1p9pqGQt1ElGqUYU1gYr5C1Sm', 14, 'enlace', 'SABADOS, DOMINGOS Y FESTIVOS', NULL, NULL, NULL, NULL, 57, NULL, NULL, NULL),
+(104, 'MIRIAM', 'VELASCO MARÍN', 'psicoterapiacuentaconmigo@gmail.com', '2022-12-09 13:51:07', NULL, '$2y$10$K.Clp7cPAhYayG6ZE00GveNKlX9FGmmuVapPTqClY.1M4F/qOF722', 15, 'enlace', 'MATUTINO', NULL, NULL, NULL, NULL, 58, NULL, NULL, NULL),
+(105, 'MARIA SOLEDAD', 'DANIEL LÓPEZ', 'soledad.daniel@gmail.com', '2022-12-09 13:51:07', NULL, '$2y$10$vjgi3hAFKtf7CoyjBeojR.X5FgV/Aj1teiGgEFt8JFk5M7jU9xaDa', 15, 'enlace', 'VESPERTINO', NULL, NULL, NULL, NULL, 58, NULL, NULL, NULL),
+(106, 'EVELYN MONSERRAT', 'RAMÍREZ ÁVILA', 'monseve@live.com', '2022-12-09 13:51:07', NULL, '$2y$10$RcnVpqo0IHHjGk5kQTIRTOH/Vslk3kPAqvPwgLGq8vuwJ.bF2g/yy', 15, 'enlace', 'NOCTURNO', NULL, NULL, NULL, NULL, 58, NULL, NULL, NULL),
+(107, 'KARLA KARINA', 'GALÁN SÁNCHEZ', 'karlagalan25@gmail.com', '2022-12-09 13:51:07', NULL, '$2y$10$nt5W00bNBZLje5PAUcZkVehgI1dsrY8mPgk.gdmRRiFFkevToYDMy', 15, 'enlace', 'NOCTURNO', NULL, NULL, NULL, NULL, 58, NULL, NULL, NULL),
+(108, 'ORLANDO', 'RAMÍREZ GARRCÍA', 'ragfe7@gmail.com', '2022-12-09 13:51:07', NULL, '$2y$10$rPDfmr/n1vPrfpaUKkBCsOcElxCqdUW.5RthWOXu0wcjO3WoSThNO', 15, 'enlace', 'SABADOS, DOMINGOS Y FESTIVOS', NULL, NULL, NULL, NULL, 58, NULL, NULL, NULL),
+(109, 'PAULINA ALEYETZI', 'CARRETO ROMERO', 'aleyetzi23@gmail.com', '2022-12-09 13:51:07', NULL, '$2y$10$l/mDq5CUTF92CvQO2dABCOswJWtSf9S20M0Tz6bA8D5EA3Sje9gtu', 16, 'enlace', 'MATUTINO', NULL, NULL, NULL, NULL, 59, NULL, NULL, NULL),
+(110, 'DIANA ELIZABETH', 'GÁNDARA GUZMÁN', 'diana.elizabeth.gandarag@gmail.com', '2022-12-09 13:51:07', NULL, '$2y$10$QieLq9l4ab3klPuciDCvJ.FGCtcjn6kRxg5d.Vrdmd4a3THCZAKeG', 16, 'enlace', 'VESPERTINO', NULL, NULL, NULL, NULL, 59, NULL, NULL, NULL),
+(111, 'AKARI', 'PÉREZ LIMA', 'akaripez18@gmail.com', '2022-12-09 13:51:07', NULL, '$2y$10$rgE0VGcS51nUV8dcmKPBrehT.jIyfeF1FSC1dd2na/BT8yGvgE1Yu', 16, 'enlace', 'NOCTURNO', NULL, NULL, NULL, NULL, 59, NULL, NULL, NULL),
+(112, 'FEDERICO', 'GUTIÉRREZ ROBLES', 'fedegutrob@yahoo.com.mx', '2022-12-09 13:51:07', NULL, '$2y$10$GfdyywWDhxUDOv68XqHKWOaMBV65fbx4ysPlpdSw9X2xwM54zl0VO', 16, 'enlace', 'NOCTURNO', NULL, NULL, NULL, NULL, 59, NULL, NULL, NULL),
+(113, 'BRICEIDA SUHEY', 'HERNANDEZ BEDOYA', 'briceidahernandez_01@outlook.com', '2022-12-09 13:51:07', NULL, '$2y$10$BrPhk80mcpXpgm71t8CnrO64TXrpbtbzhi/JxDL.BBkh/f0N./qJy', 17, 'enlace', 'MATUTINO', NULL, NULL, NULL, NULL, 60, NULL, NULL, NULL),
+(114, 'LILIA DENISSE', 'PEREZ FELIX', 'denizfelix@hotmail.com', '2022-12-09 13:51:07', NULL, '$2y$10$cH6M1ECZQ7YoQtghkJg8A.CvuXoCKDwaccEvJmc7VybXYqCWEh2bC', 17, 'enlace', 'VESPERTINO', NULL, NULL, NULL, NULL, 60, NULL, NULL, NULL),
+(115, 'KYMBERLY DINORA', 'SAUCEDA ZURITA', 'zuritasaucedakimberly@hotmail.com', '2022-12-09 13:51:07', NULL, '$2y$10$QReKnHaAo/16BhGSkUQNnO0Gjk82Zkblqs0o6TunVKeaYDw.Lx36K', 17, 'enlace', 'NOCTURNO', NULL, NULL, NULL, NULL, 60, NULL, NULL, NULL),
+(116, 'MARIA CECILIA', 'GASTELUM ESPINOZA', 'mcge2411@gmail.com', '2022-12-09 13:51:07', NULL, '$2y$10$0AxScZOfhscmRupkvWI/C.sBX92USzTbBye.BHk7658jpERYUQKSu', 17, 'enlace', 'NOCTURNO', NULL, NULL, NULL, NULL, 60, NULL, NULL, NULL),
+(117, 'CITLALY JOAQUINA', 'BOJORQUEZ RODRIGUEZ', 'rodriguezcitla19@gmail.com', '2023-01-27 21:15:12', NULL, '$2y$10$eqzby1X/3MLltitzwIJSGe0xQZ0DYfGiY/DxX8/IeeI3h77QMd5di', 17, 'enlace', 'SABADOS, DOMINGOS Y FESTIVOS', NULL, NULL, NULL, NULL, 60, NULL, NULL, '2023-01-28 03:15:12'),
+(118, 'VICTORIANA', 'CISNEROS VERORA', 'victorianacverora@hotmail.com', '2022-12-09 13:51:07', NULL, '$2y$10$aXAIFOWaZbaoQ3AgurxjEO/fPtk1k.f1vJ7b07r2TReuiLjcJJpMW', 18, 'enlace', 'MATUTINO', NULL, NULL, NULL, NULL, 61, NULL, NULL, NULL),
+(119, 'JOSE EMMANUEL', 'MACEGOZA AMAYA', 'macegoza12@gmail.com', '2022-12-09 13:51:07', NULL, '$2y$10$CAW5YnuR0UezJmqFcSHoJ.jTwcu7z/Tf/BW/9EBZvfEqkUnw5agDu', 18, 'enlace', 'VESPERTINO', NULL, NULL, NULL, NULL, 61, NULL, NULL, NULL),
+(120, 'SOFIA', 'HERNANDEZ LIBREROS', 'sofiahl279@hotmail.com', '2022-12-09 13:51:07', NULL, '$2y$10$hhsxf2y.eV0IinOU9gE0YOOYc/zRvFxGmQmdIIz8JwUU71BCQe1cu', 18, 'enlace', 'NOCTURNO', NULL, NULL, NULL, NULL, 61, NULL, NULL, NULL),
+(121, 'EVA LETICIA', 'HUERTA CASAS', 'elety.hc02@gmail.com', '2022-12-09 13:51:07', NULL, '$2y$10$c6C7HiRmWgyVtMlevxsEkeUNbks3FyDgRVsHYBhQ6PZmOBRF6Wx4q', 18, 'enlace', 'NOCTURNO', NULL, NULL, NULL, NULL, 61, NULL, NULL, NULL),
+(122, 'ADRIANA', 'AGUILAR RODRIGUEZ', 'adryana@gmail.com', '2022-12-09 13:51:07', NULL, '$2y$10$Mh2K3vSN/NwMe1XVs53eGu7RPwhNzHCL6fwGogRg3jQ9AF3saU/X6', 18, 'enlace', 'SABADOS, DOMINGOS Y FESTIVOS', NULL, NULL, NULL, NULL, 61, NULL, NULL, NULL),
+(123, 'WEMDY PATRICIA', 'CAMPOS RUIZ', 'campos_ruiz1908@hotmail.com', '2022-12-09 15:59:12', NULL, '$2y$10$Am5TI/PZoULyDioEmFC1ieAGC8J4SSfAcP2zmtVn8tsqRW5f5epjG', 19, 'enlace', 'MATUTINO', NULL, NULL, NULL, NULL, 62, NULL, NULL, NULL),
+(124, 'LOURDES', 'CANTO TABASCO', 'cantotabascoml@gmail.com', '2022-12-09 15:59:12', NULL, '$2y$10$DTdeGZm83nbsdlczyzm3tOyF3YUdM1c62YbmysYSjRMBD21zEgHjm', 19, 'enlace', 'VESPERTINO', NULL, NULL, NULL, NULL, 62, NULL, NULL, NULL),
+(125, 'JORGE ALBERTO', 'EUAN UICAB', 'je_ts2411@hotmail.com', '2022-12-09 15:59:12', NULL, '$2y$10$nlQcHMbF81vWcf6xKwCUQ.UF7fvuGiIweCNyfHPkGv9avZE6KkHuu', 19, 'enlace', 'NOCTURNO', NULL, NULL, NULL, NULL, 62, NULL, NULL, NULL),
+(126, 'JOSE JESUS', 'CANTO OJEDA', 'cantojesus2@gmail.com', '2022-12-09 15:59:12', NULL, '$2y$10$awNzWa6sg5v5ahgoKqRwieKRMVKZxA8XlZI/4IqGfMpFPYsCUqymm', 19, 'enlace', 'VESPERTINO', NULL, NULL, NULL, NULL, 62, NULL, NULL, NULL),
+(127, 'JOSE MARTIN', 'MEDINA ACERETO', 'martinmedina@live.com.mx', '2022-12-09 15:59:12', NULL, '$2y$10$fTMPWcbgN2/racsGDvL3wOnWpBweb9qqYZKbzqXaIGemE0nIE2/fO', 19, 'enlace', 'SABADOS, DOMINGOS Y FESTIVOS', NULL, NULL, NULL, NULL, 62, NULL, NULL, NULL),
+(128, 'PILAR', 'PEÑA PERDO', 'pilardepp6q@gmail.com', '2023-01-27 21:29:48', NULL, '$2y$10$vPdIczkA.xTdPOws3yNzsOS.bUOTNx3vJpTmig9EeVQKzL8WbG/I.', 16, 'enlace', 'SABADOS, DOMINGOS Y FESTIVOS', NULL, NULL, NULL, NULL, 59, NULL, NULL, '2023-01-28 03:29:48');
 
 --
--- Índices para tablas volcadas
---
-
---
--- Indices de la tabla `actividades`
---
-ALTER TABLE `actividades`
-  ADD PRIMARY KEY (`id`),
-  ADD KEY `user_id` (`user_id`),
-  ADD KEY `hospital_id` (`hospital_id`);
-
---
--- Indices de la tabla `admins`
---
-ALTER TABLE `admins`
-  ADD PRIMARY KEY (`id`),
-  ADD UNIQUE KEY `admins_email_unique` (`email`);
-
---
--- Indices de la tabla `censos`
---
-ALTER TABLE `censos`
-  ADD PRIMARY KEY (`id`),
-  ADD KEY `hospital_id` (`hospital_id`),
-  ADD KEY `creado_por` (`creado_por`);
-
---
--- Indices de la tabla `failed_jobs`
---
-ALTER TABLE `failed_jobs`
-  ADD PRIMARY KEY (`id`),
-  ADD UNIQUE KEY `failed_jobs_uuid_unique` (`uuid`);
-
---
--- Indices de la tabla `historico_censo`
---
-ALTER TABLE `historico_censo`
-  ADD PRIMARY KEY (`id`),
-  ADD KEY `censo_id` (`censo_id`),
-  ADD KEY `creado_por` (`creado_por`);
-
---
--- Indices de la tabla `hospitales`
---
-ALTER TABLE `hospitales`
-  ADD PRIMARY KEY (`id`),
-  ADD KEY `subcordinador_id` (`subcordinador_id`);
-
---
--- Indices de la tabla `incidencias`
---
-ALTER TABLE `incidencias`
-  ADD PRIMARY KEY (`id`),
-  ADD KEY `user_id` (`user_id`),
-  ADD KEY `user_id_2` (`user_id`),
-  ADD KEY `hospital_id` (`hospital_id`),
-  ADD KEY `actividad_id` (`actividad_id`);
-
---
--- Indices de la tabla `incidencia_historico`
---
-ALTER TABLE `incidencia_historico`
-  ADD PRIMARY KEY (`id`),
-  ADD KEY `incidencia_id` (`incidencia_id`),
-  ADD KEY `user_id` (`user_id`);
-
---
--- Indices de la tabla `migrations`
---
-ALTER TABLE `migrations`
-  ADD PRIMARY KEY (`id`);
-
---
--- Indices de la tabla `password_resets`
---
-ALTER TABLE `password_resets`
-  ADD KEY `password_resets_email_index` (`email`);
-
---
--- Indices de la tabla `personal_access_tokens`
---
-ALTER TABLE `personal_access_tokens`
-  ADD PRIMARY KEY (`id`),
-  ADD UNIQUE KEY `personal_access_tokens_token_unique` (`token`);
-
---
--- Indices de la tabla `reportes`
---
-ALTER TABLE `reportes`
-  ADD PRIMARY KEY (`id`),
-  ADD KEY `user_id` (`user_id`),
-  ADD KEY `hospital_id` (`hospital_id`);
-
---
--- Indices de la tabla `users`
---
-ALTER TABLE `users`
-  ADD PRIMARY KEY (`id`),
-  ADD UNIQUE KEY `users_email_unique` (`email`),
-  ADD KEY `hospital_id` (`hospital_id`);
-
---
--- AUTO_INCREMENT de las tablas volcadas
+-- Constraints for dumped tables
 --
 
 --
--- AUTO_INCREMENT de la tabla `actividades`
---
-ALTER TABLE `actividades`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=50;
-
---
--- AUTO_INCREMENT de la tabla `admins`
---
-ALTER TABLE `admins`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT;
-
---
--- AUTO_INCREMENT de la tabla `censos`
---
-ALTER TABLE `censos`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
-
---
--- AUTO_INCREMENT de la tabla `failed_jobs`
---
-ALTER TABLE `failed_jobs`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
-
---
--- AUTO_INCREMENT de la tabla `historico_censo`
---
-ALTER TABLE `historico_censo`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
-
---
--- AUTO_INCREMENT de la tabla `hospitales`
---
-ALTER TABLE `hospitales`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=20;
-
---
--- AUTO_INCREMENT de la tabla `incidencias`
---
-ALTER TABLE `incidencias`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=19;
-
---
--- AUTO_INCREMENT de la tabla `incidencia_historico`
---
-ALTER TABLE `incidencia_historico`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=22;
-
---
--- AUTO_INCREMENT de la tabla `migrations`
---
-ALTER TABLE `migrations`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
-
---
--- AUTO_INCREMENT de la tabla `personal_access_tokens`
---
-ALTER TABLE `personal_access_tokens`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
-
---
--- AUTO_INCREMENT de la tabla `reportes`
---
-ALTER TABLE `reportes`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
-
---
--- AUTO_INCREMENT de la tabla `users`
---
-ALTER TABLE `users`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=129;
-
---
--- Restricciones para tablas volcadas
---
-
---
--- Filtros para la tabla `actividades`
+-- Constraints for table `actividades`
 --
 ALTER TABLE `actividades`
   ADD CONSTRAINT `actividades_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`),
   ADD CONSTRAINT `actividades_ibfk_2` FOREIGN KEY (`hospital_id`) REFERENCES `hospitales` (`id`);
 
 --
--- Filtros para la tabla `censos`
+-- Constraints for table `censos`
 --
 ALTER TABLE `censos`
   ADD CONSTRAINT `censos_ibfk_1` FOREIGN KEY (`hospital_id`) REFERENCES `hospitales` (`id`),
   ADD CONSTRAINT `censos_ibfk_2` FOREIGN KEY (`creado_por`) REFERENCES `users` (`id`);
 
 --
--- Filtros para la tabla `historico_censo`
+-- Constraints for table `historico_censo`
 --
 ALTER TABLE `historico_censo`
   ADD CONSTRAINT `historico_censo_ibfk_1` FOREIGN KEY (`censo_id`) REFERENCES `censos` (`id`),
   ADD CONSTRAINT `historico_censo_ibfk_2` FOREIGN KEY (`creado_por`) REFERENCES `users` (`id`);
 
 --
--- Filtros para la tabla `hospitales`
+-- Constraints for table `hospitales`
 --
 ALTER TABLE `hospitales`
   ADD CONSTRAINT `hospitales_ibfk_1` FOREIGN KEY (`subcordinador_id`) REFERENCES `users` (`id`);
 
 --
--- Filtros para la tabla `incidencias`
+-- Constraints for table `incidencias`
 --
 ALTER TABLE `incidencias`
   ADD CONSTRAINT `incidencias_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`),
@@ -2711,14 +2560,14 @@ ALTER TABLE `incidencias`
   ADD CONSTRAINT `incidencias_ibfk_3` FOREIGN KEY (`actividad_id`) REFERENCES `actividades` (`id`);
 
 --
--- Filtros para la tabla `incidencia_historico`
+-- Constraints for table `incidencia_historico`
 --
 ALTER TABLE `incidencia_historico`
   ADD CONSTRAINT `incidencia_historico_ibfk_1` FOREIGN KEY (`incidencia_id`) REFERENCES `incidencias` (`id`),
   ADD CONSTRAINT `incidencia_historico_ibfk_2` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`);
 
 --
--- Filtros para la tabla `users`
+-- Constraints for table `users`
 --
 ALTER TABLE `users`
   ADD CONSTRAINT `users_ibfk_1` FOREIGN KEY (`hospital_id`) REFERENCES `hospitales` (`id`);
