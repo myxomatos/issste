@@ -24,6 +24,7 @@
                     <th>Tarea</th>
                     <th>Tipo de Actividad</th>
                     <th>Notas</th>
+                    <th>Hospital</th>
                     <th>Crear Incidencia</th>
                 </tr>
                 </thead>
@@ -41,6 +42,7 @@
                         <td class="textTransform">{{ $i->descripcion_actividad }}</td>
                         <td class="textTransform">{{ $i->descripcion_subactividad }}</td>
                         <td class="textTransform">{{ $i->notas }}</td>
+                        <td class="textTransform">{{Auth::user()->hospitales->nombre}}</td>
                         <td>
                             <li class="uk-text-center">
                                 <a href="{{ route('createIncidencias', $i->id) }}" uk-icon="icon: file-edit"></a>
