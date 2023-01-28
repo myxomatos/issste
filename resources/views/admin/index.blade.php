@@ -24,6 +24,7 @@
                     <th>Tarea</th>
                     <th>Tipo de Actividad</th>
                     <th>Notas</th>
+                    <th>Hospital</th>
                     <th>Crear Incidencia</th>
                 </tr>
                 </thead>
