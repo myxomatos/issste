@@ -56,7 +56,7 @@
                             @elseif ($i->hospital_id == 6)
                                 <td class="textTransform">CENTRO MÉDICO NACIONAL 20 DE NOVIEMBRE</td>
                             @elseif ($i->hospital_id == 7)
-                                <td class="textTransform">CENTRO MÉDICO NACIONAL 20 DE NOVIEMBRE</td>
+                                <td class="textTransform">H.R. LIC. ADOLFO LÓPEZ MATEOS</td>
                             @elseif ($i->hospital_id == 8)
                                 <td class="textTransform">H.G. TACUBA</td>
                             @elseif ($i->hospital_id == 9)

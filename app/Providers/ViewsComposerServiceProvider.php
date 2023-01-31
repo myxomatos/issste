@@ -2,6 +2,7 @@
 
 namespace App\Providers;
 
+use App\Models\Hospitales;
 use App\Models\Incidencias;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\ServiceProvider;
@@ -32,8 +33,9 @@ class ViewsComposerServiceProvider extends ServiceProvider
 
         view()->composer(['partials.header_home'], function ($view) {
             $usuario = Auth::User();
+            $hospitales = Hospitales::where('subcordinador_id',$usuario->id)->pluck('id')->toArray();
 //            $total_incidencias = Incidencias::where('hospital_id',$usuario->hospital_id)->where('status','pendiente')->count();
-            $notificacion = Incidencias::where('hospital_id',$usuario->hospital_id)
+            $notificacion = Incidencias::whereIn('hospital_id',$hospitales)
                 ->where('status','pendiente')
                 ->orderBy('id','desc')
                 ->get();
