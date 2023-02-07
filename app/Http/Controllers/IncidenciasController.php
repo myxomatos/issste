@@ -43,10 +43,18 @@ class IncidenciasController extends Controller
 
     public function editIncidencia($id){
         $usuario = Auth::User();
-        $usuarios = User::where('hospital_id',$usuario->hospital_id)->where('rol','!=','general')->get();
+        $usuarios = User::where('hospital_id',$usuario->hospital_id)
+            ->where('rol','enlace')
+           ->get();
+
+        $subcordinador = DB::table('hospitales')
+            ->select('users.name','users.apellido')
+            ->join ('users','users.id','=','hospitales.subcordinador_id' )
+            ->where('hospitales.id',$usuario->hospital_id)->first();
+
         if ($usuario->rol == 'coordinador' or $usuario->rol== 'subcoordinador' or $usuario->rol== 'enlace'){
             $incidencia = Incidencias::find($id);
-            return view('admin.editIncidencia', compact('incidencia','usuarios'));
+            return view('admin.editIncidencia', compact('incidencia','usuarios','subcordinador'));
         }else{
             return redirect()->route('homeIndexPanel');
         }

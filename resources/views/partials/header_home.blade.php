@@ -6,7 +6,7 @@
 
     
     <div id="notify" class="uk-navbar-right welcome" style="color: white">
-    <div id="notify" class="uk-navbar-center" style="color: white">
+    <div id="hospi" class="uk-navbar-center" style="color: white; font-size: 18px;">
     <p>{{Auth::user()->hospitales->nombre}}</p>
     </div>
         @if(Auth::User()->rol === 'subcoordinador')
@@ -22,7 +22,7 @@
                             counter=9;
                         }
                         $("#notify").load(window.location.href + " #notify" );
-                    }, 5000);
+                    }, 10000);
                 });
 
             </script>
@@ -30,12 +30,12 @@
                 @if( ($notificacion->count() > 0 ))
                     <div class="uk-inline uk-margin-right">
                         <span class="box_animation" type="button" uk-icon="icon: mail;ratio: 1.4"></span>
-                        <div uk-dropdown>
-                            <ul class="uk-list uk-list-bullet">
+                        <div uk-dropdown="animation: uk-animation-slide-top-small; animate-out: true">
+                            <ul class="uk-nav uk-dropdown-nav">
                                 @foreach($notificacion as $i)
-                                    <a href="{{ route('showIncidencia', $i->id) }}">
-                                        <li style="font-size: 18px">{{ $i->nombre }}</li>
-                                    </a>
+                                <li style="font-size: 14px">
+                                    <a href="{{ route('showIncidencia', $i->id) }}">{{ $i->nombre }}</a>
+                                </li>
                                  @endforeach
                             </ul>
                         </div>
@@ -48,7 +48,7 @@
 
         @else
         @auth
-        <p>{{Auth::user()->name}} {{Auth::user()->apellido}}</p>
+        <p style="color: white; font-size: 16px;">{{Auth::user()->name}} {{Auth::user()->apellido}}</p>
         
 
     @endauth
@@ -70,7 +70,7 @@
                 </ul>
             </div>
         <a href="{{route('logout')}}">
-            <button class="uk-button uk-button-default button_in_out">
+            <button style="font-size: 12px;" class="uk-button uk-button-default button_in_out">
                 Cerrar Sesión
             </button>
         </a>
