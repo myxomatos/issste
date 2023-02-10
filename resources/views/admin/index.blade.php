@@ -19,12 +19,12 @@
                 <thead>
                 <tr>
                     <th>Fecha / Hora</th>
+                    <th>Hospital</th>
                     <th>Nombre</th>
                     <th>Actividad</th>
                     <th>Tarea</th>
                     <th>Tipo de Actividad</th>
                     <th>Notas</th>
-                    <th>Hospital</th>
                     <th>Crear Incidencia</th>
                 </tr>
                 </thead>
@@ -33,15 +33,6 @@
                 @foreach($actividades as $i)
                     <tr>
                         <td class="textTransform">{{ $i->created_at }}</td>
-                        @if(Auth::User()->rol === 'enlace')
-                        <td class="textTransform">{{$i->user->name}} {{$i->user->apellido}}</td>
-                        @else
-                            <td class="textTransform">{{$i->enlace}}</td>
-                        @endif
-                        <td class="textTransform">{{ $i->nombre}}</td>
-                        <td class="textTransform">{{ $i->descripcion_actividad }}</td>
-                        <td class="textTransform">{{ $i->descripcion_subactividad }}</td>
-                        <td class="textTransform">{{ $i->notas }}</td>
                         @if(Auth::User()->rol === 'subcoordinador')
                             @if ($i->hospital_id == 1)
                                 <td class="textTransform">H.R. 1° DE OCTUBRE</td>
@@ -85,6 +76,15 @@
                         @else
                         <td class="textTransform">{{Auth::user()->hospitales->nombre}}</td>
                         @endif
+                        @if(Auth::User()->rol === 'enlace')
+                        <td class="textTransform">{{$i->user->name}} {{$i->user->apellido}}</td>
+                        @else
+                            <td class="textTransform">{{$i->enlace}}</td>
+                        @endif
+                        <td class="textTransform">{{ $i->nombre}}</td>
+                        <td class="textTransform">{{ $i->descripcion_actividad }}</td>
+                        <td class="textTransform">{{ $i->descripcion_subactividad }}</td>
+                        <td class="textTransform">{{ $i->notas }}</td>
                         <td>
                             <li class="uk-text-center">
                                 <a href="{{ route('createIncidencias', $i->id) }}" uk-icon="icon: file-edit"></a>
