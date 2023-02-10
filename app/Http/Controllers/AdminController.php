@@ -81,7 +81,6 @@ class AdminController extends Controller
                 ->join('users as subcordinador', 'subcordinador.id', '=', 'hospitales.subcordinador_id')
                 ->join('users as enlace', 'enlace.id', '=', 'actividades.user_id')
                 ->where('hospitales.subcordinador_id',$usuario->id)
-                ->where('actividades.status','pendiente')
                 ->get();
 
             $incidencias= DB::table('incidencias')
@@ -90,7 +89,8 @@ class AdminController extends Controller
                 ->join('users as subcordinador', 'subcordinador.id', '=', 'hospitales.subcordinador_id')
                 ->join('users as enlace', 'enlace.id', '=', 'incidencias.user_id')
                 ->join('incidencia_historico','incidencia_id', '=','incidencias.id')
-                ->where('incidencias.hospital_id',$hospitalesSubCoordinador)
+                ->where('hospitales.subcordinador_id',$usuario->id)
+                ->where('incidencias.status','pendiente')
                 ->where('incidencias.status','pendiente')
                 ->get();
 

@@ -42,10 +42,19 @@ class IncidenciasController extends Controller
     }
 
     public function editIncidencia($id){
+
         $usuario = Auth::User();
-        $usuarios = User::where('hospital_id',$usuario->hospital_id)
-            ->where('rol','enlace')
-           ->get();
+        if ($usuario->rol== 'subcoordinador'){
+            $incidencia = Incidencias::find($id);
+            $usuarios = User::where('hospital_id',$incidencia->hospital_id)
+                ->where('rol','enlace')
+                ->get();
+        }else{
+            $usuarios = User::where('hospital_id',$usuario->hospital_id)
+                ->where('rol','enlace')
+                ->get();
+        }
+
 
         $subcordinador = DB::table('hospitales')
             ->select('users.name','users.apellido')
