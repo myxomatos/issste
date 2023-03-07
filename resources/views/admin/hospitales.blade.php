@@ -16,7 +16,6 @@
                 <thead>
                 <tr>
                     <th>Nombre</th>
-                    <th>Descripcion</th>
                     <th>Status</th>
                     @if(Auth::User()->rol === 'coordinador')
                     <th>Acciones</th>
@@ -32,9 +31,7 @@
                         </td class="textTransform">
 
                         <td class="textTransform">
-                            {{ $hospital->descripcion }}
-                        </td class="textTransform">
-                        <td class="textTransform">
+                            
                             {{ $hospital->status }}
                         </td>
                         @if(Auth::User()->rol === 'coordinador')

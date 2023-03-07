@@ -6,7 +6,7 @@
         <div class="uk-visible@m uk-width-1-6@m">
             @include('partials.sidebarsub')
         </div>
-        <div class="uk-width-expand@m">
+        <div class="uk-width-expand@m uk-margin-large-top uk-margin-large-bottom">
 
             <div class="uk-card uk-card-default uk-width-1-3@m"style="background:#691c32 ">
 
@@ -21,7 +21,14 @@
                     <ul class="uk-list "style="color: white">
                         <li>{{ $usuario->email }}</li>
                         <li style="text-transform: capitalize">{{ $usuario->rol }}</li>
-                        <li>{{ $usuario->hospitales->nombre }}</li>
+                        @if(Auth::User()->rol === 'coordinador' or Auth::User()->rol === 'subcoordinador')
+                            @foreach($hospitales as $h)
+                                <li>{{ $h->nombre }}</li>
+                            @endforeach
+
+                        @else
+                            <li>{{ $usuario->hospitales->nombre }}</li>
+                         @endif
                         <li>{{ $usuario->turno}}</li>
                         <li>{{ $usuario->dias_laborales}}</li>
                         <li>{{ $usuario->horario_entrada}} a {{ $usuario->horario_salida}}</li>

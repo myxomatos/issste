@@ -34,8 +34,9 @@ CREATE TABLE IF NOT EXISTS `actividades` (
   `status` enum('pendiente','resuelto') COLLATE utf8_unicode_ci DEFAULT NULL,
   `descripcion_actividad` text COLLATE utf8_unicode_ci,
   `descripcion_subactividad` text COLLATE utf8_unicode_ci,
-  `notas` text COLLATE utf8_unicode_ci NOT NULL,
+  `notas` text COLLATE utf8_unicode_ci,
   `user_id` int(11) NOT NULL,
+  `cantidad` int(11) DEFAULT NULL,
   `hospital_id` int(11) NOT NULL,
   `fecha` date DEFAULT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
@@ -43,7 +44,7 @@ CREATE TABLE IF NOT EXISTS `actividades` (
   PRIMARY KEY (`id`),
   KEY `user_id` (`user_id`),
   KEY `hospital_id` (`hospital_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=52 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 -- --------------------------------------------------------
 
@@ -113,7 +114,8 @@ CREATE TABLE IF NOT EXISTS `censos` (
 DROP TABLE IF EXISTS `diagnostico`;
 CREATE TABLE IF NOT EXISTS `diagnostico` (
   `id` int(11) NOT NULL,
-  `nombre` text NOT NULL
+  `nombre` text NOT NULL,
+  PRIMARY KEY (`id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1;
 
 --
@@ -2371,7 +2373,7 @@ CREATE TABLE IF NOT EXISTS `reportes` (
   PRIMARY KEY (`id`),
   KEY `user_id` (`user_id`),
   KEY `hospital_id` (`hospital_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=15 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=16 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 -- --------------------------------------------------------
 

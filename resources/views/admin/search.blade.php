@@ -24,7 +24,7 @@
                     <th>Genero</th>
                     <th>Edad</th>
                     <th>RFC</th>
-                    <th>Hospital</th>
+                    <th>Acciones</th>
 
                 </tr>
                 </thead>
@@ -48,7 +48,12 @@
                             {{ $i->rfc }}
                         </td>
                         <td>
-                            {{ $i->hospital }}
+                        <a href="{{ route('editCenso',[$i->id]) }}">
+                                Editar
+                            </a><br>
+                            <a href="{{ route('showHistoricoCenso',[$i->id]) }}">
+                                Ver Historial
+                            </a>
                         </td>
                     </tr>
                 @endforeach

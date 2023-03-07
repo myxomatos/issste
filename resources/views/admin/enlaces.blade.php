@@ -9,6 +9,7 @@
             <thead>
             <tr>
                 <th>Nombre</th>
+                <th>Horarios</th>
                 <th>Subcoordinador</th>
                 @if(Auth::User()->rol === 'coordinador')
                     <th>Acciones</th>
@@ -20,6 +21,9 @@
                 <tr>
                     <td>
                         {{ $enlace->enlace }}
+                    </td>
+                    <td>
+                    {{ $enlace->dias_laborales }} de {{ $enlace->horario_entrada }} a {{ $enlace->horario_salida }}
                     </td>
                     <td>
                         {{ $enlace->subcoordinador }}

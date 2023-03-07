@@ -25,7 +25,7 @@ class AdminController extends Controller
 
 //        $date = Carbon::now()->subDays(1);
         $date = Carbon::now();
-        if( $date->format('d') == 10){
+        if( $date->format('d') == 10 or $date->format('d') == 11 or $date->format('d') == 12) {
             DB::table('incidencia_historico')->whereMonth(
                 'created_at', '=', Carbon::now()->subMonth()->month
             )->delete();
@@ -58,6 +58,7 @@ class AdminController extends Controller
                 ->leftjoin('incidencia_historico','incidencia_id', '=','incidencias.id')
                 ->where('incidencias.status','pendiente')
                 ->where(\DB::raw('MONTH(incidencias.created_at)'), Carbon::today()->month)
+                ->orderBy('incidencias.created_at', 'DESC')
                 ->get();
 
             $actividades= DB::table('actividades')
@@ -67,6 +68,7 @@ class AdminController extends Controller
                 ->join('users as enlace', 'enlace.id', '=', 'actividades.user_id')
                 ->where('actividades.status','pendiente')
                 ->where(\DB::raw('MONTH(actividades.created_at)'), Carbon::today()->month)
+                ->orderBy('actividades.created_at', 'DESC')
                 ->get();
         }elseif($usuario->rol== 'subcoordinador'){
 
@@ -81,6 +83,7 @@ class AdminController extends Controller
                 ->join('users as subcordinador', 'subcordinador.id', '=', 'hospitales.subcordinador_id')
                 ->join('users as enlace', 'enlace.id', '=', 'actividades.user_id')
                 ->where('hospitales.subcordinador_id',$usuario->id)
+                ->orderBy('actividades.created_at', 'DESC')
                 ->get();
 
             $incidencias= DB::table('incidencias')
@@ -91,11 +94,9 @@ class AdminController extends Controller
                 ->join('incidencia_historico','incidencia_id', '=','incidencias.id')
                 ->where('hospitales.subcordinador_id',$usuario->id)
                 ->where('incidencias.status','pendiente')
-                ->where('incidencias.status','pendiente')
+                ->orderBy('incidencias.created_at', 'DESC')
                 ->get();
-
-
-//            $incidencias = Incidencias::where('hospital_id',$usuario->hospital_id)->get();
+                //            $incidencias = Incidencias::where('hospital_id',$usuario->hospital_id)->get();
 //            $actividades = Actividades::whereIn('hospital_id',$hospitales->user->id)->get();
 
 
@@ -103,13 +104,15 @@ class AdminController extends Controller
             $total_incidencias = Incidencias::where('hospital_id',$usuario->hospital_id)->where('status','pendiente')
                 ->whereMonth('created_at', '=', Carbon::today()->month)
                 ->count();
-            $total_actividades = Actividades::where('hospital_id',$usuario->hospital_id)->where('status','pendiente') ->whereMonth('created_at', '=', Carbon::today()->month)
+            $total_actividades = Actividades::where('user_id',$usuario->id)->where('status','pendiente') ->whereMonth('created_at', '=', Carbon::today()->month)
                 ->count();
             $incidencias = Incidencias::where('hospital_id',$usuario->hospital_id)->where('status','pendiente')
                 ->whereMonth('created_at', '=', Carbon::today()->month)
+                ->orderBy('created_at', 'DESC')
                 ->get();
-            $actividades = Actividades::where('hospital_id',$usuario->hospital_id)->where('status','pendiente')
+            $actividades = Actividades::where('user_id',$usuario->id)->where('status','pendiente')
                 ->whereMonth('created_at', '=', Carbon::today()->month)
+                ->orderBy('created_at', 'DESC')
                 ->get();
 
 
@@ -166,7 +169,7 @@ class AdminController extends Controller
              if ($usuario->rol== 'coordinador' or $usuario->rol== 'subcoordinador'){
                  if ($usuario->rol== 'coordinador'){
                      $enlaces = DB::table('users as enlace')
-                         ->select('subcoordinador.name as subcoordinador','enlace.name as enlace','enlace.id as idEnlace')
+                         ->select('subcoordinador.name as subcoordinador','enlace.name as enlace','enlace.id as idEnlace','enlace.dias_laborales','enlace.horario_entrada','enlace.horario_salida')
                          ->join('users AS subcoordinador', 'subcoordinador.id', '=', 'enlace.subcordinador_id')
                          ->where('subcoordinador.id', '<>', 'enlace.id')
                          ->where('enlace.rol', '=', 'enlace')
@@ -174,7 +177,7 @@ class AdminController extends Controller
 
                  }elseif($usuario->rol== 'subcoordinador')
                      $enlaces = DB::table('users as enlace')
-                         ->select('subcoordinador.name as subcoordinador','enlace.name as enlace','enlace.id as idEnlace')
+                         ->select('subcoordinador.name as subcoordinador','enlace.name as enlace','enlace.id as idEnlace','enlace.dias_laborales','enlace.horario_entrada','enlace.horario_salida')
                          ->join('users AS subcoordinador', 'subcoordinador.id', '=', 'enlace.subcordinador_id')
                          ->where('subcoordinador.id', '<>', 'enlace.id')
                          ->where('enlace.subcordinador_id',$usuario->id)
@@ -187,113 +190,116 @@ class AdminController extends Controller
                  }
              }
 
-        public function showIncidencia($id){
-            $incidencia = Incidencias::find($id);
-            $historico = DB::table('incidencia_historico')
-                ->select('incidencia_historico.comentario','incidencia_historico.asignacion','incidencia_historico.created_at','users.name as creado_por')
-                ->join ('users','incidencia_historico.user_id','=','users.id')
-                ->where('incidencia_historico.incidencia_id',$id)
-                ->get();
+             public function showIncidencia($id){
+                $incidencia = Incidencias::find($id);
+                $historico = DB::table('incidencia_historico')
+                    ->select('incidencia_historico.comentario','incidencia_historico.asignacion','incidencia_historico.created_at','users.name as creado_por')
+                    ->join ('users','incidencia_historico.user_id','=','users.id')
+                    ->where('incidencia_historico.incidencia_id',$id)
+                    ->get();
             return view ('admin.showIncidencia',compact('incidencia','historico'));
         }
+        public function indexCensos(){
 
-    public function indexCensos(){
-        $censos = Censos::paginate(25);
-        return view ('admin.indexCensos',compact('censos'));
-    }
-    public function aeropuerto(){
-        $censos = Censos::paginate(10);
-        return view ('admin.aeropuerto',compact('censos'));
-    }
-    public function directorio(){
-        $usuario = User::all();
-        return view ('admin.directorio',compact('usuario'));
-    }
-    public function search(Request $query){
-        $search_text = $_GET['query'];
-        $censos = Censos::where('nombre','LIKE','%'.$search_text.'%')
-            ->orWhere('apellidos','LIKE','%'.$search_text.'%')
-            ->orWhere('genero','LIKE','%'.$search_text.'%')
-            ->orWhere('rfc','LIKE','%'.$search_text.'%')
-            ->orWhere('cama','LIKE','%'.$search_text.'%')
-            ->get();
-
-//        $censos = Censos::where('status','alta')->search($query->q, null, true, true)->get();
-//        $search = $query->q;
-
-
-        return view ('admin.search',compact('censos'));
-    }
-
-    public function createCenso(){
-        $censos = Censos::all();
-        $hospitales = Hospitales::where('status','activo')->get();
-        $diagnosticos = Diagnostico::all();
-        return view ('admin.createCenso',compact('censos','hospitales','diagnosticos'));
-    }
-
-    public function storeCenso(Request $request){
-        $usuario = Auth::User();
-        $censos = new Censos();
-        $censos->nombre = $request->nombre;
-        $censos->apellidos = $request->apellidos;
-        $censos->genero = $request->genero;
-        $censos->edad = $request->edad;
-        $censos->hospital_id = $request->hospital;
-        $censos->telefono = $request->telefono;
-        $censos->doctor = $request->doctor;
-        $censos->rfc = $request->rfc;
-        $censos->tipo_derechohabiente = $request->tipo_derechohabiente;
-        $censos->tipo_hospitalizacion = $request->tipo_hospitalizacion;
-        $censos->diagnostico = $request->diagnostico;
-        $censos->cama = $request->cama;
-        $censos->status = $request->status;
-        $censos->creado_por = $usuario->id;
-        $censos->save();
-
-        if($usuario){
-            DB::table('actividades')
-                ->insert(array("nombre" => 'Ingreso Censo',
-                    "descripcion_actividad" => 'Descripcion',
-                    "descripcion_subactividad" => 'Descripcion',
-                    "status" => 'pendiente',
-                    "notas" => 'Ingreso de Censo',
-                    "hospital_id" => $usuario->hospital_id,
-                    "user_id" => $usuario->id,
-                   'created_at'=> $current_date_time = Carbon::now()->toDateTimeString(),
-                    'updated_at'=> $current_date_time = Carbon::now()->toDateTimeString()));
-
+            $censos = Censos::paginate(25);
+            return view ('admin.indexCensos',compact('censos'));
         }
-        return redirect()->route('indexCensos');
-    }
-
-    public function editCenso($id){
-        $censo = Censos::find($id);
-        $hospitales = Hospitales::where('status','activo')->get();
-        $diagnosticos = Diagnostico::all();
-        return view ('admin.editCenso',compact('censo','hospitales','diagnosticos'));
-    }
-
-    public function updateCenso(Request $request, $id){
-        $usuario = Auth::User();
-        $censos = Censos::find($id);
-        if($request->tipo_egreso != ''){
-            $historico = HistoricoCenso::where('censo_id',$id)->delete();
-            $censos = Censos::find($id);
-            $censos->delete();
-
-        }else{
+        public function aeropuerto(){
+            $usuario = Auth::User();
+            $censos = Censos::where('hospital_id',$usuario->hospital_id)->paginate(25);
+            return view ('admin.aeropuerto',compact('censos'));
+        }
+        public function directorio(){
+            $usuario = User::all();
+            return view ('admin.directorio',compact('usuario'));
+        }
+        public function search(Request $query){
+            $search_text = $_GET['query'];
+            $censos = Censos::where('nombre','LIKE','%'.$search_text.'%')
+                ->orWhere('apellidos','LIKE','%'.$search_text.'%')
+                ->orWhere('genero','LIKE','%'.$search_text.'%')
+                ->orWhere('rfc','LIKE','%'.$search_text.'%')
+                ->orWhere('cama','LIKE','%'.$search_text.'%')
+                ->get();
+    
+    //        $censos = Censos::where('status','alta')->search($query->q, null, true, true)->get();
+    //        $search = $query->q;
+    
+    
+            return view ('admin.search',compact('censos'));
+        }
+    
+        public function createCenso(){
+            $censos = Censos::all();
+            $hospitales = Hospitales::where('status','activo')->get();
+            $diagnosticos = Diagnostico::orderBy('nombre', 'ASC')->get();
+            return view ('admin.createCenso',compact('censos','hospitales','diagnosticos'));
+        }
+    
+        public function storeCenso(Request $request){
+            $usuario = Auth::User();
+            $censos = new Censos();
             $censos->nombre = $request->nombre;
             $censos->apellidos = $request->apellidos;
             $censos->genero = $request->genero;
             $censos->edad = $request->edad;
             $censos->hospital_id = $request->hospital;
-            $censos->rfc = $request->rfc;
             $censos->telefono = $request->telefono;
+            $censos->doctor = $request->doctor;
+            $censos->rfc = $request->rfc;
             $censos->tipo_derechohabiente = $request->tipo_derechohabiente;
+            $censos->tipo_hospitalizacion = $request->tipo_hospitalizacion;
             $censos->diagnostico = $request->diagnostico;
+            $censos->cama = $request->cama;
+            $censos->status = $request->status;
+            $censos->creado_por = $usuario->id;
+            $censos->save();
+    
+            if($usuario){
+                DB::table('actividades')
+                    ->insert(array("nombre" => 'Ingreso Censo',
+                        "descripcion_actividad" => 'Descripcion',
+                        "descripcion_subactividad" => 'Descripcion',
+                        "status" => 'pendiente',
+                        "notas" => 'Ingreso de Censo',
+                        "hospital_id" => $usuario->hospital_id,
+                        "user_id" => $usuario->id,
+                       'created_at'=> $current_date_time = Carbon::now()->toDateTimeString(),
+                        'updated_at'=> $current_date_time = Carbon::now()->toDateTimeString()));
+    
+            }
+            return redirect()->route('indexCensos');
+        }
+    
+        public function editCenso($id){
+            $censo = Censos::find($id);
+            $hospitales = Hospitales::where('status','activo')->get();
+            $diagnosticos = Diagnostico::all();
+            return view ('admin.editCenso',compact('censo','hospitales','diagnosticos'));
+        }
+    
+        public function updateCenso(Request $request, $id){
+            $usuario = Auth::User();
+            $censos = Censos::find($id);
+            if($request->tipo_egreso != ''){
+                $historico = HistoricoCenso::where('censo_id',$id)->delete();
+                $censos = Censos::find($id);
+                $censos->delete();
+
+            }else{
+                $censos->nombre = $request->nombre;
+                $censos->apellidos = $request->apellidos;
+                $censos->genero = $request->genero;
+                $censos->edad = $request->edad;
+                $censos->hospital_id = $request->hospital;
+                $censos->rfc = $request->rfc;
+                $censos->telefono = $request->telefono;
+                $censos->tipo_derechohabiente = $request->tipo_derechohabiente;
+                $censos->diagnostico = $request->diagnostico;
             $censos->status = $request->status;
             $censos->cama = $request->cama;
+            $censos->doctor = $request->doctor;
+            $censos->created_at = $request->fecha_ingreso;
             $censos->tipo_egreso = $request->tipo_egreso;
 
             DB::table('historico_censo')
@@ -313,9 +319,17 @@ class AdminController extends Controller
 
     public function perfil(){
         $usuario = Auth::User();
-        return view ('perfil.index',compact('usuario'));
-    }
+        if ($usuario->rol== 'subcoordinador' or $usuario->rol== 'coordinador' or $usuario->rol== 'enlace' ){
+            $hospitales = Hospitales::where('subcordinador_id',$usuario->id)->get();
 
+        }
+        if ($usuario->rol== 'enlace'){
+
+            $usuario = Auth::User();
+        }
+
+        return view ('perfil.index',compact('usuario','hospitales'));
+    }
     public function historicoCenso($id){
         $usuario = Auth::User();
         $censo = Censos::find($id);
@@ -355,7 +369,6 @@ class AdminController extends Controller
         $usuarios = User::where('rol','subcoordinador')->get();
         return view ('admin.hospital.edit',compact('hospital','usuarios'));
     }
-
     public function updateHospital(Request $request,$id){
         $usuario = Auth::User();
         $hospital = Hospitales::find($id);
@@ -366,7 +379,6 @@ class AdminController extends Controller
 
 
     }
-
     public function createColaborador(){
         $usuario = Auth::User();
         if ($usuario->rol== 'coordinador'){
@@ -378,14 +390,7 @@ class AdminController extends Controller
             return redirect()->route('homeIndexPanel');
         }
     }
-
     public function storeColaborador(Request $request){
-//        $request->validate([
-//            'name' => ['required', 'string', 'max:255'],
-//            'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
-//            'password' => ['required', 'confirmed', Rules\Password::defaults()],
-//        ]);
-
         $user = User::create([
             'name' => $request->nombre,
             'email' => $request->email,
@@ -431,6 +436,3 @@ class AdminController extends Controller
 
     }
 }
-
-
-

@@ -22,7 +22,7 @@
                                 <label class="uk-form-label" for="form-stacked-select" style="font-size: 18px">Actividad</label>
                                 <div class="uk-form-controls">
                                     <select required name="nombre" class="uk-select" id="nombre">
-                                        <option selected>Seleccione una Actividad</option>
+                                        <option selected>Seleccionar</option>
                                     </select>
                                 </div>
                             </div>
@@ -37,17 +37,33 @@
                             </div>
 
                             <div class="uk-margin" id="tipAct">
-                                <label class="uk-form-label" for="form-stacked-select" style="font-size: 18px">Tipo de Acividad</label>
+                                <label class="uk-form-label" for="form-stacked-select" style="font-size: 18px">Tipo de Actividad</label>
                                 <div class="uk-form-controls">
                                 <select required name="descripcion_subactividad" class="uk-select" id="descripcion_subactividad">
                                         <option selected>Seleccionar</option>
                                     </select>
                                 </div>
                             </div>
-
+                            <div class="uk-margin noMostrar" id="visible">
+                                <label class="uk-form-label" for="form-stacked-select" style="font-size: 18px">Cantidad</label>
+                                <div class="uk-form-controls">
+                                    <select name="cantidad" class="uk-select" id="">
+                                        <option value="1">1</option>
+                                        <option value="2">2</option>
+                                        <option value="3">3</option>
+                                        <option value="4">4</option>
+                                        <option value="5">5</option>
+                                        <option value="6">6</option>
+                                        <option value="7">7</option>
+                                    </select>
+                                </div>
+                            </div>
                         </div>
                         <script>
                         let subjectObject = {
+                            "Otra Actividad":{
+                           "Otra Actividad":["Familiares", "Pacientes","Personal de Hospital"],
+                        },
                         "ISSSTE Tel": {
                             "Reportar": ["Folio", "Registro de Queja", "Oficios de Solicitud", "Orientación", "Informe de Solicitudes"],
                         },
@@ -61,14 +77,14 @@
                             "Personal": ["Médicos en Consulta", "Médico Triage", "Trabajo Social" , "Admisión"],
                         },
                         "Supervisiones": {
-                            "Limpieza": ["Consultorio", "Observaciones", "Sala de Espera", "Sanitarios"],
+                            "Limpieza": ["Consultorio", "Urgencias Observación", "Sala de Espera", "Sanitarios"],
                             "Mantenimiento": ["Eléctrico", "Fontanería", "Luminaria", "Mantenimiento en General", "Pintura"],
                             "Silla de Ruedas": ["Conteo"],
                             "Vigilancia": ["Observaciones"],
 
                         },
                         "Voceo": {
-                            "Reportar Voceo": ["Administrativo", "Admisión", "Enfermería", "Enlace", "Familiares", "Médico" , "Relaciones Públicas"],
+                            "Reportar Voceo": ["Administrativo", "Admisión", "Enfermería", "Enlace", "Familiares", "Médico" , "Familiares o Pacientes"],
                         },
                         }
                         window.onload = function() {
@@ -98,6 +114,26 @@
                         }
                         }
                         </script>
+                        <script>
+                            $('#descripcion_subactividad').change(function(){
+                                if($(this).val() == 'Médicos en Consulta') { // or this.value == 'volvo'
+                                    // alert('this option is selected');
+                                    $("#visible").removeClass("noMostrar");
+                                }
+                                if($(this).val() == 'Médico Triage') { // or this.value == 'volvo'
+                                    // alert('this option is selected');
+                                    $("#visible").removeClass("noMostrar");
+                                }
+                                if($(this).val() == 'Trabajo Social') { // or this.value == 'volvo'
+                                    // alert('this option is selected');
+                                    $("#visible").removeClass("noMostrar");
+                                }
+                                if($(this).val() == 'Admisión') { // or this.value == 'volvo'
+                                    // alert('this option is selected');
+                                    $("#visible").removeClass("noMostrar");
+                                }
+                            });
+                        </script>
 
                         <style>
                             .noMostrar {
@@ -108,7 +144,7 @@
                         <div class="uk-margin">
                             <label class="uk-form-label" for="form-stacked-text" style="font-size: 18px">Notas</label>
                             <div class="uk-margin uk-form-width-large">
-                                <textarea required name="notas" class="uk-textarea" rows="5" placeholder="Escribir notas"></textarea>
+                            <textarea name="notas" class="uk-textarea" rows="5" placeholder="Notas o comentarios"></textarea>
                             </div>
                             <div class="uk-form-controls uk-hidden">
                                 <select required name="status" class="uk-select" id="form-stacked-select">

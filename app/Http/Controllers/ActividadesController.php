@@ -45,6 +45,7 @@ class ActividadesController extends Controller
         $actividad->descripcion_subactividad = $request->descripcion_subactividad;
         $actividad->notas = $request->notas;
         $actividad->user_id = $request->nombre_usuario;
+        $actividad->cantidad = $request->cantidad;
         $actividad->hospital_id = $usuario->hospital_id;
         $actividad->fecha  = $current_date_time = Carbon::now()->toDate();
         $date = Carbon::now()->format('Y-m-d');
@@ -96,7 +97,7 @@ class ActividadesController extends Controller
 //            ->get();
         }elseif($usuario->rol== 'subcoordinador'){
             $actividades = DB::table('reportes')
-                ->select('reportes.nombre','reportes.fecha','reportes.cantidad','reportes.descripcion_actividad','users.name as enlace','users.apellido as apellidoEnlace','hospitales.nombre as hospital')
+            ->select('reportes.nombre','reportes.fecha','reportes.cantidad','reportes.descripcion_actividad','users.name as enlace','users.apellido as apellidoEnlace','hospitales.nombre as hospital','reportes.descripcion_subactividad')
                 ->join('users', 'users.id', '=', 'reportes.user_id')
                 ->join('hospitales', 'hospitales.id', '=', 'reportes.hospital_id')
                 ->where('fecha','>=',$inicio)

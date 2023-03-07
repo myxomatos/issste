@@ -61,7 +61,10 @@
                                         <option value="61-Abuela">61-Abuela</option>
                                         <option value="70-Hijo">70-Hijo</option>
                                         <option value="71-Hijo de Conyugue">71-Hijo de Conyuge</option>
+                                        <option value="80-Hija">80-Hija</option>
+                                        <option value="81-Hija de Conyuge">81-Hija de Conyuge</option>
                                         <option value="90-Pensionado">90-Pensionado</option>
+                                        <option value="91-Pensionada">91-Pensionada</option>
                                         <option value="92-Familiar de pensionado">92-Familiar de pensionado</option>
                                         <option value="95-Asegurado INSABI Masculino">95-Asegurado INSABI Masculino</option>
                                         <option value="96-Asegurado INSABI Femenino">96-Asegurado INSABI Femenino</option>
@@ -100,9 +103,15 @@
                                 </div>
                             </div>
                             <div class="uk-margin">
+                             <label class="uk-form-label" for="form-stacked-text">Notas de Diagnóstico *</label>
+                              <div class="uk-form-controls">
+                                  <input maxlength="100" required name="notas_diagnostico" class="uk-input" id="form-stacked-text" type="text" placeholder="Notas de Diagnóstico">
+                              </div>
+                            </div>
+                            <div class="uk-margin">
                                 <label class="uk-form-label" for="form-stacked-text">RFC *</label>
                                 <div class="uk-form-controls">
-                                    <input required name="rfc" class="uk-input" id="form-stacked-text" type="text" placeholder="RFC">
+                                <input maxlength="10" required name="rfc" class="uk-input" id="form-stacked-text" type="text" placeholder="RFC">
                                 </div>
                             </div>
 
@@ -165,7 +174,55 @@
 
         </div>
     </div>
+    <a class="uk-button uk-button-default" href="#modal-overflow" uk-toggle>Open</a>
 
+<div id="modal-overflow" uk-modal bg-close="false">
+    <div class="uk-modal-dialog" >
+        <a href="{{ route('homeIndexPanel') }}">
+            <button style="float: right;margin: 15px 15px 0px 0px" type="button" uk-close></button>
+        </a>
+
+
+        <div class="uk-modal-header">
+            <h2 class="uk-modal-title">Headline</h2>
+        </div>
+
+        <div class="uk-modal-body" uk-overflow-auto>
+
+            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+
+            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+
+            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+
+            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+
+            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+
+            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+
+            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+
+            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+
+            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+
+        </div>
+
+        <div class="uk-modal-footer uk-text-right">
+            <a href="{{ route('homeIndexPanel') }}">
+                <button class="button_back_2" type="button">Cancelar</button>
+            </a>
+
+            <button class="button_back uk-modal-close" type="button">Aceptar</button>
+        </div>
+
+    </div>
+</div>
+
+<script>
+UIkit.modal('#modal-overflow').show();
+</script>
 
 
 

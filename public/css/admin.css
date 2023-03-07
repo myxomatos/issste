@@ -73,7 +73,7 @@
     width: 110px;
 }
 .textTransform {
-    text-transform: capitalize !important;
+    text-transform: uppercase !important;
 }
 .box_animation {
     animation: flash 1s linear infinite;

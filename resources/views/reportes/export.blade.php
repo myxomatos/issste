@@ -72,6 +72,7 @@
                         <tr>
                             <th style="border: 1px solid black">Actividad</th>
                             <th style="border: 1px solid black">Subactividad</th>
+                            <th style="border: 1px solid black">Tipo Subactividad</th>
                             <th style="border: 1px solid black">Cantidad</th>
                             <th style="border: 1px solid black">Fecha</th>
                             <th style="border: 1px solid black">Nombre</th>
@@ -84,6 +85,7 @@
                             <tr style="border: 1px solid black">
                                 <td style="border: 1px solid black">{{ $invoice->nombre }}</td>
                                 <td style="border: 1px solid black">{{ $invoice->descripcion_actividad }}</td>
+                                <td style="border: 1px solid black">{{ $invoice->descripcion_subactividad }}</td>
                                 <td style="border: 1px solid black"> {{ $invoice->cantidad }}</td>
                                 <td style="border: 1px solid black">{{ $invoice->fecha }}</td>
                                 <td style="border: 1px solid black">{{ $invoice->enlace }} {{ $invoice->apellidoEnlace }}</td>

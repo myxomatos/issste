@@ -8,6 +8,7 @@
             <table class="uk-table uk-table-striped">
                 <thead>
                 <tr>
+                    <th>Cama</th>
                     <th>Nombre</th>
                     <th>Apellidos</th>
                     <th>Genero</th>
@@ -16,7 +17,6 @@
                     <th>Tipo Derechohabiente</th>
                     <th>Diagnostico</th>
                     <th>Hospital</th>
-                    <th>Cama</th>
                     <th>Estado</th>
 
                 </tr>
@@ -24,6 +24,9 @@
                 <tbody>
                 @foreach($censos as $i)
                     <tr>
+                        <td>
+                            {{ $i->cama }}
+                        </td>
                         <td class="textTransform">
                             {{ $i->nombre }}
                         </td>
@@ -49,9 +52,7 @@
                         <td class="textTransform">
                             {{ $i->hospitales->nombre }}
                         </td>
-                        <td>
-                            {{ $i->cama }}
-                        </td>
+                        
                         <td class="textTransform">
                             {{ $i->status }}
                         </td>
@@ -78,7 +79,7 @@ var btn = document.querySelector("[name='clicking']");
 //console.log(btn);
 setInterval(function(){
 btn.click();
-},3000);
+},60000);
 
 //Handling of click event
 btn.onclick=function(){

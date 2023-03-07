@@ -89,8 +89,20 @@
                                     <input value="{{ $censo->telefono }}" name="telefono" class="uk-input" id="form-stacked-text" type="number" placeholder="Opcional">
                                 </div>
                             </div>
+                            <div class="uk-margin">
+                              <label class="uk-form-label" for="form-stacked-text">Doctor</label>
+                               <div class="uk-form-controls">
+                                   <input  value="{{ $censo->doctor }}" required name="doctor" class="uk-input" id="form-stacked-text" type="text" placeholder="Doctor">
+                                </div>
+                            </div>
                         </div>
                         <div>
+                            <div class="uk-margin">
+                            <label class="uk-form-label" for="form-stacked-text">Fecha de Ingreso</label>
+                                <div class="uk-form-controls">
+                                    <input  onfocus="(this.type='date')"  value="{{ $censo->created_at }}" required name="fecha_ingreso" class="uk-input" id="form-stacked-text" type="text" placeholder="date">
+                                </div>
+                            </div>
                             <div class="uk-margin">
                                 <label class="uk-form-label" for="form-stacked-select">Diagnóstico</label>
                                 <div class="uk-form-controls">
