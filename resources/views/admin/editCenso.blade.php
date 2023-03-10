@@ -164,6 +164,8 @@
                                         <option value="Solucion">Solucion</option>
                                         <option value="Silla">Silla</option>
                                         <option value="Banca">Banca</option>
+
+
                                     </select>
                                 </div>
                             </div>

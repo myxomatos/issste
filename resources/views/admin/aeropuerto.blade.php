@@ -79,7 +79,7 @@ var btn = document.querySelector("[name='clicking']");
 //console.log(btn);
 setInterval(function(){
 btn.click();
-},60000);
+},40000);
 
 //Handling of click event
 btn.onclick=function(){

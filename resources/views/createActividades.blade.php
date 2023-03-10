@@ -77,14 +77,14 @@
                             "Personal": ["Médicos en Consulta", "Médico Triage", "Trabajo Social" , "Admisión"],
                         },
                         "Supervisiones": {
-                            "Limpieza": ["Consultorio", "Urgencias Observación", "Sala de Espera", "Sanitarios"],
+                            "Limpieza": ["Consultorio", "Sala de Urgencias", "Sala de Espera", "Sanitarios"],
                             "Mantenimiento": ["Eléctrico", "Fontanería", "Luminaria", "Mantenimiento en General", "Pintura"],
                             "Silla de Ruedas": ["Conteo"],
                             "Vigilancia": ["Observaciones"],
 
                         },
                         "Voceo": {
-                            "Reportar Voceo": ["Administrativo", "Admisión", "Enfermería", "Enlace", "Familiares", "Médico" , "Familiares o Pacientes"],
+                            "Reportar Voceo": ["Familiares", "Pacientes"],
                         },
                         }
                         window.onload = function() {
